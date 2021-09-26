@@ -1,7 +1,10 @@
 <?php
+session_start();
 
 require_once "../controllers/remesas.controller.php";
 require_once "../models/remesas.model.php";
+
+
 
 
 
@@ -35,8 +38,16 @@ class TablaRemesas{
 		  	/*=============================================
  	 		TRAEMOS LAS ACCIONES
   			=============================================*/ 
+			
 
-		  	$botones =  "<div class='btn-group'><button class='btn btn-primary btnVer' idRemesa='".$remesas[$i]["id"]."'><i class='fas fa-eye'></i></button><div class='btn-group'><button class='btn btn-success btnImprimirFactura' idRemesa='".$remesas[$i]["id"]."'><i class='fas fa-file-pdf'></i></button><button class='btn btn-danger btnEliminarRemesas' idRemesa='".$remesas[$i]["id"]."'><i class='fas fa-trash-alt'></i></button></div>"; 
+			  if($_SESSION["rol"] == 'administrador'){
+
+				  $botones =  "<div class='btn-group'><button class='btn btn-primary btnVer' idRemesa='".$remesas[$i]["id"]."'><i class='fas fa-eye'></i></button><div class='btn-group'><button class='btn btn-success btnImprimirFactura' idRemesa='".$remesas[$i]["id"]."'><i class='fas fa-file-pdf'></i></button><button class='btn btn-danger btnEliminarRemesas' idRemesa='".$remesas[$i]["id"]."'><i class='fas fa-trash-alt'></i></button></div>"; 
+				}else{
+					$botones =  "<div class='btn-group'><button class='btn btn-primary btnVer' idRemesa='".$remesas[$i]["id"]."'><i class='fas fa-eye'></i></button><div class='btn-group'><button class='btn btn-success btnImprimirFactura' idRemesa='".$remesas[$i]["id"]."'><i class='fas fa-file-pdf'></i></button></div>"; 
+				}
+			
+
 			if($remesas[$i]["estado"] == 1){
 				$estado = "<span class='badge badge-success'>Procesado</span>";
 			}else{

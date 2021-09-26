@@ -121,7 +121,7 @@ class ModeloRemesas{
     static public function mdlMostrarRemesas($tabla, $item, $valor){
 
         if ($item != null) {
-            $stmt = Conexion::conectar()->prepare("SELECT remesas.id,pago_m_p,banco_trans,correlativo,receptor,remesas.tipo_doc AS tipo_documento,n_doc,ban_pa_m,obs,nombre_moneda,remesas.pais,iso_moneda,simbolo_moneda,total_envio,tasa,total_remesa,metodo_pago,n_trans,remesas.estado,remesas.created_at,banco,n_cuenta,CONCAT(nombres,' ',apellidos),documento,telefono,rol,simbolo_tasa,iso_tasa FROM $tabla
+            $stmt = Conexion::conectar()->prepare("SELECT remesas.id,pago_m_p,rol,banco_trans,correlativo,receptor,remesas.tipo_doc AS tipo_documento,n_doc,ban_pa_m,obs,nombre_moneda,remesas.pais,iso_moneda,simbolo_moneda,total_envio,tasa,total_remesa,metodo_pago,n_trans,remesas.estado,remesas.created_at,banco,n_cuenta,CONCAT(nombres,' ',apellidos),documento,telefono,rol,simbolo_tasa,iso_tasa FROM $tabla
             LEFT JOIN clientes ON remesas.cliente_id = clientes.id
             LEFT JOIN usuarios ON remesas.vendedor_id = usuarios.id WHERE $tabla.$item = :$item ");
             
@@ -132,7 +132,7 @@ class ModeloRemesas{
             return $stmt -> fetch();
         } 
         else {
-        $stmt = Conexion::conectar()->prepare("SELECT remesas.id,pago_m_p,banco_trans,correlativo,receptor,remesas.tipo_doc AS tipo_documento,n_doc,ban_pa_m,obs,nombre_moneda,remesas.pais,iso_moneda,simbolo_moneda,total_envio,tasa,total_remesa,metodo_pago,n_trans,remesas.estado,remesas.created_at,banco,n_cuenta,CONCAT(nombres,' ',apellidos),documento,telefono,rol,simbolo_tasa,iso_tasa FROM $tabla  LEFT JOIN clientes ON remesas.cliente_id = clientes.id LEFT JOIN usuarios ON remesas.vendedor_id = usuarios.id");
+        $stmt = Conexion::conectar()->prepare("SELECT remesas.id,pago_m_p,rol,banco_trans,correlativo,receptor,remesas.tipo_doc AS tipo_documento,n_doc,ban_pa_m,obs,nombre_moneda,remesas.pais,iso_moneda,simbolo_moneda,total_envio,tasa,total_remesa,metodo_pago,n_trans,remesas.estado,remesas.created_at,banco,n_cuenta,CONCAT(nombres,' ',apellidos),documento,telefono,rol,simbolo_tasa,iso_tasa FROM $tabla  LEFT JOIN clientes ON remesas.cliente_id = clientes.id LEFT JOIN usuarios ON remesas.vendedor_id = usuarios.id");
             
         $stmt -> execute();
 

@@ -86,21 +86,25 @@ session_start();
     // Navegador sidebar
     include "views/modules/layouts.php";
     include "views/modules/sidebar.php";
-
+    $ruta= ($_SESSION["rol"] == 'administrador') ? $_GET["ruta"] == "usuario":  $_GET["ruta"]== "inicio";
+    $ruta2= ($_SESSION["rol"] == 'administrador') ?  $_GET["ruta"]== "pagos-pendientes":  $_GET["ruta"]== "inicio";
+    $ruta3= ($_SESSION["rol"] == 'administrador' || $_SESSION["rol"] == 'especial') ?  $_GET["ruta"]== "tasa":  $_GET["ruta"]== "inicio";
+    $ruta4= ($_SESSION["rol"] == 'administrador') ? $_GET["ruta"]== "moneda":  $_GET["ruta"]== "inicio";
+   
     if(isset($_GET["ruta"])){
         if(
-            $_GET["ruta"]== "inicio" || 
-            $_GET["ruta"]== "usuario"|| 
+            $_GET["ruta"]== "inicio"|| 
+            $ruta|| 
             $_GET["ruta"]== "admin-remesa"|| 
             $_GET["ruta"]== "banco-venezuela"|| 
             $_GET["ruta"]== "banco"|| 
-            $_GET["ruta"]== "pagos-pendientes"|| 
+            $ruta2|| 
             $_GET["ruta"]== "enviar-remesas"|| 
             $_GET["ruta"]== "reporte-remesa"|| 
-            $_GET["ruta"]== "moneda"|| 
+            $ruta4|| 
             $_GET["ruta"]== "invoice"|| 
             $_GET["ruta"]== "clientes"|| 
-            $_GET["ruta"]== "tasa"
+            $ruta3
         
         ){
             include "views/modules/".$_GET["ruta"].".php";

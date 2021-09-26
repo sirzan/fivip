@@ -55,21 +55,25 @@
                   <p>Enviar Remesa</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="tasa" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tasa</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="reporte-remesa" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reportes de remesas</p>
-                </a>
-              </li>
-            </ul>
+                 <?php if($_SESSION["rol"] == 'administrador' || $_SESSION["rol"] == 'especial') {
+            echo '<li class="nav-item">
+            <a href="tasa" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Tasa</p>
+            </a>
           </li>
           <li class="nav-item">
+            <a href="reporte-remesa" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Reportes de remesas</p>
+            </a>
+          </li>';
+          } ?>
+            
+            </ul>
+          </li>
+          <?php if($_SESSION["rol"] == 'administrador') {
+            echo '       <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-calculator"></i>
               <p>
@@ -86,41 +90,45 @@
               </li>
     
             </ul>
-          </li>
+          </li>';
+          } ?>
      
-        
-          <li class="nav-header">AJUSTES</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-university"></i>
-              <p>
-                Bancos
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="banco-venezuela" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Bancos Venezuela</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="banco" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Bancos internacionales</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
+     
+     <?php if($_SESSION["rol"] == 'administrador') {
+            echo '     <li class="nav-header">AJUSTES</li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-university"></i>
+                <p>
+                  Bancos
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="banco-venezuela" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Bancos Venezuela</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="banco" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Bancos internacionales</p>
+                  </a>
+                </li>
+              </ul>
+            </li>    <li class="nav-item">
             <a href="moneda" class="nav-link">
               <i class="nav-icon fas fa-dollar-sign"></i>
               <p>
                 Monedas
               </p>
             </a>
-          </li>
+          </li>';
+          } ?>
+         
+      
           <li class="nav-item">
             <a href="clientes" class="nav-link">
             <i class=" nav-icon fas fa-address-card	"></i>
@@ -129,14 +137,19 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+
+
+          <?php if($_SESSION["rol"] == 'administrador') {
+            echo '     <li class="nav-item">
             <a href="usuario" class="nav-link">
               <i class="nav-icon far fa-user"></i>
               <p>
                 Usuarios
               </p>
             </a>
-          </li>
+          </li>';
+          } ?>
+     
 
         </ul>
       </nav>

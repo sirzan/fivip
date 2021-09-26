@@ -26,9 +26,12 @@
         <div class="card-header">
 
           <div class="input-group">
-            <button type="button" id="btnReporteDia" class="btn btn-success float-right">
-              <i class="fas fa-print"></i> Reporte del dia
-            </button>
+          <?php if($_SESSION["rol"] == 'administrador') {
+            echo '  <button type="button" id="btnReporteDia" class="btn btn-success float-right">
+            <i class="fas fa-print"></i> Reporte del dia
+          </button>';
+          } ?>
+          
           </div>
                 </div>
 
