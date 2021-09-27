@@ -29,6 +29,7 @@ class ModeloRemesas{
         pago_m_p,
         vendedor_id,
         banco_trans,
+        fecha,
         estado
         ) 
         
@@ -55,6 +56,7 @@ class ModeloRemesas{
         :pago_m_p,
         :vendedor_id,
         :banco_trans,
+        :fecha,
         :estado)");
 
         $stmt->bindParam(":correlativo", $datos["correlativo"], PDO::PARAM_STR);
@@ -99,6 +101,7 @@ class ModeloRemesas{
         $stmt->bindParam(":vendedor_id", $datos["vendedor_id"], PDO::PARAM_INT);
  
         $stmt->bindParam(":banco_trans", $datos["banco_trans"], PDO::PARAM_STR);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
 
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
 

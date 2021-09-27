@@ -42,7 +42,12 @@ class RemesasController{
                 $estado = 1;
             }
             
+            date_default_timezone_set('America/Lima');
 
+            $fecha = date('Y-m-d');
+            $hora = date('H:i:s');
+
+            $fechaActual = $fecha.' '.$hora;
      
             $datos = array(
                 "correlativo" =>  $_POST['nuevaserie'],
@@ -69,6 +74,7 @@ class RemesasController{
                 "pago_m_p" => $_POST['pagoefectivo'],
                 "banco_trans" => $bancoTrans,
                 "vendedor_id" => $_POST['idVendedor'],
+                "fecha" => $fechaActual,
                 "estado" => $estado
             );
 
