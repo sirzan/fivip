@@ -292,7 +292,7 @@ $('.botonagregar').click(function() {
  
     // console.log($(this).parent().parent().find('td').eq(5).text());
     const tasa =$(this).parent().parent().find('td').eq(5).text()
-    console.log(parseFloat(tasa));
+
 
 
      $('#idTasaenvio').val($(this).parent().parent().find('td').eq(0).text())
@@ -353,7 +353,7 @@ $(document).ready(function(){
                 $("#pagoremesa").parent().after('<div class="alert alert-warning">Debes seleccionar una tasa</div>');
                 $("#pagoremesa").val('')
             }else{
-                console.log(Number.parseFloat(total))
+  
                 $('#totalremesa').val(Number.parseFloat(total));
             }
         }
