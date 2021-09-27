@@ -308,6 +308,7 @@ $('.botonagregar').click(function() {
     //  $('#agregartasa').val($(this).parent().parent().find('td').eq(2).text().replace(/[^0-9\.]+/g, "").replace(".",""))
     //  $('#agregartasa').val($(this).parent().parent().find('td').eq(2).text().replace(/[^0-9\.]+/g, "").replace(".",""))
     //  $('#agregarpais').val($(this).parent().parent().find('td').eq(2).text().replace(/[^0-9\.]+/g, "").replace(".",""))
+
     $('.eliminarTasa').click(function() {
 
         const boton = $(this).parent().parent().remove()
@@ -319,6 +320,7 @@ $('.botonagregar').click(function() {
         $('#pagoefectivo').val('');
         $('#cambiopago').val('');
     })
+
     $('#totalremesa').val('');
     $('#pagoremesa').val('');
     $('#pagoefectivo').val('');
@@ -351,8 +353,8 @@ $(document).ready(function(){
                 $("#pagoremesa").parent().after('<div class="alert alert-warning">Debes seleccionar una tasa</div>');
                 $("#pagoremesa").val('')
             }else{
-
-                $('#totalremesa').val(Number(total));
+                console.log(Number.parseFloat(total))
+                $('#totalremesa').val(Number.parseFloat(total));
             }
         }
     
@@ -427,7 +429,7 @@ $(document).ready(function(){
          $(".pagometodo").after('<div class="input-group mb-3 col-md-3 efectivo"><span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
          '<input type="number" class="form-control input-lg" id="pagoefectivo" name="pagoefectivo"  placeholder="Pago"  required> </div>'+
        '<div class="input-group mb-3 col-md-3 efectivo"><span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
-            '<input type="number" class="form-control input-lg" id="cambiopago" name="cambiopago"  placeholder="cambio" readonly required> </div>');
+            '<input type="number" class="form-control input-lg" id="cambiopago" step="any" name="cambiopago"  placeholder="cambio" readonly required> </div>');
             
            $(".formularioVenta").on("change", "input#pagoefectivo,input#pagoremesa", function(){
             $('.alert').remove()

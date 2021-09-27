@@ -83,11 +83,11 @@ class ModeloRemesas{
 
         $stmt->bindParam(":simbolo_moneda", $datos["simbolo_moneda"], PDO::PARAM_STR);
 
-        $stmt->bindParam(":total_envio", $datos["total_envio"], PDO::PARAM_INT);
+        $stmt->bindParam(":total_envio", $datos["total_envio"], PDO::PARAM_STR);
         
-        $stmt->bindParam(":tasa", $datos["tasa"], PDO::PARAM_INT);
+        $stmt->bindParam(":tasa", $datos["tasa"], PDO::PARAM_STR);
 
-        $stmt->bindParam(":total_remesa", $datos["total_remesa"], PDO::PARAM_INT);
+        $stmt->bindParam(":total_remesa", $datos["total_remesa"], PDO::PARAM_STR);
 
         $stmt->bindParam(":iso_tasa", $datos["iso_tasa"], PDO::PARAM_STR);
         $stmt->bindParam(":simbolo_tasa", $datos["simbolo_tasa"], PDO::PARAM_STR);

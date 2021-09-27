@@ -260,7 +260,7 @@
                            
                               <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
 
-                              <input type="text" class="form-control input-lg" id="totalremesa" name="totalremesa"  placeholder="0" readonly  required>
+                              <input type="number" class="form-control input-lg" id="totalremesa" step="any" name="totalremesa"  placeholder="0" readonly  required>
 
                               
                         
@@ -372,7 +372,7 @@
                      <td>'.$value['moneda'].'</td>
                      <td>'.$value['simbolo'].'</td>
                      <td>'.$value['iso'].'</td>
-                     <td>'.number_format($value['tasa_c'],4,'.',',').'</td>
+                     <td>'.number_format($value['tasa_c'],4,'.','').'</td>
                      <td>'.$value['simbolo_tasa'].'</td>
       
                      <td>'.$value['iso_tasa'].'</td>
