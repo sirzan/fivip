@@ -372,7 +372,7 @@
                      <td>'.$value['moneda'].'</td>
                      <td>'.$value['simbolo'].'</td>
                      <td>'.$value['iso'].'</td>
-                     <td>'.number_format($value['tasa_c']).'</td>
+                     <td>'.number_format($value['tasa_c'],4,'.',',').'</td>
                      <td>'.$value['simbolo_tasa'].'</td>
       
                      <td>'.$value['iso_tasa'].'</td>

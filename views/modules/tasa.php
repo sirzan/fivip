@@ -56,7 +56,7 @@
                      <td>'.$value['moneda'].'</td>
                      <td>'.$value['simbolo'].'</td>
                      <td>'.$value['iso'].'</td>
-                     <td>'.number_format($value['tasa_c']).' '.$value['simbolo_tasa'].'</td>
+                     <td>'.number_format($value['tasa_c'],4,',','.').' '.$value['simbolo_tasa'].'</td>
       
                      <td>'.$value['iso_tasa'].'</td>
 
@@ -245,7 +245,7 @@
                    
                <div class="form-group">
                  <label for="nuevoNombre">Tasa de cambio</label>
-                 <input type="number" class="form-control" id="editartasaCambio" name="editartasaCambio">
+                 <input type="number" class="form-control"  step="any" id="editartasaCambio" name="editartasaCambio">
                  <input type="hidden" class="form-control" id="editarIdTasa" name="editarIdTasa">
                </div>
                <div class="form-group">

@@ -6,8 +6,7 @@ static public function ctrCrearTasa(){
    
     if(isset($_POST['tasaCambio'])){
    
-    if (preg_match('/^[0-9]*$/', $_POST["tasaCambio"])) 
-        {
+  
           
         
             $tabla = 'tasas';
@@ -19,7 +18,7 @@ static public function ctrCrearTasa(){
                 "tasa_c" => $_POST["tasaCambio"],
                 "moneda_t_id" => $_POST['monedaTasa']
             );
-
+            var_dump($datos);
             $respuesta = ModeloTasa::mdlIngresarTasa($tabla, $datos);
             if($respuesta=="ok"){
                 echo '<script>
@@ -44,30 +43,7 @@ static public function ctrCrearTasa(){
             </script>';
             }
 
-        } else{
-            echo '<script>
-
-            swal({
-                    type: "error",
-                    title: "¡Algo salio mal con el registro!",
-                    text: "Todos los campos son obligatorios",
-                    showConfirmButton: true,
-                    confirmButtonText: "Cerrar",
-                    closeOnConfirm: false
-    
-                }).then((result)=>{
-    
-                if(result.value){
-    
-                    window.location = "tasa";
-    
-                }
-    
-                });
-        
-        </script>';
-       
-        }
+     
  
        
     }
@@ -89,9 +65,7 @@ static public function ctrMostrarTasa($item,$valor){
 
 static public function ctrEditarTasa(){
     if(isset($_POST['editarMoneda'])){
-        if (preg_match('/^[0-9]*$/', $_POST["editarMoneda"])) 
-            {
-              
+     
             
             $tabla = 'tasas';
 
@@ -128,30 +102,7 @@ static public function ctrEditarTasa(){
                 
                 </script>';
                 }
-            } else{
-                echo '<script>
 
-                swal({
-                        type: "error",
-                        title: "¡Algo salio mal con el registro!",
-                        text: "Los campos no deben ir vacios",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar",
-                        closeOnConfirm: false
-        
-                    }).then((result)=>{
-        
-                    if(result.value){
-        
-                        window.location = "tasa";
-        
-                    }
-        
-                    });
-            
-            </script>';
-           
-                }
      
            
         }

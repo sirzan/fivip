@@ -279,7 +279,7 @@ $('.botonagregar').click(function() {
  </div>
 
  <div class="input-group col-md-2"><span class="input-group-addon"><i class="ion ion-social-usd"></i>
- </span><input type="number" min="1" class="form-control" id="agregartasa" name="agregartasa" readonly required>
+ </span><input type="text" class="form-control" step="any" id="agregartasa" name="agregartasa" readonly required>
 
  </div>
  
@@ -290,6 +290,9 @@ $('.botonagregar').click(function() {
      <input type="text" class="form-control" id="agregarisoTasa" name="agregarisoTasa" readonly required>
  </div>`)
  
+    // console.log($(this).parent().parent().find('td').eq(5).text());
+    const tasa =$(this).parent().parent().find('td').eq(5).text()
+    console.log(parseFloat(tasa));
 
 
      $('#idTasaenvio').val($(this).parent().parent().find('td').eq(0).text())
@@ -297,7 +300,7 @@ $('.botonagregar').click(function() {
      $('#agregarmoneda').val($(this).parent().parent().find('td').eq(2).text())
      $('#agregarsimbolo').val($(this).parent().parent().find('td').eq(3).text())
      $('#agregariso').val($(this).parent().parent().find('td').eq(4).text())
-     $('#agregartasa').val($(this).parent().parent().find('td').eq(5).text().replace(/[^0-9\.]+/g, "").replace(".",""))
+     $('#agregartasa').val(parseFloat(tasa))
      $('#agregarsimboloTasa').val($(this).parent().parent().find('td').eq(6).text())
      $('#agregarisoTasa').val($(this).parent().parent().find('td').eq(7).text())
      
@@ -341,7 +344,7 @@ $(document).ready(function(){
         }
         else{
 
-            const total = parseFloat($("#pagoremesa").val()) * parseFloat($('#agregartasa').val())
+            const total = Number.parseFloat($("#pagoremesa").val()) * Number.parseFloat($('#agregartasa').val())
            
             if(isNaN(total)){
                 $('#totalremesa').val('');

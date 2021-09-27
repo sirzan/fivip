@@ -8,7 +8,7 @@ class ModeloTasa{
         $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(pais, tasa_c, moneda_id, moneda_t_id) VALUES(:pais, :tasa_c, :moneda_id, :moneda_t_id)");
 
         $stmt->bindParam(":pais", $datos["pais"], PDO::PARAM_STR);
-        $stmt->bindParam(":tasa_c", $datos["tasa_c"], PDO::PARAM_INT);
+        $stmt->bindParam(":tasa_c", $datos["tasa_c"], PDO::PARAM_STR);
         $stmt->bindParam(":moneda_id", $datos["moneda_id"], PDO::PARAM_STR);
         $stmt->bindParam(":moneda_t_id", $datos["moneda_t_id"], PDO::PARAM_STR);
 
@@ -57,9 +57,9 @@ static public function mdlEditarTasa($tabla, $datos){
         $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET `pais` = :pais, `tasa_c` = :tasa_c, `moneda_id` = :moneda_id, `moneda_t_id` =:moneda_t_id WHERE `id` = :id");
 
         $stmt->bindParam(":pais", $datos["pais"], PDO::PARAM_STR);
-        $stmt->bindParam(":tasa_c", $datos["tasa_c"], PDO::PARAM_INT);
-        $stmt->bindParam(":moneda_id", $datos["moneda_id"], PDO::PARAM_INT);
-        $stmt->bindParam(":moneda_t_id", $datos["moneda_t_id"], PDO::PARAM_INT);
+        $stmt->bindParam(":tasa_c", $datos["tasa_c"], PDO::PARAM_STR);
+        $stmt->bindParam(":moneda_id", $datos["moneda_id"], PDO::PARAM_STR);
+        $stmt->bindParam(":moneda_t_id", $datos["moneda_t_id"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if($stmt->execute()){
