@@ -139,7 +139,7 @@
                             <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                             </div>
-                            <input type="text" class="form-control" name="telefonoCliente" data-inputmask='"mask": "(+99) 999-999-999"' data-mask placeholder="Escriba el teléfono de contacto">
+                            <input type="text" class="form-control" name="telefonoCliente" data-inputmask='"mask": "(+99) 999-999-9999"' data-mask placeholder="Escriba el teléfono de contacto">
                         </div>
                     </div>
                   
