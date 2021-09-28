@@ -623,7 +623,13 @@ $(document).ready(function(){
     }
       }
 })
+
+
+
+
 })
+
+
 
 
 $(document).ready(function(){
@@ -684,6 +690,40 @@ $(document).ready(function(){
           }else{
           $(".totalMonedas").append('<div class="col-lg-3 col-6"><div class="small-box bg-success">'+
           '<div class="inner"><h3>44</h3><p>Remesas Enviadas</p></div>'+
+          '<div class="icon"><i class="fas fa-coins"></i></div>'+
+          '<a href="admin-remesa" class="small-box-footer">Más Informacion<i class="fas fa-arrow-circle-right"></i></a></div></div>');
+
+        }
+        
+          }
+})
+
+})
+
+$(document).ready(function(){
+
+  $.ajax({
+      url: "api/remesasalltoday.api.php",
+      method: "POST",
+    
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function(respuesta) {
+    
+        if (respuesta != 0) {
+          
+          $.each(respuesta, function(i, item) {
+            
+            $(".totalCliente").append('<div class="col-lg-3 col-6"><div class="small-box bg-primary">'+
+              '<div class="inner"><h3>'+respuesta[i]['remesa']+'</h3><p>Remesas Enviadas hoy</p></div>'+
+              '<div class="icon"><i class="fas fa-coins"></i></div>'+
+              '<a href="admin-remesa" class="small-box-footer">Más Informacion<i class="fas fa-arrow-circle-right"></i></a></div></div>');
+            });
+          }else{
+          $(".totalMonedas").append('<div class="col-lg-3 col-6"><div class="small-box bg-primary">'+
+          '<div class="inner"><h3>44</h3><p>Remesas Enviadas hoy</p></div>'+
           '<div class="icon"><i class="fas fa-coins"></i></div>'+
           '<a href="admin-remesa" class="small-box-footer">Más Informacion<i class="fas fa-arrow-circle-right"></i></a></div></div>');
 
