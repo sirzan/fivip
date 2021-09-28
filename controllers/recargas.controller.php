@@ -1,8 +1,8 @@
 <?php
-class ControladorRecargas{
+class ControladorMontoRecargas{
 
 //crear monedas
-static public function ctrCrearRecarga(){
+static public function ctrCrearMontoRecarga(){
    
     if(isset($_POST['operadora'])){
    
@@ -26,7 +26,7 @@ static public function ctrCrearRecarga(){
                 "created_at" =>  $fechaActual
             );
             // var_dump($datos);
-            $respuesta = ModeloRecarga::mdlIngresarRecarga($tabla, $datos);
+            $respuesta = ModeloMontoRecarga::mdlIngresarMontoRecarga($tabla, $datos);
             if($respuesta=="ok"){
                 echo '<script>
 
@@ -58,10 +58,10 @@ static public function ctrCrearRecarga(){
 
 
 //mostrar tasas en la tabla
-static public function ctrMostrarRecarga($item,$valor){
+static public function ctrMostrarMontoRecarga($item,$valor){
     $tabla = 'monto_recarga_m';
             
-    $respuesta = ModeloRecarga::mdlMostrarRecarga($tabla, $item, $valor);
+    $respuesta = ModeloMontoRecarga::mdlMostrarMontoRecarga($tabla, $item, $valor);
 
     return $respuesta;
 }
@@ -70,23 +70,23 @@ static public function ctrMostrarRecarga($item,$valor){
 
 //Editar Moneda
 
-static public function ctrEditarTasa(){
-    if(isset($_POST['editarMoneda'])){
+static public function ctrEditarMontoRecarga(){
+    if(isset($_POST['editaroperadora'])){
      
             
-            $tabla = 'tasas';
+            $tabla = 'monto_recarga_m';
 
 
             $datos = array(
-                "pais" => $_POST["editarPaisTasa"],
-                "moneda_id" => $_POST["editarMoneda"],
-                "moneda_t_id" => $_POST["editarmonedaTasa"],
-                "tasa_c" => $_POST["editartasaCambio"],
-                "id" => $_POST['editarIdTasa']
+                "operadora" => $_POST["editaroperadora"],
+                "monto" => $_POST["editarMonto"],
+                "moneda_id" => $_POST["editarMonedaMonto"],
+                "total_recarga" => $_POST["editarRecarga"],
+                "moneda_recarga_id" => $_POST['editarMonedaRecarga'],
+                "id" => $_POST['idMonto_r']
             );
     
-               
-                $respuesta = ModeloTasa::mdlEditarTasa($tabla, $datos);
+                $respuesta = ModeloMontoRecarga::mdlEditarMontoRecarga($tabla, $datos);
                 if($respuesta=="ok"){
                     echo '<script>
 
@@ -101,7 +101,7 @@ static public function ctrEditarTasa(){
             
                         if(result.value){
             
-                            window.location = "tasa";
+                            window.location = "crear-monto";
             
                         }
             

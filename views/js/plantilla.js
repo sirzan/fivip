@@ -559,9 +559,9 @@ $(document).on("click",".btnEliminarBancoInter",function(){
 
 $(document).on("click",".btnEditarTasa",function() {
     var idTasa = $(this).attr('idTasa');
-    console.log(idTasa)
     var datos = new FormData();
     datos.append("idTasa", idTasa);
+    console.log(datos)
     
     $.ajax({
         url: "api/tasa.api.php",
@@ -572,7 +572,7 @@ $(document).on("click",".btnEditarTasa",function() {
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-           console.log(respuesta);
+    
             $("#editarPaisTasa").val(respuesta['pais'])
             $("#editarMoneda").val(respuesta['id_moneda'])
             $("#editartasaCambio").val(respuesta['tasa_c'])
@@ -627,7 +627,7 @@ $(document).on("click",".btnEditarCliente",function() {
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-           console.log(respuesta);
+           
             $("#editarTipoDocumento").val(respuesta['tipo_doc'])
             $("#editarNombrecliente").val(respuesta['nombres'])
             $("#editarApellidocliente").val(respuesta['apellidos'])

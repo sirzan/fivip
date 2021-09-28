@@ -64,7 +64,7 @@ class TablaRemesas{
 			      "'.number_format($remesas[$i]["tasa"],2,',','.').' '.$remesas[$i]["simbolo_tasa"].'",
 			      "'.number_format($remesas[$i]["total_envio"],2,',','.').' '.$remesas[$i]["simbolo_moneda"].'",
 			      "'.number_format($remesas[$i]["total_remesa"],2,',','.').' '.$remesas[$i]["simbolo_tasa"].'",
-			      "'.$remesas[$i]["created_at"].'",
+			      "'.$remesas[$i]["fecha"].'",
 			      "'.$estado.'",
 
 			      "'.$botones.'"

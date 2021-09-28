@@ -41,7 +41,7 @@
                     
                     $valor=null;
                     $item=null;
-                    $recargas = ControladorRecargas::ctrMostrarRecarga($item,$valor);
+                    $recargas = ControladorMontoRecargas::ctrMostrarMontoRecarga($item,$valor);
             
                     foreach ($recargas as $key => $value) {
                      echo '<tr>
@@ -50,8 +50,8 @@
                      <td>'.$value['simbolo_monto'].''.number_format($value['monto'],2,',','.').' ('.$value['iso_monto'].')</td>
                      <td>'.$value['simbolo_monto_r'].''.number_format($value['total_recarga'],2,',','.').' ('.$value['iso_monto_r'].')</td>
                      <td> 
-                       <button type="submit" data-toggle="modal" data-target="#modal-editar" class="btn btn-success btn-sm btnEditarTasa" idTasa="'.$value['id'].'"><i class="fas fa-edit"></i></button>
-                       <button type="submit" class="btn btn-danger btn-sm btnEliminarTasa" idTasa="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button>
+                       <button type="submit" data-toggle="modal" data-target="#modal-editar-monto" class="btn btn-success btn-sm btnEditarMontoR" idMontoR="'.$value['id'].'"><i class="fas fa-edit"></i></button>
+                       <button type="submit" class="btn btn-danger btn-sm btnEliminarTasa" idMontoR="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button>
                      </td>
                    </tr>';
                     }
@@ -71,7 +71,7 @@
   <!-- /.content-wrapper -->
 
   
- <!--MODAL AGREGAR USUARIOS -->
+ <!--MODAL AGREGAR  MONTO RECARGA -->
  <div class="modal fade" id="modal-agregar-monto">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -119,12 +119,13 @@
                           </div>
                     <div class="form-group">
                         <label for="nuevoMonto">Monto</label>
-                        <input type="number" class="form-control" id="nuevoMonto" name="nuevoMonto" placeholder="Ingre el monto">
-                    </div>
+                        <input type="number" class="form-control" id="nuevoMonto"  step="any" name="nuevoMonto" placeholder="Ingre el monto">
+                        <input type="number" class="form-control" id="nuevoMonto"  step="any" name="nuevoMonto" placeholder="Ingre el monto">
+                      </div>
 
                     <div class="form-group">
                         <label for="nuevoRecarga">Total Recarga</label>
-                        <input type="number" class="form-control" id="nuevoRecarga" name="nuevoRecarga" placeholder="Ingre el monto">
+                        <input type="number" class="form-control" id="nuevoRecarga" step="any" name="nuevoRecarga" placeholder="Ingre el monto a recargar">
                     </div>
                     <div class="form-group">
                             <label>Moneda Recarga</label>
@@ -152,12 +153,12 @@
                   
                 </div>
                 <div class="modal-footer justify-content-between">
-                  <button type="submit" class="btn btn-primary">Registrar Recarga</button>
+                  <button type="submit" class="btn btn-primary">Registrar Monto de Recarga</button>
                 </div>
                 <?php
   
-                  $crearRecarga = new ControladorRecargas();
-                  $crearRecarga -> ctrCrearRecarga();
+                  $crearRecarga = new ControladorMontoRecargas();
+                  $crearRecarga -> ctrCrearMontoRecarga();
   
                 ?>
   
@@ -169,5 +170,108 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
- <!--MODAL AGREGAR USUARIOS END-->
+ <!--MODAL AGREGAR MONTO RECARGA END-->
+
+
+ <!--MODAL EDITAR MONTO RECARGA -->
+ <div class="modal fade" id="modal-editar-monto">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <form role="form" method="post">
+                <div class="modal-header" style="background:#ffc107">
+                  <h4 class="modal-title">Editar Monto de Recargas</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+          
+                  
+                    <div class="form-group">
+                            <label>Operadoras</label>
+                            <select class="form-control" id="editaroperadora" name="editaroperadora">
+                              <option selected>-- Seleccione una operadora --</option>
+                              <option value="Movistar">Movistar</option>
+                              <option value="Digital">Digital</option>
+                              <option value="Movilnet">Movilnet</option>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                            <label>Moneda</label>
+                         
+                            <select class="form-control" id="editarMonedaMonto" name="editarMonedaMonto">
+                              <option selected>-- Seleccione un Moneda --</option>
+                             
+                              <?php 
+                    
+                              $valor=null;
+                              $item=null;
+                              $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
+                              // var_dump($bancosvene);
+                              if($monedas){
+                                foreach ($monedas as $key => $value) {
+                                echo '<option value="'.$value["id"].'">'.$value["moneda"].'</option>';
+                                }
+                              }else{
+                               echo'<option disabled>-- No hay monedas creadas, vaya a la seccion de monedas --</option>';
+                              }
+                              ?>
+                              
+                            </select>
+                          </div>
+                    <div class="form-group">
+                        <label for="nuevoMonto">Monto</label>
+                        <input type="number" class="form-control" id="editarMonto" step="any" name="editarMonto">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nuevoRecarga">Total Recarga</label>
+                        <input type="number" class="form-control" id="editarRecarga" step="any" name="editarRecarga">
+                    </div>
+                    <div class="form-group">
+                            <label>Moneda Recarga</label>
+                         
+                            <select class="form-control" id="editarMonedaRecarga" name="editarMonedaRecarga">
+                              <option selected>-- Seleccione un Moneda --</option>
+                             
+                              <?php 
+                    
+                              $valor=null;
+                              $item=null;
+                              $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
+                              // var_dump($bancosvene);
+                              if($monedas){
+                                foreach ($monedas as $key => $value) {
+                                echo '<option value="'.$value["id"].'">'.$value["moneda"].'</option>';
+                                }
+                              }else{
+                               echo'<option disabled>-- No hay monedas creadas, vaya a la seccion de monedas --</option>';
+                              }
+                              ?>
+                              
+                            </select>
+                            <input type="hidden" class="form-control" id="idMonto_r"  name="idMonto_r">
+                          </div>
+                  
+                </div>
+                <div class="modal-footer justify-content-between">
+          
+                  <button type="submit" class="btn btn-primary">Guardar Modificaciones</button>
+                </div>
+                <?php
+  
+          $crearRecarga = new ControladorMontoRecargas();
+          $crearRecarga -> ctrEditarMontoRecarga();
+
+                ?>
+  
+            </form>
+              </div>
+
+        
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+ <!--MODAL EDITAR MONTO END-->
 

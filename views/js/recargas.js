@@ -1,5 +1,5 @@
 
- // Combobox Banco
+ // Combobox Recarga
 
  $(document).ready(function(){
     $("#nuevaMonedaRecarga").on('change', function () {
@@ -39,3 +39,55 @@
    });
  })
  
+
+//Editar Monto Recarga
+
+$(document).on("click",".btnEditarMontoR",function() {
+    var idMontoR = $(this).attr('idMontoR');
+    var datos = new FormData();
+    datos.append("idMontoR", idMontoR);
+  
+    $.ajax({
+        url: "api/monto-recarga.api.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function(rest) {
+     
+            $("#editaroperadora").val(rest['operadora'])
+            $("#editarMonedaMonto").val(rest['id_moneda_monto'])
+            $("#editarMonto").val(rest['monto'])
+            $("#editarRecarga").val(rest['total_recarga'])
+            $("#editarMonedaRecarga").val(rest['id_moneda_r'])
+            $("#idMonto_r").val(rest['id'])
+           
+        }
+    })
+ 
+
+})
+
+
+//Eliminar Monto Recarga
+
+$(document).on("click",".btnEliminarCliente",function(){
+
+    var idCliente = $(this).attr("idCliente");
+    swal({
+        title:'¿Estas seguro de borrar el cliente?',
+        text:'¡Si no estas seguro puedes cancelar la acción!',
+        type:'warning',
+        showCancelButton:true,
+        confirmButtonColor:'#3085d6',
+        cancelButtonColor:'#d33',
+        cancelButtonText:'Cancelar',
+        confirmButtonText:'¡Si, borrar el cliente!',
+    }).then((result)=>{
+        if(result.value){
+            window.location = "index.php?ruta=clientes&idCliente="+idCliente;
+        }
+    })
+})
