@@ -51,7 +51,7 @@
                      <td>'.$value['simbolo_monto_r'].''.number_format($value['total_recarga'],2,',','.').' ('.$value['iso_monto_r'].')</td>
                      <td> 
                        <button type="submit" data-toggle="modal" data-target="#modal-editar-monto" class="btn btn-success btn-sm btnEditarMontoR" idMontoR="'.$value['id'].'"><i class="fas fa-edit"></i></button>
-                       <button type="submit" class="btn btn-danger btn-sm btnEliminarTasa" idMontoR="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button>
+                       <button type="submit" class="btn btn-danger btn-sm btnEliminarMontoRecarga" idMontoR="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button>
                      </td>
                    </tr>';
                     }
@@ -275,3 +275,8 @@
       </div>
  <!--MODAL EDITAR MONTO END-->
 
+
+ <?php
+ $borrarMonto = new ControladorMontoRecargas();
+ $borrarMonto->ctrBorrarMontoRecarga();
+ ?>

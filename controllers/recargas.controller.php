@@ -115,12 +115,12 @@ static public function ctrEditarMontoRecarga(){
         }
     }
 
-    static public function ctrBorrarTasa(){
-        if(isset($_GET["idTasa"])){
-            $tabla="tasas";
-            $datos = $_GET["idTasa"];
+    static public function ctrBorrarMontoRecarga(){
+        if(isset($_GET["idMontoR"])){
+            $tabla="monto_recarga_m";
+            $datos = $_GET["idMontoR"];
 
-            $respuesta = ModeloTasa::mdlBorrarTasa($tabla, $datos);
+            $respuesta = ModeloMontoRecarga::mdlBorrarMontoRecarga($tabla, $datos);
             if($respuesta=="ok"){
                 echo '<script>
 
@@ -135,7 +135,7 @@ static public function ctrEditarMontoRecarga(){
         
                     if(result.value){
         
-                        window.location = "tasa";
+                        window.location = "crear-monto";
         
                     }
         

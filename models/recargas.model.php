@@ -80,7 +80,7 @@ static public function mdlEditarMontoRecarga($tabla, $datos){
 static public function mdlBorrarMontoRecarga($tabla, $datos){
 
     $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
-    $stmt->bindParam(":id", $datos, PDO::PARAM_STR);
+    $stmt->bindParam(":id", $datos, PDO::PARAM_INT);
     if($stmt->execute()){
         return "ok";
     }else{

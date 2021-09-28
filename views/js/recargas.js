@@ -73,21 +73,21 @@ $(document).on("click",".btnEditarMontoR",function() {
 
 //Eliminar Monto Recarga
 
-$(document).on("click",".btnEliminarCliente",function(){
+$(document).on("click",".btnEliminarMontoRecarga",function(){
 
-    var idCliente = $(this).attr("idCliente");
+    var idMontoR = $(this).attr("idMontoR");
     swal({
-        title:'¿Estas seguro de borrar el cliente?',
+        title:'¿Estas seguro de borrar el Monto de la Recarga?',
         text:'¡Si no estas seguro puedes cancelar la acción!',
         type:'warning',
         showCancelButton:true,
         confirmButtonColor:'#3085d6',
         cancelButtonColor:'#d33',
         cancelButtonText:'Cancelar',
-        confirmButtonText:'¡Si, borrar el cliente!',
+        confirmButtonText:'¡Si, borrar el monto!',
     }).then((result)=>{
         if(result.value){
-            window.location = "index.php?ruta=clientes&idCliente="+idCliente;
+            window.location = "index.php?ruta=crear-monto&idMontoR="+idMontoR;
         }
     })
 })
