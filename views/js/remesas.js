@@ -580,13 +580,13 @@ $(document).ready(function(){
         if (respuesta != 0) {
           $.each(respuesta, function(i, item) {
             
-            $(".totalRecibidas").append('<div class="col-lg-3 col-6"><div class="small-box bg-info">'+
+            $(".totalRecibidas").append('<div class="col-sm-12 col-lg-3"><div class="small-box bg-info">'+
               '<div class="inner"><h3>'+respuesta[i]['simbolo_moneda']+''+respuesta[i]['total']+' ('+respuesta[i]['iso_moneda']+')</h3><p>Total de recibidos de hoy</p>'+
               '</div><div class="icon"><i class="fas fa-money-bill-alt"></i></div>'+
               '<a href="admin-remesa" class="small-box-footer">Mas información<i class="fas fa-arrow-circle-right"></i></a></div></div>');
             });
           }else{
-          $(".totalRecibidas").append('<div class="col-lg-3 col-6"><div class="small-box bg-info">'+
+          $(".totalRecibidas").append('<div class="col-sm-12 col-lg-3"><div class="small-box bg-info">'+
             '<div class="inner"><h3>0</h3><p>Total de recibidos de hoy</p>'+
             '</div><div class="icon"><i class="fas fa-money-bill-alt"></i></div>'+
             '<a href="admin-remesa" class="small-box-footer">Mas información<i class="fas fa-arrow-circle-right"></i></a></div></div>');
@@ -610,13 +610,13 @@ $(document).ready(function(){
       
       $.each(respuesta, function(i, item) {
         
-        $(".totalEnviadas").append('<div class="col-lg-3 col-6"><div class="small-box bg-info">'+
+        $(".totalEnviadas").append('<div class="col-sm-12 col-lg-36"><div class="small-box bg-info">'+
           '<div class="inner"><h3>'+respuesta[i]['simbolo_tasa']+''+respuesta[i]['total']+' ('+respuesta[i]['iso_tasa']+')</h3><p>Total de enviados de hoy</p>'+
           '</div><div class="icon"><i class="fas fa-money-bill-alt"></i></div>'+
           '<a href="admin-remesa" class="small-box-footer">Mas información<i class="fas fa-arrow-circle-right"></i></a></div></div>');
         });
       }else{
-      $(".totalEnviadas").append('<div class="col-lg-3 col-6"><div class="small-box bg-info">'+
+      $(".totalEnviadas").append('<div class="col-sm-12 col-lg-3"><div class="small-box bg-info">'+
         '<div class="inner"><h3>0</h3><p>Total de enviados de hoy</p>'+
         '</div><div class="icon"><i class="fas fa-money-bill-alt"></i></div>'+
         '<a href="admin-remesa" class="small-box-footer">Mas información<i class="fas fa-arrow-circle-right"></i></a></div></div>');
@@ -686,8 +686,7 @@ $(document).ready(function(){
           '<div class="inner"><h3>44</h3><p>Remesas Enviadas</p></div>'+
           '<div class="icon"><i class="fas fa-coins"></i></div>'+
           '<a href="admin-remesa" class="small-box-footer">Más Informacion<i class="fas fa-arrow-circle-right"></i></a></div></div>');
-
-        }
+         }
         
           }
 })

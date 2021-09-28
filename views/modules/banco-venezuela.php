@@ -32,7 +32,7 @@
                     <th style="width:10px">#</th>
                     <th>Nombre</th>
                     <th>Codigo</th>
-                    <th>Acciones</th>
+                    <!-- <th>Acciones</th> -->
                   </tr>
                   </thead>
                   <tbody>
@@ -47,14 +47,10 @@
                      echo '<tr>
                      <td>'.$value['id'].'</td>
                      <td>'.$value['nombre'].'</td>
-                     <td>'.$value['codigo'].'</td>
+                     <td>'.$value['codigo'].'</td>';
                
 
-                     <td> 
-                     <button type="submit" data-toggle="modal" data-target="#modal-editar" class="btn btn-success btn-sm btnEditarBancoVene" idBancoVene="'.$value['id'].'"><i class="fas fa-edit"></i></button>
-                     <button type="submit" class="btn btn-danger btn-sm btnEliminarBancoVene" idBancoVene="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button>
-                   </td>
-                   </tr>';
+                    // echo'<td><button type="submit" data-toggle="modal" data-target="#modal-editar" class="btn btn-success btn-sm btnEditarBancoVene" idBancoVene="'.$value['id'].'"><i class="fas fa-edit"></i></button><button type="submit" class="btn btn-danger btn-sm btnEliminarBancoVene" idBancoVene="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button></td></tr>';
                     }
                     ?>
                   

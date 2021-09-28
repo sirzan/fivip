@@ -89,10 +89,10 @@
                  
                            $valor=null;
                            $item=null;
-                           $monedas = ControladorRecargas::ctrMostrarRecarga($item,$valor);
+                           $recarga = ControladorMontoRecargas::ctrMostrarMontoRecarga($item,$valor);
                            // var_dump($bancosvene);
                            if($monedas){
-                             foreach ($monedas as $key => $value) {
+                             foreach ($recarga as $key => $value) {
                              echo '<option value="'.$value["id"].'">'.$value['operadora'].' - '.$value['simbolo_monto'].''.number_format($value['monto'],2,',','.').' ('.$value['iso_monto'].') '.$value['simbolo_monto_r'].''.number_format($value['total_recarga'],2,',','.').' ('.$value['iso_monto_r'].')</option>';
                              }
                            }else{
@@ -126,12 +126,7 @@
                 <div class="modal-footer justify-content-between">
                   <button type="submit" class="btn btn-primary">Registrar Recarga</button>
                 </div>
-                <?php
-  
-                  $crearRecarga = new ControladorRecargas();
-                  $crearRecarga -> ctrCrearRecarga();
-  
-                ?>
+         
   
             </form>
               </div>
