@@ -246,7 +246,7 @@
                             
                             <div class="input-group">
                            
-                              <input type="number" class="form-control input-lg" min="0" id="pagoremesa" name="pagoremesa" placeholder="0" required>
+                              <input type="number" class="form-control input-lg"  step="any" id="pagoremesa" name="pagoremesa" placeholder="0" required>
 
                               <!-- <span class="input-group-addon"><i class="fa fa-percent"></i></span> -->
                         
