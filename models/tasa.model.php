@@ -26,7 +26,7 @@ class ModeloTasa{
 
 static public function mdlMostrarTasa($tabla, $item, $valor){
     if ($item != null) {
-        $stmt = Conexion::conectar()->prepare("SELECT T1.id,T1.pais,T2.id AS id_moneda,T2.moneda,T2.simbolo,T2.iso,T1.tasa_c,T2.id AS id_tasa,T3.moneda AS moneda_tasa, T3.simbolo AS simbolo_tasa, T3.iso AS iso_tasa FROM (SELECT * FROM $tabla)T1 
+        $stmt = Conexion::conectar()->prepare("SELECT T1.id,T1.pais,T2.id AS id_moneda,T2.moneda,T2.simbolo,T2.iso,T1.tasa_c,T3.id AS id_tasa,T3.moneda AS moneda_tasa, T3.simbolo AS simbolo_tasa, T3.iso AS iso_tasa FROM (SELECT * FROM $tabla)T1 
         LEFT JOIN (SELECT * FROM monedas)T2 ON T1.moneda_id = T2.id 
         LEFT JOIN (SELECT * FROM monedas)T3 ON T1.moneda_t_id =T3.id WHERE T1.id = :$item");
         
@@ -36,7 +36,7 @@ static public function mdlMostrarTasa($tabla, $item, $valor){
 
         return $stmt -> fetch();
        } else {
-            $stmt = Conexion::conectar()->prepare("SELECT T1.id,T1.pais,T2.id AS id_moneda,T2.moneda,T2.simbolo,T2.iso,T1.tasa_c,T2.id AS id_tasa,T3.moneda AS moneda_tasa, T3.simbolo AS simbolo_tasa, T3.iso AS iso_tasa FROM (SELECT * FROM $tabla)T1 
+            $stmt = Conexion::conectar()->prepare("SELECT T1.id,T1.pais,T2.id AS id_moneda,T2.moneda,T2.simbolo,T2.iso,T1.tasa_c,T3.id AS id_tasa,T3.moneda AS moneda_tasa, T3.simbolo AS simbolo_tasa, T3.iso AS iso_tasa FROM (SELECT * FROM $tabla)T1 
             LEFT JOIN (SELECT * FROM monedas)T2 ON T1.moneda_id = T2.id 
             LEFT JOIN (SELECT * FROM monedas)T3 ON T1.moneda_t_id =T3.id");
                 
