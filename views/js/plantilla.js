@@ -577,7 +577,7 @@ $(document).on("click",".btnEditarTasa",function() {
             $("#editarMoneda").val(respuesta['id_moneda'])
             $("#editartasaCambio").val(respuesta['tasa_c'])
             $("#editarIdTasa").val(respuesta['id'])
-            $("#editarmonedaTasa").val(respuesta['id_tasa'])
+            $("#editarmonedaTasa").val(respuesta['moneda_t_id'])
            
         }
     })

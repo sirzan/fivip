@@ -428,7 +428,7 @@ $(document).ready(function(){
      if (metodoPago == 'Efectivo') {
      
          $(".pagometodo").after('<div class="input-group mb-3 col-md-3 efectivo"><span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
-         '<input type="number" class="form-control input-lg" id="pagoefectivo" name="pagoefectivo"  placeholder="Pago"  required> </div>'+
+         '<input type="number" class="form-control input-lg" id="pagoefectivo" step="any" name="pagoefectivo"  placeholder="Pago"  required> </div>'+
        '<div class="input-group mb-3 col-md-3 efectivo"><span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
             '<input type="number" class="form-control input-lg" id="cambiopago" step="any" name="cambiopago"  placeholder="cambio" readonly required> </div>');
             
@@ -469,7 +469,7 @@ $(document).ready(function(){
     
           }
       }) 
-        $(".pagometodo").after('<div class="input-group mb-3 col-md-3 efectivo"><input type="number" class="form-control input-lg" id="pagoefectivo" name="pagoefectivo"  placeholder="Pago"  required> </div>');
+        $(".pagometodo").after('<div class="input-group mb-3 col-md-3 efectivo"><input type="number" class="form-control input-lg" id="pagoefectivo" name="pagoefectivo" step="any"  placeholder="Pago"  required> </div>');
       $(".pagometodo").after(
         '<div class="input-group mb-3 col-md-3 deposito"><span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
     '<input type="number" class="form-control input-lg" id="numero_deposito" name="numero_deposito"  placeholder="Numero de transacción"  required></div>'
