@@ -253,8 +253,9 @@ var ano = fecha.getFullYear();
 
 //boton agregar tasas
 
-$(document).ready(function(){
-$('.botonagregar').click(function() {
+
+  $(document).on("click",".botonagregar",function() {
+// $('.botonagregar').click(function() {
 
     var boton =  $(this).parent().parent().find('td').eq(2)
     // var boton =  attr("selectTasa").parent().parent()
@@ -290,7 +291,7 @@ $('.botonagregar').click(function() {
      <input type="text" class="form-control" id="agregarisoTasa" name="agregarisoTasa" readonly required>
  </div>`)
  
-    // console.log($(this).parent().parent().find('td').eq(5).text());
+    console.log($(this).parent().parent().find('td').eq(0).text());
     const tasa =$(this).parent().parent().find('td').eq(5).text()
 
 
@@ -303,7 +304,7 @@ $('.botonagregar').click(function() {
      $('#agregartasa').val(parseFloat(tasa))
      $('#agregarsimboloTasa').val($(this).parent().parent().find('td').eq(6).text())
      $('#agregarisoTasa').val($(this).parent().parent().find('td').eq(7).text())
-     
+ 
    
     //  $('#agregartasa').val($(this).parent().parent().find('td').eq(2).text().replace(/[^0-9\.]+/g, "").replace(".",""))
     //  $('#agregartasa').val($(this).parent().parent().find('td').eq(2).text().replace(/[^0-9\.]+/g, "").replace(".",""))
@@ -331,7 +332,7 @@ $('.botonagregar').click(function() {
 
 
 
-});
+
 
 //calculo del total de la remesa
 

@@ -103,6 +103,8 @@ session_start();
             $_GET["ruta"]== "reporte-remesa"|| 
             $ruta4|| 
             $_GET["ruta"]== "invoice"|| 
+            $_GET["ruta"]== "admin-recargas"|| 
+            $_GET["ruta"]== "crear-monto"|| 
             $_GET["ruta"]== "clientes"|| 
             $ruta3
         
@@ -139,6 +141,7 @@ session_start();
 <script src="views/js/plantilla.js"></script>
 <script src="views/js/remesas.js"></script>
 <script src="views/js/pagos.js"></script>
+<script src="views/js/recargas.js"></script>
 
 
 </body>

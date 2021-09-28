@@ -96,7 +96,7 @@
          
              if($pais){
                foreach ($pais as $key => $value) {
-               echo '<option value="'.$value["nombre"].'">'.$value["nombre"].'</option>';
+               echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';
                }
              }else{
               echo'<option disabled>-- No hay monedas creadas, vaya a la seccion de monedas --</option>';

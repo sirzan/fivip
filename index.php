@@ -10,6 +10,7 @@ require_once "controllers/clientes.controller.php";
 require_once "controllers/remesas.controller.php";
 require_once "controllers/banco-inter.controller.php";
 require_once "controllers/pagos.controller.php";
+require_once "controllers/recargas.controller.php";
 
 //modelos
 require_once "models/usuario.model.php";
@@ -21,6 +22,7 @@ require_once "models/clientes.model.php";
 require_once "models/remesas.model.php";
 require_once "models/banco-inter.model.php";
 require_once "models/pagos.model.php";
+require_once "models/recargas.model.php";
 
 require_once "extensions/vendor/autoload.php";
 

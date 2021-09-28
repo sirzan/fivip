@@ -72,6 +72,31 @@
             
             </ul>
           </li>
+               <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-mobile-alt"></i>
+              <p>
+                Recargas Moviles
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="admin-recargas" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Admin. Recargas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="crear-monto" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Crear Montos</p>
+                </a>
+              </li>
+               
+            
+            </ul>
+          </li>
           <?php if($_SESSION["rol"] == 'administrador') {
             echo '       <li class="nav-item">
             <a href="#" class="nav-link">
