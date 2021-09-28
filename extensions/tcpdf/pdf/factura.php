@@ -28,7 +28,7 @@ $valorRemesa = $this->id;
 
 $respuestaRemesa = RemesasController::ctrMostrarRemesas($itemRemesa, $valorRemesa);
 
-$fecha = $respuestaRemesa["created_at"];
+$fecha = $respuestaRemesa["fecha"];
 $serie = $respuestaRemesa["correlativo"];
 $remesa = $respuestaRemesa["pais"]." - Venezuela";
 $tasa = number_format($respuestaRemesa["tasa"],4,',','.');

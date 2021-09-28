@@ -55,7 +55,7 @@
             }
 
             // var_dump( $remesas);
-                  echo  '<small class="float-right">Fecha: '.$remesas['created_at'].'</small>
+                  echo  '<small class="float-right">Fecha: '.$remesas['fecha'].'</small>
                   </h4>
                 </div>
                 <!-- /.col -->
