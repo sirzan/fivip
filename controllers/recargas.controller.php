@@ -117,10 +117,13 @@ static public function ctrEditarMontoRecarga(){
 
     static public function ctrBorrarMontoRecarga(){
         if(isset($_GET["idMontoR"])){
+           
             $tabla="monto_recarga_m";
-            $datos = $_GET["idMontoR"];
+      
+            $id = $_GET["idMontoR"];
 
-            $respuesta = ModeloMontoRecarga::mdlBorrarMontoRecarga($tabla, $datos);
+
+            $respuesta = ModeloMontoRecarga::mdlBorrarMontoRecarga($tabla, $id);
             if($respuesta=="ok"){
                 echo '<script>
 

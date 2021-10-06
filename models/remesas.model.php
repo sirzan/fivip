@@ -24,11 +24,7 @@ class ModeloRemesas{
         total_remesa,
         iso_tasa,
         simbolo_tasa,
-        metodo_pago,
-        n_trans,
-        pago_m_p,
         vendedor_id,
-        banco_trans,
         fecha,
         estado
         ) 
@@ -51,11 +47,7 @@ class ModeloRemesas{
         :total_remesa,
         :iso_tasa,
         :simbolo_tasa,
-        :metodo_pago,
-        :n_trans,
-        :pago_m_p,
         :vendedor_id,
-        :banco_trans,
         :fecha,
         :estado)");
 
@@ -93,16 +85,8 @@ class ModeloRemesas{
 
         $stmt->bindParam(":iso_tasa", $datos["iso_tasa"], PDO::PARAM_STR);
         $stmt->bindParam(":simbolo_tasa", $datos["simbolo_tasa"], PDO::PARAM_STR);
-        $stmt->bindParam(":metodo_pago", $datos["metodo_pago"], PDO::PARAM_STR);
-
-        $stmt->bindParam(":n_trans", $datos["n_trans"], PDO::PARAM_INT);
-        $stmt->bindParam(":pago_m_p", $datos["pago_m_p"], PDO::PARAM_INT);
-
         $stmt->bindParam(":vendedor_id", $datos["vendedor_id"], PDO::PARAM_INT);
- 
-        $stmt->bindParam(":banco_trans", $datos["banco_trans"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
-
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
 
 
@@ -124,7 +108,7 @@ class ModeloRemesas{
     static public function mdlMostrarRemesas($tabla, $item, $valor){
 
         if ($item != null) {
-            $stmt = Conexion::conectar()->prepare("SELECT remesas.id,pago_m_p,rol,banco_trans,correlativo,receptor,remesas.tipo_doc AS tipo_documento,n_doc,ban_pa_m,obs,nombre_moneda,remesas.pais,iso_moneda,simbolo_moneda,total_envio,tasa,total_remesa,metodo_pago,n_trans,remesas.estado,remesas.fecha,banco,n_cuenta,CONCAT(nombres,' ',apellidos),documento,telefono,rol,simbolo_tasa,iso_tasa FROM $tabla
+            $stmt = Conexion::conectar()->prepare("SELECT remesas.id,rol,correlativo,receptor,remesas.tipo_doc AS tipo_documento,n_doc,ban_pa_m,obs,nombre_moneda,remesas.pais,iso_moneda,simbolo_moneda,total_envio,tasa,total_remesa,remesas.estado,remesas.fecha,banco,n_cuenta,CONCAT(nombres,' ',apellidos),documento,telefono,rol,simbolo_tasa,iso_tasa FROM $tabla
             LEFT JOIN clientes ON remesas.cliente_id = clientes.id
             LEFT JOIN usuarios ON remesas.vendedor_id = usuarios.id WHERE $tabla.$item = :$item ");
             
@@ -135,7 +119,9 @@ class ModeloRemesas{
             return $stmt -> fetch();
         } 
         else {
-        $stmt = Conexion::conectar()->prepare("SELECT remesas.id,pago_m_p,rol,banco_trans,correlativo,receptor,remesas.tipo_doc AS tipo_documento,n_doc,ban_pa_m,obs,nombre_moneda,remesas.pais,iso_moneda,simbolo_moneda,total_envio,tasa,total_remesa,metodo_pago,n_trans,remesas.estado,remesas.fecha,banco,n_cuenta,CONCAT(nombres,' ',apellidos),documento,telefono,rol,simbolo_tasa,iso_tasa FROM $tabla  LEFT JOIN clientes ON remesas.cliente_id = clientes.id LEFT JOIN usuarios ON remesas.vendedor_id = usuarios.id");
+        $stmt = Conexion::conectar()->prepare("SELECT remesas.id,rol,correlativo,receptor,remesas.tipo_doc AS tipo_documento,n_doc,ban_pa_m,obs,nombre_moneda,remesas.pais,iso_moneda,simbolo_moneda,total_envio,tasa,total_remesa,remesas.estado,remesas.fecha,banco,n_cuenta,CONCAT(nombres,' ',apellidos),documento,telefono,rol,simbolo_tasa,iso_tasa FROM $tabla
+        LEFT JOIN clientes ON remesas.cliente_id = clientes.id
+        LEFT JOIN usuarios ON remesas.vendedor_id = usuarios.id");
             
         $stmt -> execute();
 

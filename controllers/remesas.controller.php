@@ -19,16 +19,7 @@ class RemesasController{
             }else{
                 $cuenta_banco = $_POST['cuenta-banco'];
             }
-            if (isset($_POST['bancoTrans'])) {
-               $bancoTrans = $_POST['bancoTrans'];
-            }else{
-                $bancoTrans = null;
-            }
-            if (isset($_POST['numero_deposito'])) {
-                $numeroDeposito = $_POST['numero_deposito'];
-            }else{
-                $numeroDeposito = null;
-            }
+       
             if (isset($_POST['bancopagomovil'])) {
                 $bancoPagoMovil = $_POST['bancopagomovil'];
           
@@ -36,11 +27,7 @@ class RemesasController{
                 $bancoPagoMovil = null;
             }
      
-            if ($_POST['nuevoMetodoPago'] == 'Por verificar') {
-                $estado = 0;
-            }else{
-                $estado = 1;
-            }
+          
             
             date_default_timezone_set('America/Lima');
 
@@ -69,13 +56,9 @@ class RemesasController{
                 "simbolo_tasa" => $_POST['agregarsimboloTasa'],
                 "iso_tasa" => $_POST['agregarisoTasa'],
                 "total_remesa" => $_POST['totalremesa'],
-                "metodo_pago" =>  $_POST['nuevoMetodoPago'],
-                "n_trans" => $numeroDeposito,
-                "pago_m_p" => $_POST['pagoefectivo'],
-                "banco_trans" => $bancoTrans,
                 "vendedor_id" => $_POST['idVendedor'],
                 "fecha" => $fechaActual,
-                "estado" => $estado
+                "estado" => 0
             );
 
             $respuesta = ModeloRemesas::mdlIngresarRemesas($tabla, $datos);
@@ -219,9 +202,105 @@ static public function ctrMostrarRemesas($item,$valor){
 static public function ctrBorrarRemesas(){
     if(isset($_GET["idRemesa"])){
         $tabla="remesas";
-        $datos = $_GET["idRemesa"];
+        $tabla2="pagos_remesas";
+        $id = $_GET["idRemesa"];  
+        $item = "remesas_id";
 
-        $respuesta = ModeloRemesas::mdlBorrarRemesas($tabla, $datos);
+
+
+        $mostrar_pagos = ModeloPagos::mdlMostrarPagosProcesados( $tabla2,$item, $id);
+   
+
+        ////////////////////////////////////////////////
+        ///////          Restar saldos      //////////
+        ////////////////////////////////////////////////
+
+        if (isset($mostrar_pagos['cuenta_entrada_id'])) {
+
+            $tabla_vene = "saldo_cuenta_vene";
+                $item = 'id';
+                $valor = $mostrar_pagos['cuenta_entrada_id'];
+
+               $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item,$valor);
+                $saldo_nuevo= $cuenta_recargar['saldo'] - $mostrar_pagos['monto_entrada']; 
+               $datos = array(
+                //cargar saldo
+                "id" => $cuenta_recargar['id_saldo'],
+                "saldo" => $saldo_nuevo, 
+                     );
+            $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene, $datos);
+
+        } else if (isset($mostrar_pagos['cuenta_entrada_inter_id'])) {
+            $tabla_inter = "saldo_cuenta_inter";
+                $item = 'id';
+                $valor = $mostrar_pagos['cuenta_entrada_inter_id'];
+
+               $cuenta_recargar= CuentaBancoInterController::ctrMostrarCuenta($item,$valor);
+               $saldo_nuevo= $cuenta_recargar['saldo_inter'] - $mostrar_pagos['monto_entrada']; 
+               $datos = array(
+                //cargar saldo
+                "id" => $cuenta_recargar['id_saldo'],
+                "saldo_inter" =>$saldo_nuevo, 
+                     );
+
+            $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_inter, $datos);
+                  
+
+        }
+
+
+
+    ////////////////////////////////////////////////
+        ///////          sumar saldos      //////////
+        ////////////////////////////////////////////////
+
+        if (isset($mostrar_pagos['cuenta_salida_id'])) {
+           
+             $tabla_vene = "saldo_cuenta_vene";
+                $item = 'id';
+                $valor = $mostrar_pagos['cuenta_salida_id'];
+
+                $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item,$valor);
+                if ($mostrar_pagos['metodo_pago_salida'] =='transferencia digital' || $mostrar_pagos['metodo_pago_salida'] =='pago movil') {
+                
+                    $saldo_nuevo= $cuenta_recargar['saldo'] + $mostrar_pagos['monto_salida'] + ($mostrar_pagos['monto_salida']*0.003); 
+                }else {
+                    $saldo_nuevo= $cuenta_recargar['saldo'] + $mostrar_pagos['monto_salida']; 
+                  
+                }
+
+                $datos = array(
+                //cargar saldo
+                "id" => $cuenta_recargar['id_saldo'],
+                "saldo" => $saldo_nuevo
+                     );
+                     var_dump($datos);
+                     $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene, $datos);
+
+        }else if(isset($mostrar_pagos['cuenta_salida_inter_id'])){
+            
+            $tabla_inter = "saldo_cuenta_inter";
+            $item = 'id';
+            $valor = $mostrar_pagos['cuenta_salida_inter_id'];
+
+            $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item,$valor);
+            $saldo_nuevo= $cuenta_recargar['saldo_inter'] + $mostrar_pagos['monto_salida']; 
+
+            $datos = array(
+            //cargar saldo
+            "id" => $cuenta_recargar['id_saldo'],
+            "saldo_inter" => $saldo_nuevo
+                 );
+                //  var_dump($respuesta);
+             $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_inter, $datos);
+        }
+
+
+
+
+
+
+        $respuesta = ModeloRemesas::mdlBorrarRemesas($tabla, $id);
         if($respuesta=="ok"){
             echo '<script>
 
@@ -244,6 +323,7 @@ static public function ctrBorrarRemesas(){
         
         </script>';
         }
+        
     }
 }
 

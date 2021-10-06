@@ -414,71 +414,6 @@ $(document).ready(function(){
  })
  
 
- 
-// seleccion metodo de pago
-
-$(document).ready(function(){
-    $("#nuevoMetodoPago").on('change', function () {
-    $('.efectivo').remove()
-    $('.deposito').remove()
-    $('#bancoTrans').remove()
-       
-        const metodoPago = $("#nuevoMetodoPago").val()
-
-     if (metodoPago == 'Efectivo') {
-     
-         $(".pagometodo").after('<div class="input-group mb-3 col-md-3 efectivo"><span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
-         '<input type="number" class="form-control input-lg" id="pagoefectivo" step="any" name="pagoefectivo"  placeholder="Pago"  required> </div>'+
-       '<div class="input-group mb-3 col-md-3 efectivo"><span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
-            '<input type="number" class="form-control input-lg" id="cambiopago" step="any" name="cambiopago"  placeholder="cambio" readonly required> </div>');
-            
-           $(".formularioVenta").on("change", "input#pagoefectivo,input#pagoremesa", function(){
-            $('.alert').remove()
-               const efectivo =$(this).val()
-            if( Number(efectivo) < Number($('#pagoremesa').val())) {
-                $(this).val('').after('<div class="alert text-danger">Monto invalido</div>')
-               }else{
-
-                   const cambio =  Number(efectivo) - Number($('#pagoremesa').val()) 
-                
-                   $('#cambiopago').val(cambio);
-               }
-            })
-   
-
-     }else if(metodoPago == 'Desposito' || metodoPago == 'Transferencia'){
-     
-      
-        $(".pagometodo").after(`<div class="input-group mb-3 col-md-3 "><select class="form-control" id="bancoTrans" name="bancoTrans" required></div>`)
-        $.ajax({
-          url: "api/bancoall.api.php",
-          method: "POST",
-        
-          cache: false,
-          contentType: false,
-          processData: false,
-          dataType: "json",
-          success: function(respuesta) {
-                 
-          
-    
-                 $.each(respuesta, function(i, item) {
-                  $('#bancoTrans').append( '<option value="' + respuesta[i]['nombre'] + '">' + respuesta[i]['nombre'] + '</option>');
-              });
-            
-    
-          }
-      }) 
-        $(".pagometodo").after('<div class="input-group mb-3 col-md-3 efectivo"><input type="number" class="form-control input-lg" id="pagoefectivo" name="pagoefectivo" step="any"  placeholder="Pago"  required> </div>');
-      $(".pagometodo").after(
-        '<div class="input-group mb-3 col-md-3 deposito"><span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
-    '<input type="number" class="form-control input-lg" id="numero_deposito" name="numero_deposito"  placeholder="Numero de transacción"  required></div>'
-    );
-     }
-        
-   });
- })
-
 
 
  /*=============================================
@@ -504,59 +439,6 @@ $(".tablas").on("click", ".btnVer", function(){
 
 
 
-//////////////////////////////////////////////////////////////////////////
-////////////////////////////   datapicker    /////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-
-    // Date range as a button
-    $('#daterange-btn').daterangepicker(
-      {
-        ranges   : {
-          'Hoy'       : [moment(), moment()],
-          'Dia de ayer'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          'Ultimos 7 dias' : [moment().subtract(6, 'days'), moment()],
-          'Ultimos 7 dias': [moment().subtract(29, 'days'), moment()],
-          'Este Mes'  : [moment().startOf('month'), moment().endOf('month')],
-          'Mes pasado'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        startDate: moment().subtract(29, 'days'),
-        endDate  : moment()
-      },
-      function (start, end) {
-        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-
-        var fechaInicial = start.format('YYYY-MM-DD');
-        var fechaFinal = end.format('YYYY-MM-DD');
-        var rangoFecha = $('#daterange-btn span').html();
-        localStorage.setItem("rangoFecha", rangoFecha)
-
-        window.location = "index.php?ruta=reporte-remesa&fechaInicial="+fechaInicial+"&fechaFinal="+fechaFinal;
-
-      }
-    )
-
-
-    //cancelar rango de fecha
-
-    $(".cancelBtn").on("click",function(){
-      localStorage.removeItem("rangoFecha");
-      $("#daterange-btn span").html(' <i class="far fa-calendar-alt"></i> Rango de Fechas');
-      window.location = "reporte-remesa";
-    })
-
-    
-//validador de remesas boton
-    $(document).ready(function(){
-      jQuery('#idboton').prop('disabled', true);
-    
-      $('#seleccionarCliente, #nuevoMetodoPago, #seleccionarBanco').on('change',function(){
-     
-        if ($('#seleccionarCliente').find("option:selected").val() != '' && $('#nuevoMetodoPago').find("option:selected").val() != '' && $('#seleccionarBanco').find("option:selected").val() != '') {
-          jQuery('#idboton').prop('disabled', false);
-        }
-      })
-    
-    })
     
 
 
@@ -683,13 +565,13 @@ $(document).ready(function(){
           $.each(respuesta, function(i, item) {
             
             $(".totalCliente").append('<div class="col-lg-3 col-6"><div class="small-box bg-success">'+
-              '<div class="inner"><h3>'+respuesta[i]['remesa']+'</h3><p>Remesas Enviadas</p></div>'+
+              '<div class="inner"><h3>'+respuesta[i]['remesa']+'</h3><p>Total de Remesas Enviadas</p></div>'+
               '<div class="icon"><i class="fas fa-coins"></i></div>'+
               '<a href="admin-remesa" class="small-box-footer">Más Informacion<i class="fas fa-arrow-circle-right"></i></a></div></div>');
             });
           }else{
           $(".totalMonedas").append('<div class="col-lg-3 col-6"><div class="small-box bg-success">'+
-          '<div class="inner"><h3>44</h3><p>Remesas Enviadas</p></div>'+
+          '<div class="inner"><h3>44</h3><p>Total de Remesas Enviadas</p></div>'+
           '<div class="icon"><i class="fas fa-coins"></i></div>'+
           '<a href="admin-remesa" class="small-box-footer">Más Informacion<i class="fas fa-arrow-circle-right"></i></a></div></div>');
 
@@ -745,3 +627,66 @@ $("#btnReporteDia").on("click", function(){
 	window.open("extensions/tcpdf/pdf/reporte-dia.php", "_blank");
 
 })
+$("#btnReporteDiaA4").on("click", function(){
+
+
+	window.open("extensions/tcpdf/pdf/reporte-dia-A4.php", "_blank");
+
+})
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+////////////////////////////   datapicker    /////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
+    // Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Hoy'       : [moment(), moment()],
+          'Dia de ayer'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Ultimos 7 dias' : [moment().subtract(6, 'days'), moment()],
+          'Ultimos 7 dias': [moment().subtract(29, 'days'), moment()],
+          'Este Mes'  : [moment().startOf('month'), moment().endOf('month')],
+          'Mes pasado'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+
+        var fechaInicial = start.format('YYYY-MM-DD');
+        var fechaFinal = end.format('YYYY-MM-DD');
+        var rangoFecha = $('#daterange-btn span').html();
+        localStorage.setItem("rangoFecha", rangoFecha)
+        window.open(`extensions/tcpdf/pdf/reporteA4.php?fechaInicial=${fechaInicial}&fechaFinal=${fechaFinal}`, "_blank");
+        // window.location = "index.php?ruta=inicio&fechaInicial="+fechaInicial+"&fechaFinal="+fechaFinal;
+
+      }
+    )
+
+    //cancelar rango de fecha
+
+    $(".cancelBtn").on("click",function(){
+      localStorage.removeItem("rangoFecha");
+      $("#daterange-btn span").html(' <i class="far fa-calendar-alt"></i> Rango de Fechas');
+      window.location = "inicio";
+    })
+
+    
+//validador de remesas boton
+    $(document).ready(function(){
+      jQuery('#idboton').prop('disabled', true);
+    
+      $('#seleccionarCliente, #nuevoMetodoPago, #seleccionarBanco').on('change',function(){
+     
+        if ($('#seleccionarCliente').find("option:selected").val() != '' && $('#nuevoMetodoPago').find("option:selected").val() != '' && $('#seleccionarBanco').find("option:selected").val() != '') {
+          jQuery('#idboton').prop('disabled', false);
+        }
+      })
+    
+    })

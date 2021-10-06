@@ -36,7 +36,7 @@
                     <th>Código</th>
                     <th>Cliente</th>
                     <th>Taquilla</th>
-                    <th>Forma de pago</th>
+               
                     <th>Pais</th>
                     <th>Tasa</th>
                     <th>Pago</th>

@@ -23,16 +23,22 @@
       <!-- Default box -->
       <div class="card">
 
-        <div class="card-header">
+        <div class="card-header clearfix">
 
-          <div class="input-group">
           <?php if($_SESSION["rol"] == 'administrador') {
-            echo '  <button type="button" id="btnReporteDia" class="btn btn-success float-right">
+            echo '  <button type="button" id="btnReporteDia" class="btn btn-success float-left">
             <i class="fas fa-print"></i> Reporte del dia
-          </button>';
+          </button> <button type="button" id="btnReporteDiaA4" class="btn btn-success float-left ml-3">
+          <i class="fas fa-print"></i> Reporte del dia (A4)
+        </button>  <button type="button" class="btn btn-primary float-right" id="daterange-btn">
+          <span><i class="far fa-calendar-alt"></i> Rango de Fechas</span> <i class="fas fa-caret-down"></i>
+        </button>';
           } ?>
           
-          </div>
+      
+                
+                
+              
                 </div>
 
 
@@ -70,6 +76,37 @@
         <!-- /.card-footer-->
       </div>
       <!-- /.card -->
+
+
+
+      <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Movimientos bancarios</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Banco</th>
+                      <th>Titular</th>
+                      <th>Monto</th>
+                      <th>Operacion</th>
+                      <th>accion</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbody-movimientos">
+                    
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
 
     </section>
     <!-- /.content -->

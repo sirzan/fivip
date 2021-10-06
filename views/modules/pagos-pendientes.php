@@ -77,7 +77,7 @@
 
  <!--MODAL AGREGAR USUARIOS -->
   <div class="modal fade" id="modal-pagar">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
               <form role="form" method="post" class="formularioRemesa">
                 <div class="modal-header" style="background:#ffc107">
@@ -87,51 +87,115 @@
                   </button>
                 </div>
                 <div class="modal-body">
-
-                <div class="card card-primary">
-            
-              <!-- /.card-header -->
-              <div class="card-body">
-                <strong><i class="fas fa-money-bill-alt"></i> Saldo Pendiente</strong>
-                    <div id="saldo">
-
+                    <div class="row" id="datos-receptor">
+                      <div class="col-md-6 p-3">
+                        <div class="card-body">
+                          <div>
+        
+                            <strong>N° Remesa <span id="numero-remesa"></span></strong><br>
+                            <strong><i class="fas fa-user"></i> Cliente  <span id="numero-remesa"></span></strong>
+                        
+                                <div id="cliente"></div>
+                            <hr>
+                          </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6 p-3">
+                        <div class="card-body">
+                          <div>
+        
+                            <strong> Titular: <span class="datos" id="titular-receptor"></span></strong><br>  
+                            <strong>Doc.: <span class="datos" id="titular-documento"></span> - <span class="datos" id="numero-documento"></span></strong><br>  
+                            <strong>Banco: <span class="datos" id="banco-receptor"></span></strong><br>
+                            <strong>Cuenta <span class="datos" id="cuenta-receptor"></span></strong>
+                            <hr>
+                          </div>
+                          </div>
+                      </div>
                     </div>
-              
 
-                <hr>
 
-            
-              </div>
-              <!-- /.card-body -->
-            </div>
-                             <!--=====================================
+              <!--=====================================
                 ENTRADA MÉTODO DE PAGO
                 ======================================-->
-            
-                <div class="form-group row">
-            
-                     <div class="input-group mb-3 col-md-3 pagometodo">
-                      <select class="form-control" id="MetodoPago" name="MetodoPago" required>
-                        <option value="" selected>Seleccione método de pago</option>
-                        <option value="Efectivo">Efectivo</option>
-                        <option value="Desposito">Deposito</option>
-                        <option value="Transferencia">Transferencia</option>                  
-                                     
-                      </select>    
+            <div class="row">
+              <!-- cuentas de Deposito -->
+                <div class="col-md-6 p-2" style="border-right: 2px solid #ffc107;">
 
+                <div class="card card-primary">
+                  <div class="card-body">
+                    <strong><i class="fas fa-money-bill-alt"></i> Saldo a Recibir</strong>
+                        <div id="saldo"></div>
+                    <hr>
+                  </div>
+                </div>
+                        <div class="mb-3">
+                          <a class="btn btn-success mr-1" id="m-efectivo">Efectivo</a>
+                          <a class="btn btn-primary mr-1" id="m-dt">Deposito o Transferencia</a>
+                          <a class="btn btn-secondary" id="m-cred">Crédito</a>
+                        </div>
+                        <div class="off">
+                       
+                        </div>
+                </div>
+                  <!-- cuentas de tranferencia -->
+                    <div class="col-md-6 p-2">
+                          <div class="card card-primary">
+                        <div class="card-body">
+                          <strong><i class="fas fa-money-bill-alt"></i> Saldo a Transferir</strong>
+                              <div id="transferir"></div>
+                          <hr>
+                        </div>
+                      </div>
+
+                      <h4><i class="fas fa-arrow-alt-circle-up text-danger"></i> Cuenta Transferencia</h4>
+             
+                      <div class="form-group">
+                        <div class="input-form">
+                            <label for="exampleInputEmail1">Bancos de Internacionales</label>
+                            <select class="form-control bancoselect" id="seleccionarBancoTransfer" name="seleccionarBancoTransfer" required>
+                                      <option value="" selected>-- Seleccionar un banco --</option>
+                            </select>
+                        </div>
                     </div>
-                    <input type="hidden" name="idPagoRemesa" id="idPagoRemesa">
-                    </div>
-                
-                    
+
+                        <div class="form-group row">
+                          <div class="input-form col-md-6">
+                            <label for="exampleInputEmail1">Metodo de Pago</label>
+                            <select class="form-control bancoselect" id="metodoPagoTransfer" name="metodoPagoTransfer" required>
+                              <option value="" selected>-- Seleccionar un Metodo --</option>
+                            </select>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="exampleInputEmail1">N° de Trans.</label>
+                            <div class="input-group ">
+                              <input type="number" id="n_operacion_salida" name="n_operacion_salida" class="form-control" >
+                            </div>
+                          </div>
+
+                          <div class="form-group col-md-6">
+                            <label for="exampleInputEmail1">Monto a Transferir</label>
+                            <div class="input-group ">
+                              <input type="number" id="monto-transferencia" name="monto-transferencia" class="form-control" >
+                              <!-- id de la remesa -->
+                              <input type="hidden" id="id_remesa" name="id_remesa" class="form-control" >
+                              <input type="hidden" id="tipo_cuenta_salida" name="tipo_cuenta_salida" class="form-control" >
+                            </div>
+                          </div>
+                      </div>
+
+                  </div>
+            </div>
+
+
                 </div>
                 <div class="modal-footer justify-content-between">
-                  <button type="submit" class="btn btn-primary">Pagar Saldo</button>
+                  <button type="submit" class="btn btn-primary btn-lg">Pagar Saldo</button>
                 </div>
                 <?php
 
                   $pagaRemesa = new PagosController();
-                  $pagaRemesa -> ctrEditarUsuarios();
+                  $pagaRemesa -> ctrIngresarPago();
 
                 ?>
   
@@ -144,5 +208,4 @@
         <!-- /.modal-dialog -->
       </div>
  <!--MODAL AGREGAR USUARIOS END-->
-
 

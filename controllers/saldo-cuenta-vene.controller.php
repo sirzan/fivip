@@ -1,0 +1,306 @@
+<?php
+
+class SaldoCuentaVeneController{
+
+
+
+//Carga descarga banco
+
+static public function ctrSumaRestaSaldo(){
+    if(isset($_POST['saldoRecarga'])){
+   
+                $tabla = 'saldo_cuenta_vene';
+                $tabla2 = 'movimientos_bancarios';
+                if($_POST['operacion'] == 'recarga'){
+                    $saldo = $_POST['saldoActual'] + $_POST["saldoRecarga"];
+                    $monto=$_POST["saldoRecarga"];
+                    $signo ='+';
+                }else if($_POST['operacion'] == 'descargar'){
+                    $saldo = $_POST['saldoActual'] - $_POST["saldoRecarga"];
+                    $monto=$_POST["saldoRecarga"];
+                    $signo ='-';
+                }
+
+                if(isset($_POST["idcuentaActualRecarga"])){
+                    $id_cuenta_actual =$_POST["idcuentaActualRecarga"];
+                }else if(isset($_POST["idcuentaActualDescarga"])) {
+                    $id_cuenta_actual =$_POST["idcuentaActualDescarga"];
+                } 
+                $datos = array(
+                    "id" => $_POST["idSaldo"],
+                    "saldo" => $saldo,
+                    'id_cuenta'=>  $id_cuenta_actual,
+                    "monto" => $monto,
+                    "operacion" => $_POST["operacion"],
+                    "pago_remesa_id" =>  null,
+                    "cuenta_banco_inter_id" =>  null,
+                    "signo" =>  $signo
+                );
+                if($_POST['operacion'] == 'recarga'){
+                        $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $datos);
+                        $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos);
+                        if($respuesta=="ok"){
+
+                            echo '<script>
+            
+                            swal({
+                                    type: "success",
+                                    title: "¡Se ha recargado '.$_POST["simboloRecarga"].''.number_format($_POST["saldoRecarga"],2,',','.').' a su cuenta!",
+                                    showConfirmButton: true,
+                                    confirmButtonText: "Cerrar",
+                                    closeOnConfirm: false
+                    
+                                }).then((result)=>{
+                    
+                                if(result.value){
+                    
+                                    window.location = "banco-cuentas-venezuela";
+                    
+                                }
+                    
+                                });
+                        
+                        </script>';
+                        }
+    
+                  } else if ($_POST['operacion'] == 'descargar' &&  $_POST["saldoRecarga"] <= $_POST['saldoActual'] ) {
+              
+                   
+                       $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $datos);
+                       $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos);
+                    if($respuesta=="ok"){
+    
+                        echo '<script>
+        
+                          swal({
+                                  type: "success",
+                                  title: "¡Se ha recargado '.$_POST["simboloRecarga"].''.number_format($_POST["saldoRecarga"],2,',','.').' a su cuenta!",
+                                  showConfirmButton: true,
+                                  confirmButtonText: "Cerrar",
+                                  closeOnConfirm: false
+                  
+                              }).then((result)=>{
+                  
+                              if(result.value){
+                  
+                                  window.location = "banco-cuentas-venezuela";
+                  
+                              }
+                  
+                              });
+                      
+                      </script>';
+                    }
+
+                  } else {
+                    echo '<script>
+
+                    swal({
+                            type: "error",
+                            title: "¡El saldo a descargar no puede ser mayor al saldo actual!",
+                            text: "Por favor verifique nuevamente los montos",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar",
+                            closeOnConfirm: false
+            
+                        }).then((result)=>{
+            
+                        if(result.value){
+            
+                            window.location = "banco-cuentas-venezuela";
+            
+                        }
+            
+                        });
+                
+                </script>';
+                  }
+                
+            } 
+     
+           
+        }
+
+// transferencia bancarias 
+static public function ctrTransferenciaSaldo(){
+    if(isset($_POST['saldoTransferencia'])){
+   
+                $tabla = 'saldo_cuenta_vene';
+                $tabla2 = 'movimientos_bancarios';
+                $saldo_comision = $_POST["saldoTransferencia"] * 0.003;
+                $saldo_comision_apply = $_POST["saldoTransferencia"];
+                $saldo_debito = $_POST['saldoActual'] - $_POST["saldoTransferencia"];
+                $salto_transferencia = $_POST["saldoTransferencia"] + $_POST["saldoCuentaTransferir"];
+               
+                $datos = array(
+                    //cuenta que transfiere
+                    array(
+                        "id" => $_POST["idSaldo"],
+                        'id_cuenta'=> $_POST["idCuentaactual"],
+                        'c_transfer_vene_id'=> $_POST["cuentaId"],
+                        "saldo" => $saldo_debito,
+                        "monto" =>  $saldo_comision_apply,
+                        "operacion" => $_POST["operacion"],
+                        "pago_remesa_id" =>  null,
+                        "cuenta_banco_inter_id" =>  null,
+                        "signo" =>  '-'
+                    ),
+                    //array comision bancaria
+                    array(
+                        "id" => $_POST["idSaldo"],
+                        'id_cuenta'=> $_POST["idCuentaactual"],
+                        'c_transfer_vene_id'=> null,
+                        "saldo" => $saldo_debito,
+                        "monto" =>  $saldo_comision,
+                        "operacion" => 'Comision por Transferencia Bancaria',
+                        "pago_remesa_id" =>  null,
+                        "cuenta_banco_inter_id" =>  null,
+                        "signo" =>  '-'
+                    ),
+                    //cuenta que recibe
+                    array(
+                        "id" =>  $_POST["cuentasBancariasId"],
+                        'id_cuenta'=> $_POST["cuentaId"],
+                        'c_transfer_vene_id'=>$_POST["idCuentaactual"],
+                        "saldo" =>  $salto_transferencia,
+                        "monto" =>  $_POST["saldoTransferencia"],
+                        "operacion" =>  $_POST["operacion2"],
+                        "pago_remesa_id" =>  null,
+                        "cuenta_banco_inter_id" =>  null,
+                        "signo" =>  '+'
+                    ),
+                );
+                if(isset($_POST["cuentasBancariasId"])){
+                if ($_POST["saldoTransferencia"] + $saldo_comision <= $_POST['saldoActual']) {
+                    foreach ($datos as $value) {
+                        $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $value);
+                        $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $value);
+                    }
+                    if($respuesta=="ok"){
+    
+                        echo '<script>
+        
+                          swal({
+                                  type: "success",
+                                  title: "¡Transferencia exitosa!",
+                                  showConfirmButton: true,
+                                  confirmButtonText: "Cerrar",
+                                  closeOnConfirm: false
+                  
+                              }).then((result)=>{
+                  
+                              if(result.value){
+                  
+                                  window.location = "banco-cuentas-venezuela";
+                  
+                              }
+                  
+                              });
+                      
+                      </script>';
+                    }
+                }else {
+                    echo '<script>
+
+                    swal({
+                            type: "error",
+                            title: "¡El saldo es insuficiente!",
+                            text: "Por favor verifique nuevamente los montos",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar",
+                            closeOnConfirm: false
+            
+                        }).then((result)=>{
+            
+                        if(result.value){
+            
+                            window.location = "banco-cuentas-venezuela";
+            
+                        }
+            
+                        });
+                
+                </script>';
+                  }}else {
+                    echo '<script>
+
+                    swal({
+                            type: "error",
+                            title: "¡Debe seleccionar la cuenta a transferir!",
+                            text: "Todos los campos son obligatorios",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar",
+                            closeOnConfirm: false
+            
+                        }).then((result)=>{
+            
+                        if(result.value){
+            
+                            window.location = "banco-cuentas-venezuela";
+            
+                        }
+            
+                        });
+                
+                </script>';
+                  }
+             
+              
+            } 
+     
+           
+        }
+        static public function ctrBorrarCuenta(){
+            if(isset($_GET["idCuenta"])){
+                $tabla="saldo_cuenta_vene";
+                $datos = $_GET["idCuenta"];
+                $estado = $_GET["estado"];
+                if ($estado == 0) {
+                    
+                    $respuesta = SaldoCuentaVeneModel::mdlBorrarCuenta($tabla, $datos);
+                    if($respuesta=="ok"){
+                        echo '<script>
+        
+                        swal({
+                                type: "success",
+                                title: "¡La cuenta ha sido borrada correctamente!",
+                                showConfirmButton: true,
+                                confirmButtonText: "Cerrar",
+                                closeOnConfirm: false
+                
+                            }).then((result)=>{
+                
+                            if(result.value){
+                
+                                window.location = "banco-cuentas-venezuela";
+                
+                            }
+                
+                            });
+                    
+                    </script>';
+                    }
+                }else {
+                    echo'<script>
+    
+                    swal({
+                          type: "error",
+                          title: "¡La cuenta ya no puede ser eliminado!",
+                          text: "La cuenta que tienen movimientos no pueden ser eliminadas",
+                          showConfirmButton: true,
+                          confirmButtonText: "Cerrar"
+                          }).then(function(result){
+                            if (result.value) {
+
+                            window.location = "banco-cuentas-venezuela";
+
+                            }
+                        })
+
+                  </script>';
+                }
+            }
+        }
+
+
+}

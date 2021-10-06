@@ -9,12 +9,13 @@ session_start();
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FIVIP sistema</title>
+  <title>Sistema FIVIP</title>
 
    <!-- =============================
             ARCHIVOS CSS
     ============================== -->
-
+    <!-- favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="views/img/favicon-32x32.png">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -106,6 +107,9 @@ session_start();
             $_GET["ruta"]== "admin-recargas"|| 
             $_GET["ruta"]== "crear-monto"|| 
             $_GET["ruta"]== "clientes"|| 
+            $_GET["ruta"]== "banco-cuentas-venezuela"|| 
+            $_GET["ruta"]== "banco-cuentas-inter"|| 
+            $_GET["ruta"]== "creditos"|| 
             $ruta3
         
         ){
@@ -142,6 +146,8 @@ session_start();
 <script src="views/js/remesas.js"></script>
 <script src="views/js/pagos.js"></script>
 <script src="views/js/recargas.js"></script>
+<script src="views/js/cuentas-banco.js"></script>
+<script src="views/js/movimientos.js"></script>
 
 
 </body>

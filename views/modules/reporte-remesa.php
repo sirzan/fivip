@@ -30,24 +30,20 @@
             </span>
                       <i class="fas fa-caret-down"></i>
                     </button></h3>
-            <div class="card-tools">
+            <!-- <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
               </button>
               <button type="button" class="btn btn-tool" data-card-widget="remove">
                 <i class="fas fa-times"></i>
               </button>
-            </div>
+            </div> -->
           </div>
 
 
-          <div class="card-body">
-              <?php 
-              
-              include 'reportes/grafico-remesa.php';
-
-              ?>
-            <!-- /.card -->
+          <div class="card-body row">
+              <div class="col-md-4"><button class="btn btn-primary btn-block p-4"><h3>Reporte Remesas</h3></button></div>
+              <div class="col-md-4"><button class="btn btn-primary btn-block p-4"><h3>Reporte Remesas</h3></button></div>
           </div>
           <!-- /.card-body -->
         </div>

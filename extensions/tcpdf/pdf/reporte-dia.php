@@ -12,8 +12,6 @@ $data1 = $respuesta->apiReporte();
 $data2 =$respuesta->apiReportemontoTotales();
 $data3 =$respuesta->apiReporteremesaTotales();
 
-// var_dump($respuesta);
-
 //REQUERIMOS LA CLASE TCPDF
 
 require_once('tcpdf_include.php');

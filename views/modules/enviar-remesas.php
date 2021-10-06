@@ -232,7 +232,7 @@
                       <thead>
 
                         <tr>
-                          <th>Cantido de envio</th>
+                          <th>Monto a enviar</th>
                           <th>Envio total</th>      
                         </tr>
 
@@ -277,36 +277,6 @@
                   </div>
 
                 </div>
-
-                <hr>
-
-                <!--=====================================
-                ENTRADA MÉTODO DE PAGO
-                ======================================-->
-            
-                <div class="form-group row">
-            
-                     <div class="input-group mb-3 col-md-3 pagometodo">
-                      <select class="form-control" id="nuevoMetodoPago" name="nuevoMetodoPago" required>
-                        <option value="" selected>Seleccione método de pago</option>
-                        <option value="Efectivo">Efectivo</option>
-                        <option value="Desposito">Deposito</option>
-                        <option value="Transferencia">Transferencia</option>                  
-                        <option value="Por verificar">Por Verificar</option>                  
-                      </select>    
-
-                    </div>
-
-
-                    </div>
-
-               
-
-               
-
-                <br>
-      
-              
 
           </div>
 

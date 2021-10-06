@@ -59,7 +59,6 @@ class TablaRemesas{
 			      "'.$remesas[$i]["correlativo"].'",
 			      "'.$remesas[$i]["CONCAT(nombres,' ',apellidos)"].'",
 			      "'.$remesas[$i]["rol"].'",
-			      "'.$remesas[$i]["metodo_pago"].'",
 			      "'.$remesas[$i]["pais"].'",
 			      "'.number_format($remesas[$i]["tasa"],2,',','.').' '.$remesas[$i]["simbolo_tasa"].'",
 			      "'.number_format($remesas[$i]["total_envio"],2,',','.').' '.$remesas[$i]["simbolo_moneda"].'",

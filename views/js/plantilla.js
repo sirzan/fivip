@@ -1,6 +1,4 @@
-  
-
- //Datemask dd/mm/yyyy
+//Datemask dd/mm/yyyy
  $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
  //Datemask2 mm/dd/yyyy
  $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
@@ -8,10 +6,10 @@
  $('[data-mask]').inputmask()
 
 
-
 //datatable
 $(function() {
     $("#user").DataTable({
+        "order": [[ 1, "desc" ]],
         "responsive": true,
         "lengthChange": false,
         "autoWidth": false,

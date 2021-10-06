@@ -113,7 +113,20 @@
                   <p class="notipago">Pendientes</p>
                 </a>
               </li>
-    
+           
+              <li class="nav-item">
+                <a href="creditos" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p class="noticredi">Créditos</p>
+                </a>
+              </li>
+              
+              <li class="nav-item">
+              <a href="pagos-adicionales" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Pagos adicionales</p>
+              </a>
+            </li>
             </ul>
           </li>';
           } ?>
@@ -129,7 +142,31 @@
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
+              
               <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-circle"></i>
+                <p>
+                 Cuentas bancarias
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="banco-cuentas-venezuela" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Cuentas de Venezuela</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="banco-cuentas-inter" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Cuentas Internacionales</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
                 <li class="nav-item">
                   <a href="banco-venezuela" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -143,7 +180,8 @@
                   </a>
                 </li>
               </ul>
-            </li>    <li class="nav-item">
+            </li>    
+            <li class="nav-item">
             <a href="moneda" class="nav-link">
               <i class="nav-icon fas fa-dollar-sign"></i>
               <p>

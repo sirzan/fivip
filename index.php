@@ -11,6 +11,11 @@ require_once "controllers/remesas.controller.php";
 require_once "controllers/banco-inter.controller.php";
 require_once "controllers/pagos.controller.php";
 require_once "controllers/recargas.controller.php";
+require_once "controllers/cuenta-banco-vene.controller.php";
+require_once "controllers/cuenta-banco-inter.controller.php";
+require_once "controllers/saldo-cuenta-vene.controller.php";
+require_once "controllers/saldo-cuenta-inter.controller.php";
+require_once "controllers/creditos.controller.php";
 
 //modelos
 require_once "models/usuario.model.php";
@@ -23,6 +28,12 @@ require_once "models/remesas.model.php";
 require_once "models/banco-inter.model.php";
 require_once "models/pagos.model.php";
 require_once "models/recargas.model.php";
+require_once "models/cuenta-banco-vene.model.php";
+require_once "models/cuenta-banco-inter.model.php";
+require_once "models/saldo-cuenta-vene.model.php";
+require_once "models/saldo-cuenta-inter.model.php";
+require_once "models/movimientos-bancarios.model.php";
+require_once "models/creditos.model.php";
 
 require_once "extensions/vendor/autoload.php";
 
