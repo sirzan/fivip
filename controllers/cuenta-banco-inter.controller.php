@@ -92,7 +92,7 @@ class CuentaBancoInterController{
         $tabla = 'cuenta_banco_inter';
                 
         $respuesta = ModeloBancoCuentaInter::mdlMostrarCuenta($tabla, $item, $valor);
-
+        
         return $respuesta;
     }
 

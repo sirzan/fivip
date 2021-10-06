@@ -313,6 +313,7 @@ $(document).on("click",".descargarCuentaInter",function() {
 
 $(document).on("click",".eliminarCuenta",function(){
 
+  var idCuentaSaldo = $(this).attr("idCuentaSaldo");
   var idCuenta = $(this).attr("idCuenta");
   var estado = $(this).attr("estado");
   swal({
@@ -326,12 +327,13 @@ $(document).on("click",".eliminarCuenta",function(){
       confirmButtonText:'¡Si, borrar la cuenta!',
   }).then((result)=>{
       if(result.value){
-          window.location = "index.php?ruta=banco-cuentas-venezuela&idCuenta="+idCuenta+"&estado="+estado;
+          window.location = "index.php?ruta=banco-cuentas-venezuela&idCuentaSaldo="+idCuentaSaldo+"&idCuenta="+idCuenta+"&estado="+estado;
       }
   })
 })
 $(document).on("click",".eliminarCuentaInter",function(){
 
+  var idCuentaSaldo = $(this).attr("idCuentaSaldo");
   var idCuenta = $(this).attr("idCuenta");
   var estado = $(this).attr("estado");
   swal({
@@ -345,7 +347,7 @@ $(document).on("click",".eliminarCuentaInter",function(){
       confirmButtonText:'¡Si, borrar la cuenta!',
   }).then((result)=>{
       if(result.value){
-          window.location = "index.php?ruta=banco-cuentas-inter&idCuenta="+idCuenta+"&estado="+estado;
+          window.location = "index.php?ruta=banco-cuentas-inter&idCuentaSaldo="+idCuentaSaldo+"&idCuenta="+idCuenta+"&estado="+estado;
       }
   })
 })

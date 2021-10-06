@@ -251,11 +251,17 @@ static public function ctrTransferenciaSaldo(){
            
         }
         static public function ctrBorrarCuenta(){
-            if(isset($_GET["idCuenta"])){
+            if(isset($_GET["idCuentaSaldo"])){
                 $tabla="saldo_cuenta_vene";
-                $datos = $_GET["idCuenta"];
+                $tabla2="cuenta_banco_vene";
+                $item = "id";
+                $datos = $_GET["idCuentaSaldo"];
+                $valor = $_GET["idCuenta"];
                 $estado = $_GET["estado"];
-                if ($estado == 0) {
+
+                $cuenta_vene = ModeloBancoCuentaVene::mdlMostrarCuenta($tabla2, $item, $valor);
+
+                if ($estado == $cuenta_vene['estado']) {
                     
                     $respuesta = SaldoCuentaVeneModel::mdlBorrarCuenta($tabla, $datos);
                     if($respuesta=="ok"){

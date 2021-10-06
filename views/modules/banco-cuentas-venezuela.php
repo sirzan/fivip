@@ -54,7 +54,7 @@
                           <button type="submit" class="btn btn-warning btn-block TransferirSaldo" data-toggle="modal" data-target="#modal-transferencia" idCuenta="'.$value['id_cuenta'].'"><b><i class="fas fa-exchange-alt"></i> Transferir saldo</b></button>
                          ';
                         if($value['estado'] == 0){
-                          echo' <button type="submit" class="btn btn-danger btn-block eliminarCuenta" idCuenta="'.$value['id_saldo'].'" estado="'.$value['estado'].'"><b> 	<i class="fas fa-trash-alt"></i> Eliminar cuenta</b></button>';
+                          echo' <button type="submit" class="btn btn-danger btn-block eliminarCuenta" idCuenta="'.$value['id_cuenta'].'" idCuentaSaldo="'.$value['id_saldo'].'" estado="'.$value['estado'].'"><b> 	<i class="fas fa-trash-alt"></i> Eliminar cuenta</b></button>';
                         }
                     
                          echo' </div>
