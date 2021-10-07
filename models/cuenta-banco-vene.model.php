@@ -24,7 +24,7 @@ class ModeloBancoCuentaVene{
 
     static public function mdlMostrarCuenta($tabla, $item, $valor){
         if ($item != null) {
-            $stmt = Conexion::conectar()->prepare("SELECT $tabla.id AS id_cuenta,n_titular,a_titular,saldo,saldo_cuenta_vene.id AS id_saldo,estado,banco_id,nombre,moneda,simbolo,iso FROM saldo_cuenta_vene  
+            $stmt = Conexion::conectar()->prepare("SELECT $tabla.id AS id_cuenta,codigo,n_titular,a_titular,saldo,saldo_cuenta_vene.id AS id_saldo,estado,banco_id,nombre,moneda,simbolo,iso FROM saldo_cuenta_vene  
             LEFT JOIN $tabla ON saldo_cuenta_vene.cuenta_id = $tabla.id
             LEFT JOIN banco_vene ON  $tabla.banco_id = banco_vene.id
             LEFT JOIN monedas ON saldo_cuenta_vene.moneda_id = monedas.id WHERE $tabla.$item = :$item");

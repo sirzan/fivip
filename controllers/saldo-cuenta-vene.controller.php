@@ -133,6 +133,18 @@ static public function ctrTransferenciaSaldo(){
                 $salto_transferencia = $_POST["saldoTransferencia"] + $_POST["saldoCuentaTransferir"];
                
                 $datos = array(
+                      //cuenta que recibe
+                      array(
+                        "id" =>  $_POST["cuentasBancariasId"],
+                        'id_cuenta'=> $_POST["cuentaId"],
+                        'c_transfer_vene_id'=>$_POST["idCuentaactual"],
+                        "saldo" =>  $salto_transferencia,
+                        "monto" =>  $_POST["saldoTransferencia"],
+                        "operacion" =>  $_POST["operacion2"],
+                        "pago_remesa_id" =>  null,
+                        "cuenta_banco_inter_id" =>  null,
+                        "signo" =>  '+'
+                    ),
                     //cuenta que transfiere
                     array(
                         "id" => $_POST["idSaldo"],
@@ -145,8 +157,11 @@ static public function ctrTransferenciaSaldo(){
                         "cuenta_banco_inter_id" =>  null,
                         "signo" =>  '-'
                     ),
+                  
+                );
+                if ($_POST["codigobanco"] != $_POST["codigobanco2"]) {
                     //array comision bancaria
-                    array(
+                    $data_comisiones = array(
                         "id" => $_POST["idSaldo"],
                         'id_cuenta'=> $_POST["idCuentaactual"],
                         'c_transfer_vene_id'=> null,
@@ -156,20 +171,10 @@ static public function ctrTransferenciaSaldo(){
                         "pago_remesa_id" =>  null,
                         "cuenta_banco_inter_id" =>  null,
                         "signo" =>  '-'
-                    ),
-                    //cuenta que recibe
-                    array(
-                        "id" =>  $_POST["cuentasBancariasId"],
-                        'id_cuenta'=> $_POST["cuentaId"],
-                        'c_transfer_vene_id'=>$_POST["idCuentaactual"],
-                        "saldo" =>  $salto_transferencia,
-                        "monto" =>  $_POST["saldoTransferencia"],
-                        "operacion" =>  $_POST["operacion2"],
-                        "pago_remesa_id" =>  null,
-                        "cuenta_banco_inter_id" =>  null,
-                        "signo" =>  '+'
-                    ),
-                );
+                    );
+                    array_push($datos,$data_comisiones);
+                }
+
                 if(isset($_POST["cuentasBancariasId"])){
                 if ($_POST["saldoTransferencia"] + $saldo_comision <= $_POST['saldoActual']) {
                     foreach ($datos as $value) {

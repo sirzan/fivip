@@ -19,7 +19,6 @@ left JOIN (SELECT cuenta_banco_inter.id,n_titular_inter,a_titular_inter,nombre,m
             LEFT JOIN cuenta_banco_inter ON saldo_cuenta_inter.cuenta_inter_id = cuenta_banco_inter.id
             LEFT JOIN banco_inter ON  cuenta_banco_inter.banco_inter_id = banco_inter.id
             LEFT JOIN monedas ON saldo_cuenta_inter.moneda_inter_id = monedas.id)T3 ON T1.cuenta_banco_inter_id = T3.id 
-            
             ORDER BY T1.created_at DESC LIMIT 300");
 $stmt->execute();
 $monedas = $stmt->fetchAll();

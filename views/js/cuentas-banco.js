@@ -104,6 +104,8 @@ $(document).on("click",".descargarCuenta",function() {
 //Transferir Cuenta
 
 $(document).on("click",".TransferirSaldo",function() {
+  $('#codigobanco').remove();
+  $('#codigobanco2').remove(); 
     $('.infocuenta').empty();
     $('#camposocultos').empty();
     $('.modal-title').html('<i class="fas fa-exchange-alt text-warning"></i> Tranferir Saldo')
@@ -144,12 +146,42 @@ $(document).on("click",".TransferirSaldo",function() {
           `)
           $('#camposocultos2').append(`<input type="hidden" id="idSaldo" name="idSaldo"><input type="hidden" id="idCuentaactual" name="idCuentaactual">
           <input type="hidden" id="operacionDescarga" name="operacion" value="Transferencia">
-          <input type="hidden" id="simboloRecarga" name="simboloRecarga">`)
+          <input type="hidden" id="simboloRecarga" name="simboloRecarga"><input type="hidden" id="codigobanco" name="codigobanco"><input type="hidden" id="codigobanco2" name="codigobanco2">`)
 
           $('#saldoActual2').val(parseFloat(respuesta['saldo']))
           $('#idCuentaactual').val(parseFloat(respuesta['id_cuenta']))
           $('#idSaldo').val(respuesta['id_saldo'])
           $('#simboloRecarga').val(respuesta['simbolo'])
+          $('#codigobanco').val(respuesta['codigo'])
+
+          $("#cuentasBancarias").on('change', function () {
+
+            var idCuenta = $("#cuentasBancarias").val();
+       
+            
+      
+            var datos = new FormData();
+            datos.append("idCuenta", idCuenta);
+        
+            $.ajax({
+                url: "api/recargar-cuenta.api.php",
+                method: "POST",
+                data: datos,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function(respuesta) {
+            
+                  $('#codigobanco2').val(respuesta['codigo'])
+                 
+                }
+            })
+      
+           
+       });
+
+      
         },
         error: function() {
           alert('Error al llamar al api');
