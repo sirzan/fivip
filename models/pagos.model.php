@@ -7,10 +7,7 @@ class ModeloPagos{
 
     static public function mdlMostrarPagos($tabla, $item, $valor){
         if ($item != null) {
-            $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla 
-            LEFT JOIN clientes ON $tabla.cliente_id = clientes.id 
-            LEFT JOIN usuarios ON $tabla.vendedor_id = usuarios.id
-            WHERE $tabla.estado = 0 and $tabla.id= :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla LEFT JOIN clientes ON $tabla.cliente_id = clientes.id LEFT JOIN usuarios ON $tabla.vendedor_id = usuarios.id WHERE $tabla.estado = 0 and $tabla.id= :$item");
             
             $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
@@ -18,10 +15,7 @@ class ModeloPagos{
 
 			return $stmt -> fetch();
            } else {
-        $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla 
-        LEFT JOIN clientes ON $tabla.cliente_id = clientes.id 
-        LEFT JOIN usuarios ON $tabla.vendedor_id = usuarios.id
-        WHERE $tabla.estado = 0");
+        $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla LEFT JOIN clientes ON $tabla.cliente_id = clientes.id LEFT JOIN usuarios ON $tabla.vendedor_id = usuarios.id WHERE $tabla.estado = 0");
             
         $stmt -> execute();
 
@@ -98,7 +92,7 @@ static public function mdlMostrarPagosProcesados($tabla, $item, $valor){
 
         return $stmt -> fetch();
        } else {
-    $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,.$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla 
+    $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla 
     LEFT JOIN clientes ON $tabla.cliente_id = clientes.id 
     LEFT JOIN usuarios ON $tabla.vendedor_id = usuarios.id
     WHERE $tabla.estado = 0");
