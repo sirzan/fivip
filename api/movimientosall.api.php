@@ -16,7 +16,7 @@ left JOIN (SELECT cuenta_banco_vene.id,n_titular,a_titular,nombre,moneda,simbolo
             LEFT JOIN banco_vene ON  cuenta_banco_vene.banco_id = banco_vene.id
             LEFT JOIN monedas ON saldo_cuenta_vene.moneda_id = monedas.id)T4 ON T1.c_transfer_vene_id = T4.id
 left JOIN (SELECT cuenta_banco_inter.id,n_titular_inter,a_titular_inter,nombre,moneda,simbolo,iso FROM saldo_cuenta_inter  
-            LEFT JOIN cuenta_banco_inter ON saldo_cuenta_Inter.cuenta_inter_id = cuenta_banco_inter.id
+            LEFT JOIN cuenta_banco_inter ON saldo_cuenta_inter.cuenta_inter_id = cuenta_banco_inter.id
             LEFT JOIN banco_inter ON  cuenta_banco_inter.banco_inter_id = banco_inter.id
             LEFT JOIN monedas ON saldo_cuenta_inter.moneda_inter_id = monedas.id)T3 ON T1.cuenta_banco_inter_id = T3.id 
             
