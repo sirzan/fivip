@@ -25,7 +25,7 @@ class ModeloBancoCuentaInter{
 
     static public function mdlMostrarCuenta($tabla, $item, $valor){
         if ($item != null) {
-            $stmt = Conexion::conectar()->prepare("SELECT $tabla.id AS id_cuenta_inter,estado,n_titular_inter,a_titular_inter,saldo_inter,saldo_cuenta_inter.id AS id_saldo,banco_inter_id,nombre,moneda,simbolo,iso FROM saldo_cuenta_inter  
+            $stmt = Conexion::conectar()->prepare("SELECT $tabla.id AS cuenta_inter_id,estado,n_titular_inter,a_titular_inter,saldo_inter,saldo_cuenta_inter.id AS id_saldo,banco_inter_id,nombre,moneda,simbolo,iso FROM saldo_cuenta_inter  
             LEFT JOIN $tabla ON saldo_cuenta_Inter.cuenta_inter_id = $tabla.id LEFT JOIN banco_inter ON  $tabla.banco_inter_id = banco_inter.id
             LEFT JOIN monedas ON saldo_cuenta_inter.moneda_inter_id = monedas.id WHERE $tabla.$item = :$item");
             
@@ -35,7 +35,7 @@ class ModeloBancoCuentaInter{
 
 			return $stmt -> fetch();
            } else {
-        $stmt = Conexion::conectar()->prepare("SELECT $tabla.id AS id_cuenta_inter,estado,n_titular_inter,a_titular_inter,saldo_inter,saldo_cuenta_inter.id AS id_saldo,banco_inter_id,nombre,moneda,simbolo,iso FROM saldo_cuenta_inter  
+        $stmt = Conexion::conectar()->prepare("SELECT $tabla.id AS cuenta_inter_id,estado,n_titular_inter,a_titular_inter,saldo_inter,saldo_cuenta_inter.id AS id_saldo,banco_inter_id,nombre,moneda,simbolo,iso FROM saldo_cuenta_inter  
         LEFT JOIN $tabla ON saldo_cuenta_Inter.cuenta_inter_id = $tabla.id LEFT JOIN banco_inter ON  $tabla.banco_inter_id = banco_inter.id
         LEFT JOIN monedas ON saldo_cuenta_inter.moneda_inter_id = monedas.id ");
             

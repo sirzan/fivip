@@ -33,7 +33,7 @@
         $valor = null;
 
         $respuesta =  CuentaBancoInterController::ctrMostrarCuenta($item, $valor);
-
+  // var_dump($respuesta);
         foreach ($respuesta as $key => $value) {
    
             echo' <div class="col-md-3">
@@ -49,12 +49,12 @@
                             </li>
                           </ul>
                           <a href="#" class="btn btn-outline-primary btn-block"><b>	<i class="fas fa-eye"></i> Movimientos</b></a>
-                          <button type="submit" class="btn btn-success btn-block recargarCuentaInter" idCuenta="'.$value['id_cuenta_inter'].'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-up"></i> Recargar Saldo</b></button>
-                          <button type="submit" class="btn btn-secondary btn-block descargarCuentaInter" idCuenta="'.$value['id_cuenta_inter'].'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-down"></i> Descargar Saldo</b></button>
+                          <button type="submit" class="btn btn-success btn-block recargarCuentaInter" idCuenta="'.$value['cuenta_inter_id'].'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-up"></i> Recargar Saldo</b></button>
+                          <button type="submit" class="btn btn-secondary btn-block descargarCuentaInter" idCuenta="'.$value['cuenta_inter_id'].'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-down"></i> Descargar Saldo</b></button>
                          ';
                         if($value['estado'] == 0){
 
-                          echo' <button type="submit" class="btn btn-danger btn-block eliminarCuentaInter" idCuenta="'.$value['id_cuenta_inter'].'" idCuentaSaldo="'.$value['id_saldo'].'" estado="'.$value['estado'].'"><b> 	<i class="fas fa-trash-alt"></i> Eliminar cuenta</b></button>';
+                          echo' <button type="submit" class="btn btn-danger btn-block eliminarCuentaInter" idCuenta="'.$value['cuenta_inter_id'].'" idCuentaSaldo="'.$value['id_saldo'].'" estado="'.$value['estado'].'"><b> 	<i class="fas fa-trash-alt"></i> Eliminar cuenta</b></button>';
                         }
                     
                          echo' </div>
