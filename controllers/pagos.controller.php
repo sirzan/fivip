@@ -36,9 +36,9 @@ static public function ctrIngresarPago(){
                         $item3 ='id';
                         $valor3 =$cuentaVeneEntrada;
 
-                        $tabla_vene = 'saldo_cuenta_inter';
+                        $tabla_vene = 'saldo_cuenta_vene';
                         $saldo_alctual_entrada = CuentaBancoVeneController::ctrMostrarCuenta($item3, $valor3);
-                        
+                       
                         $valor_saldo_entrada= $saldo_alctual_entrada['saldo'];
                         $saldo_final_entrada =$valor_saldo_entrada +$_POST['pago-efectivo'];
                         $id_saldo_actual= $saldo_alctual_entrada['id_saldo'];
@@ -61,6 +61,7 @@ static public function ctrIngresarPago(){
                         
                         $tabla_inter = 'saldo_cuenta_inter';
                         $saldo_alctual_entrada = CuentaBancoInterController::ctrMostrarCuenta($item3, $valor3);
+                       
                         $valor_saldo_entrada= $saldo_alctual_entrada['saldo_inter'];
                         $saldo_final_entrada =$valor_saldo_entrada + $_POST['pago-efectivo'];
                         $id_saldo_actual= $saldo_alctual_entrada['id_saldo'];

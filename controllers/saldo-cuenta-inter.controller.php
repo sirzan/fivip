@@ -26,6 +26,9 @@ static public function ctrSumaRestaSaldo(){
                 }else if(isset($_POST["idcuentaActualDescarga"])) {
                     $id_cuenta_actual =$_POST["idcuentaActualDescarga"];
                 } 
+
+        
+
                 $datos = array(
                     //cargar saldo
                     "id" => $_POST["idSaldo"],
@@ -38,10 +41,10 @@ static public function ctrSumaRestaSaldo(){
                     "cuenta_banco_inter_id" =>  $id_cuenta_actual,
                     "signo" =>  $signo
                 );
-       
+       var_dump( $datos);
                 if($_POST['operacion'] == 'recarga'){
                         $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla, $datos);
-                        $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos);
+                        $respuesta2 =   ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos);
                         if($respuesta=="ok"){
 
                             echo '<script>
@@ -154,7 +157,7 @@ static public function ctrSumaRestaSaldo(){
                 
                             if(result.value){
                 
-                                window.location = "banco-cuentas-venezuela";
+                                window.location = "banco-cuentas-inter";
                 
                             }
                 
@@ -174,7 +177,7 @@ static public function ctrSumaRestaSaldo(){
                           }).then(function(result){
                             if (result.value) {
 
-                            window.location = "banco-cuentas-venezuela";
+                            window.location = "banco-cuentas-inter";
 
                             }
                         })

@@ -92,7 +92,7 @@ $(document).on("click",".btnPagar",function() {
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-money-bill-alt"></i></span>
                           </div>
-                          <input type="number" class="form-control" id="pago-efectivo" name="pago-efectivo" placeholder="ingregar el monto pagado" value="${respuesta['total_envio']}">
+                          <input type="number" class="form-control" step="any" id="pago-efectivo" name="pago-efectivo" placeholder="ingregar el monto pagado" value="${respuesta['total_envio']}">
                           <input type="hidden" class="form-control" id="metodoPagoRemeda2" name="metodoPagoRemeda2" value="efectivo">
                           </div>`)
                                  })
@@ -157,25 +157,25 @@ $(document).on("click",".btnPagar",function() {
                       <label for="exampleInputEmail1">Monto a Transferir</label>
                       <div class="input-group ">
                         <input type="number" id="pago-efectivo" name="pago-efectivo" class="form-control" value="${respuesta['total_envio']}">
-                        <input type="hidden" id="tipo_cuenta_entrada" name="tipo_cuenta_entrada" class="form-control">
-                        <input type="hidden" id="id_cuenta_entrada" name="id_cuenta_entrada" class="form-control">
+                        <input type="text" id="tipo_cuenta_entrada" name="tipo_cuenta_entrada" class="form-control">
+                        <input type="text" id="id_cuenta_entrada" name="id_cuenta_entrada" class="form-control">
                        
                     </div>
                     </div>
                  </div>`)
-
+               
                   $.each(res, function(i, item) {
 
                     if(respuesta['iso_moneda'] ==res[i]['iso']){
-
+                 
                       $('#seleccionarBancoInter2').append( '<option value="' + res[i]['id_cuenta'] + '">' + res[i]['n_titular'] + ' ' + res[i]['a_titular'] + ' - ' + res[i]['nombre'] + ': ' + res[i]['simbolo'] + '' + res[i]['saldo'] + ' (' + res[i]['iso'] + ')</option>');
                     }
 
                     
 
                   });
-
-                    if (respuesta['iso_moneda'] == res['iso']) {
+                   
+                    if (respuesta['iso_moneda'] == 'VEN') {
                       $('#tipo_cuenta_entrada').val('vene');
                     }else{
                       $('#tipo_cuenta_entrada').val('inter');
@@ -253,7 +253,7 @@ $(document).ready(function(){
 
 
  $(".tablas").on("click", ".btnverPago", function(){
-    console.log('diste click')
+
 	var idPagos = $(this).attr("idPagos");
 
   window.open("index.php?ruta=invoice&id="+idPagos, "_blank");

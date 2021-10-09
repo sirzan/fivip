@@ -291,7 +291,7 @@ var ano = fecha.getFullYear();
      <input type="text" class="form-control" id="agregarisoTasa" name="agregarisoTasa" readonly required>
  </div>`)
  
-    console.log($(this).parent().parent().find('td').eq(0).text());
+
     const tasa =$(this).parent().parent().find('td').eq(5).text()
 
 

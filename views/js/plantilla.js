@@ -372,7 +372,7 @@ $(document).on("click",".btnEditarMoneda",function() {
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-            console.log(respuesta)
+       
             $("#editarMoneda").val(respuesta['moneda'])
              $("#editarSimbolo").val(respuesta['simbolo'])
              $("#editarPais").val(respuesta['pais'])
@@ -511,7 +511,7 @@ $(document).on("click",".btnEditarBancoInter",function() {
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-       console.log(respuesta)
+     
             $("#editarBancoInter").val(respuesta['nombre'])
              $("#editarId").val(respuesta['id'])
            
@@ -559,7 +559,7 @@ $(document).on("click",".btnEditarTasa",function() {
     var idTasa = $(this).attr('idTasa');
     var datos = new FormData();
     datos.append("idTasa", idTasa);
-    console.log(datos)
+  
     
     $.ajax({
         url: "api/tasa.api.php",

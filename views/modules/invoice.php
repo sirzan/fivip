@@ -1,3 +1,4 @@
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -31,10 +32,12 @@
 
                      
             $item='id';
+            $item2='remesas_id';
             $valor=$_GET['id'];
             $remesas = RemesasController::ctrMostrarRemesas($item,$valor);
+            $valor2=$remesas['id'];
+            $metodos_pagos = ModeloPagos::mdlMostrarPagosRealizados($item2,$valor2);
        
-
             if ($remesas['estado'] == 0) {
              echo ' <div class="ribbon-wrapper ribbon-xl"><div class="ribbon bg-danger text-xl">
                       No Pagada
@@ -62,7 +65,7 @@
               </div>
               <!-- info row -->
               <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
+                <div class="col-sm-6 invoice-col">
                  
                   <address>
                     <strong>Envio a: '.$remesas['receptor'].'</strong><br>
@@ -73,7 +76,7 @@
                   </address>
                 </div>
     
-                <div class="col-sm-4 invoice-col">
+                <div class="col-sm-6 invoice-col">
                   <b>Correlativo: '.$remesas['correlativo'].'</b><br>
                   <br>
                   <b>Cliente:</b> '.$remesas["CONCAT(nombres,' ',apellidos)"].'<br>
@@ -86,7 +89,7 @@
 
               
                 <!-- accepted payments column -->
-                <div class="col-6">
+                <div class="col-md-8">
                   <p class="lead">Observacion:</p>
                  
 
@@ -95,25 +98,64 @@
                   </p>
                 </div>
                 <!-- /.col -->
-                <div class="col-6">
+                <div class="col-md-12">
                 <div class="row">
-                <div class="col-12 table-responsive">
+                <div class="col-md-12 table-responsive">
                   <table class="table table-striped">
                     <thead>
                     <tr>
-                      <th>Metodo de pago</th>
-                      <th>Monto</th>
-                      <th>N° de Trans.</th>
-                      <th>Banco</th>
+                      <th>Metodo de Cobro</th>
+                      <th>Monto Cobro</th>
+                      <th>Metodo de Pago</th>
+                      <th>Monto Pago</th>
                      
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                      <td>'.$remesas["metodo_pago"].'</td>
-                      <td>'.$remesas["simbolo_moneda"].''.number_format($remesas["pago_m_p"],2,',','.').' ('.$remesas["iso_moneda"].')</td>
-                      <td>'.$remesas["n_trans"].'</td>
-                      <td>'.$remesas["banco_trans"].'</td>
+                      <td>'.$metodos_pagos['metodo_pago_entrada'].' 
+                      <a type="button"  data-toggle="modal" data-target="#entrada">
+                         	<i class="fas fa-eye text-primary"></i>
+                      </a>
+                                            <!-- Modal -->
+                      <div class="modal fade" id="entrada" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            
+                            <div class="modal-body">
+                            Banco: '.$metodos_pagos['banco_entrada'].' | Titular: '.$metodos_pagos['n_titular_entrada'].' '.$metodos_pagos['a_titular_entrada'].'
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      </td>
+                      <td>'.$metodos_pagos['simbolo_entrada'].''.number_format($metodos_pagos['monto_entrada'],2,',','.').' ('.$metodos_pagos['iso_entrada'].')</td>
+                      <td>'.$metodos_pagos['metodo_pago_salida'].'
+                      
+                      <a type="button"  data-toggle="modal" data-target="#salida">
+                      <i class="fas fa-eye text-primary"></i>
+                 </a>
+                                       <!-- Modal -->
+                 <div class="modal fade" id="salida" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                   <div class="modal-dialog modal-dialog-centered" role="document">
+                     <div class="modal-content">
+                       
+                       <div class="modal-body">
+                       Banco: '.$metodos_pagos['banco_salida'].' | Titular: '.$metodos_pagos['n_titular_salida'].' '.$metodos_pagos['a_titular_salida'].'
+                       </div>
+                       <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+
+                      </td>
+                      <td>'.$metodos_pagos['simbolo_salida'].''.number_format($metodos_pagos['monto_salida'],2,',','.').' ('.$metodos_pagos['iso_salida'].')</td>
                      
                     </tr>
                    
@@ -123,7 +165,7 @@
                 <!-- /.col -->
               </div>
 
-                  <div class="table-responsive">
+                  <div class="col-md-6 table-responsive">
                     <table class="table">
                       <tbody><tr>
                         <th style="width:50%">Tasa: </th>

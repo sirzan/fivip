@@ -75,9 +75,9 @@
  <div class="modal fade" id="modal-agregar-monto">
         <div class="modal-dialog">
           <div class="modal-content">
-              <form role="form" method="post">
+              <form role="form" method="post" id="formulario-recarga">
                 <div class="modal-header" style="background:#ffc107">
-                  <h4 class="modal-title">Agregar Nuevo Usuario</h4>
+                  <h4 class="modal-title">Agregar nuevo monto de recarga</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -88,72 +88,75 @@
                     <div class="form-group">
                             <label>Operadoras</label>
                             <select class="form-control" id="operadora" name="operadora">
-                              <option selected>-- Seleccione una operadora --</option>
+                              <option value="" selected>-- Seleccione una operadora --</option>
                               <option value="Movistar">Movistar</option>
                               <option value="Digital">Digital</option>
                               <option value="Movilnet">Movilnet</option>
                             </select>
                     </div>
-                    <div class="form-group">
-                            <label>Moneda</label>
-                         
-                            <select class="form-control" id="nuevaMonedaMonto" name="nuevaMonedaMonto">
-                              <option selected>-- Seleccione un Moneda --</option>
-                             
-                              <?php 
-                    
-                              $valor=null;
-                              $item=null;
-                              $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
-                              // var_dump($bancosvene);
-                              if($monedas){
-                                foreach ($monedas as $key => $value) {
-                                echo '<option value="'.$value["id"].'">'.$value["moneda"].'</option>';
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                              <label>Moneda</label>
+                           
+                              <select class="form-control" id="nuevaMonedaMonto" name="nuevaMonedaMonto">
+                                <option value="" selected>-- Seleccione un Moneda --</option>
+                               
+                                <?php 
+                      
+                                $valor=null;
+                                $item=null;
+                                $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
+                                // var_dump($bancosvene);
+                                if($monedas){
+                                  foreach ($monedas as $key => $value) {
+                                    if ($value['iso'] != 'VEN') {
+                                      echo '<option value="'.$value["id"].'">'.$value["moneda"].'</option>';
+                                    }
+                                  }
+                                }else{
+                                 echo'<option disabled>-- No hay monedas creadas, vaya a la seccion de monedas --</option>';
                                 }
-                              }else{
-                               echo'<option disabled>-- No hay monedas creadas, vaya a la seccion de monedas --</option>';
-                              }
-                              ?>
-                              
-                            </select>
-                          </div>
-                    <div class="form-group">
-                        <label for="nuevoMonto">Monto</label>
-                        <input type="number" class="form-control" id="nuevoMonto"  step="any" name="nuevoMonto" placeholder="Ingre el monto">
-                        <input type="number" class="form-control" id="nuevoMonto"  step="any" name="nuevoMonto" placeholder="Ingre el monto">
-                      </div>
-
-                    <div class="form-group">
-                        <label for="nuevoRecarga">Total Recarga</label>
-                        <input type="number" class="form-control" id="nuevoRecarga" step="any" name="nuevoRecarga" placeholder="Ingre el monto a recargar">
+                                ?>
+                                
+                              </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="nuevoMonto">Monto</label>
+                                <input type="number" class="form-control" id="nuevoMonto"  step="any" name="nuevoMonto" placeholder="Ingre el monto">
+                              </div>
                     </div>
-                    <div class="form-group">
-                            <label>Moneda Recarga</label>
-                         
-                            <select class="form-control" id="nuevaMonedaRecarga" name="nuevaMonedaRecarga">
-                              <option selected>-- Seleccione un Moneda --</option>
-                             
-                              <?php 
-                    
-                              $valor=null;
-                              $item=null;
-                              $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
-                              // var_dump($bancosvene);
-                              if($monedas){
-                                foreach ($monedas as $key => $value) {
-                                echo '<option value="'.$value["id"].'">'.$value["moneda"].'</option>';
-                                }
-                              }else{
-                               echo'<option disabled>-- No hay monedas creadas, vaya a la seccion de monedas --</option>';
-                              }
-                              ?>
-                              
-                            </select>
-                          </div>
+                                <hr>
+                                <div class="row">
+
+                                      <div class="form-group col-md-6">
+                                          <label for="nuevoRecarga">Total Recarga</label>
+                                          <input type="number" class="form-control" id="nuevoRecarga" step="any" name="nuevoRecarga" placeholder="Ingre el monto a recargar">
+                                      </div>
+                                        <div class="form-group col-md-6">
+                                          <label>Moneda Recarga</label>
+                                          <select class="form-control" id="nuevaMonedaRecarga" name="nuevaMonedaRecarga" readonly>
+                                            <?php 
+                                            $valor=null;
+                                            $item=null;
+                                            $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
+                                            // var_dump($bancosvene);
+                                            if($monedas){
+                                              foreach ($monedas as $key => $value) {
+                                                if ($value['iso'] == "VEN") {
+                                                  echo '<option value="'.$value["id"].'" selected>'.$value["moneda"].'</option>';
+                                                }
+                                              }
+                                            }else{
+                                             echo'<option disabled>-- No hay monedas creadas, vaya a la seccion de monedas --</option>';
+                                            }
+                                            ?>
+                                          </select>
+                                        </div>
+                                </div>
                   
                 </div>
                 <div class="modal-footer justify-content-between">
-                  <button type="submit" class="btn btn-primary">Registrar Monto de Recarga</button>
+                  <button type="submit" class="btn btn-primary crearmonto">Registrar Monto de Recarga</button>
                 </div>
                 <?php
   

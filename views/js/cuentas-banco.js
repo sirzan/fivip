@@ -257,6 +257,7 @@ $(document).on("click",".recargarCuentaInter",function() {
       processData: false,
       dataType: "json",
       success: function(respuesta) {
+     
           var locality = 'es-ES';
         $('.infocuenta').append(`<span class="info-box-icon bg-danger"><i class="fas fa-university"></i></span>     
         <div class="info-box-content">
@@ -273,7 +274,7 @@ $(document).on("click",".recargarCuentaInter",function() {
 
         $('#saldoActual').val(parseFloat(respuesta['saldo_inter']))
         $('#idSaldo').val(respuesta['id_saldo'])
-        $('#idcuentaActualRecarga').val(respuesta['id_cuenta_inter'])
+        $('#idcuentaActualRecarga').val(respuesta['cuenta_inter_id'])
         $('#simboloRecarga').val(respuesta['simbolo'])
       },
       error: function() {
@@ -323,7 +324,7 @@ $(document).on("click",".descargarCuentaInter",function() {
         <input type="hidden" id="simboloRecarga" name="simboloRecarga">`)
 
         $('#saldoActual').val(parseFloat(respuesta['saldo_inter']))
-        $('#idcuentaActualDescarga').val(respuesta['id_cuenta_inter'])
+        $('#idcuentaActualDescarga').val(respuesta['cuenta_inter_id'])
         $('#idSaldo').val(respuesta['id_saldo'])
         $('#simboloRecarga').val(respuesta['simbolo'])
       },

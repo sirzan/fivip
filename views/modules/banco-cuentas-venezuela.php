@@ -253,7 +253,7 @@
             <div class="modal-footer justify-content-between">
                 <button type="submit" class="btn btn-primary btnModal"></button>
                 <div class="col-md-12 alert alert-warning" role="alert">
-                Nota: Las transferencias entre cuentas contiene un consumo adicional del 0.3% de comisiones bacarias.
+                Nota: Las transferencias entre cuentas distintas contiene un consumo adicional del 0.3% de comisiones bacarias.
               </div>
             </div>
             <?php

@@ -12,7 +12,7 @@ class ModeloMovimientosBancarios{
 
         $fechaActual = $fecha.' '.$hora;
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(cuenta_banco_vene_id, c_transfer_vene_id, cuenta_banco_inter_id, monto, pago_remesa_id,operacion,signo,created_at) VALUES(:cuenta_banco_vene_id, :c_transfer_vene_id, :cuenta_banco_inter_id, :monto, :pago_remesa_id,:operacion,:signo,:created_at)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(cuenta_banco_vene_id, c_transfer_vene_id, cuenta_banco_inter_id, monto, pago_remesa_id,operacion,signo,recargas_id,created_at) VALUES(:cuenta_banco_vene_id, :c_transfer_vene_id, :cuenta_banco_inter_id, :monto, :pago_remesa_id,:operacion,:signo,:recargas_id,:created_at)");
 
         $stmt->bindParam(":cuenta_banco_vene_id", $datos["id_cuenta"], PDO::PARAM_INT);
         $stmt->bindParam(":cuenta_banco_inter_id", $datos["cuenta_banco_inter_id"], PDO::PARAM_INT);
@@ -21,6 +21,7 @@ class ModeloMovimientosBancarios{
         $stmt->bindParam(":pago_remesa_id", $datos["pago_remesa_id"], PDO::PARAM_INT);
         $stmt->bindParam(":operacion", $datos["operacion"], PDO::PARAM_STR);
         $stmt->bindParam(":signo", $datos["signo"], PDO::PARAM_STR);
+        $stmt->bindParam(":recargas_id", $datos["recargas_id"], PDO::PARAM_INT);
         $stmt->bindParam(":created_at",  $fechaActual, PDO::PARAM_STR);
 
         if($stmt->execute()){

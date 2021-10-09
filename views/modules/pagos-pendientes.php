@@ -169,14 +169,14 @@
                           <div class="form-group col-md-6">
                             <label for="exampleInputEmail1">N° de Trans.</label>
                             <div class="input-group ">
-                              <input type="number" id="n_operacion_salida" name="n_operacion_salida" class="form-control" >
+                              <input type="number" id="n_operacion_salida"  name="n_operacion_salida" class="form-control" >
                             </div>
                           </div>
 
                           <div class="form-group col-md-6">
                             <label for="exampleInputEmail1">Monto a Transferir</label>
                             <div class="input-group ">
-                              <input type="number" id="monto-transferencia" name="monto-transferencia" class="form-control" >
+                              <input type="number" id="monto-transferencia" step="any" name="monto-transferencia" class="form-control" >
                               <!-- id de la remesa -->
                               <input type="hidden" id="id_remesa" name="id_remesa" class="form-control" >
                               <input type="hidden" id="tipo_cuenta_salida" name="tipo_cuenta_salida" class="form-control" >

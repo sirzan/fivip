@@ -22,25 +22,44 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-agregar-monto">Recargar Movil</button>
+          <button type="button" class="btn btn-primary btn-sm" id="enviar-recarga" data-toggle="modal" data-target="#modal-agregar-monto">Recargar Movil</button>
         </div>
         <div class="card-body">
-        <table id="user" class="table table-bordered table-striped">
+        <table id="recargas" class="table table-bordered table-striped">
                   <thead>
                   <tr>
                     <th style="width:10px">#</th>
+                    <th>Cliente</th>
                     <th>Operadora</th>
+                    <th>Numero de Recarga</th>
                     <th>Monto</th>
                     <th>Total Recarga</th>
                     <th>Acciones</th>
                   </tr>
                   </thead>
                   <tbody>
-                
-                
-                  
+                  <?php 
                     
-                  
+                    $valor=null;
+                    $item=null;
+                    $recargas_all = ControladorMontoRecargas::ctrMostrarRecargaAll();
+                    foreach ($recargas_all as $key => $value) {
+                     echo '<tr>
+                     <td>'.$value['id'].'</td>
+                     <td>'.$value['nombres'].' '.$value['apellidos'].'</td>
+                     <td>'.$value['operadora'].'</td>
+                     <td>'.$value['telefono'].'</td>
+                     <td>'.$value['simbolo_monto'].number_format($value['monto'],2,',','.').' ('.$value['iso_monto'].')</td>
+                     <td>'.$value['simbolo_r'].number_format($value['recarga'],2,',','.').' ('.$value['iso_r'].')</td>
+
+                     <td> 
+                    <button class="btn btn-primary btn-sm btnVerRecarga" idRecargas="'.$value['id'].'"><i class="fas fa-eye"></i></button>
+                       <button type="submit" class="btn btn-danger btn-sm btnEliminarRecargas" idRecargas="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button>
+                     </td>
+                   </tr>';
+                    }
+                    ?>
+
                   </tbody>
                 </table>
         </div>
@@ -59,7 +78,7 @@
           <div class="modal-content">
               <form role="form" method="post">
                 <div class="modal-header" style="background:#ffc107">
-                  <h4 class="modal-title">Agregar Nuevo Usuario</h4>
+                  <h4 class="modal-title">Enviar Recarga</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -69,10 +88,7 @@
                   <div class="form-group row">
 
                       <div class="input-group mb-3 col-md-12">
-                        <!-- <div class="input-group-prepend mb-3 ">
-                          <span class="input-group-text"><i class="fas fa-users"></i></span>
-                          <span class="input-group-prepend"><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-editar-cliente" data-dismiss="modal">Nuevo cliente</button></span>
-                        </div> -->
+          
                         <label>Cliente</label>
                         
                         <select class="form-control select2 select2bs4" style="width: 100%;" id="seleccionarCliente" name="seleccionarCliente" required>
@@ -80,45 +96,48 @@
                  
                         </select>
                       </div>
-                      <div class="input-group mb-3 col-md-12">
- 
-                         <select class="form-control" id="nuevaMonedaRecarga" name="nuevaMonedaRecarga">
-                           <option selected>-- Seleccione un Recarga --</option>
-                          
-                           <?php 
+
+                                  <!-- validar los bancos -->
+                <div class="col-md-12" id="divRadios">
+                    <!-- radio -->
+                    <div class="form-group clearfix">
+                      <div class="icheck-primary d-inline">
+                        <input type="radio" id="movistar" value="Movistar" name="operadora" >
+                        <label >
+                          Movistar
+                        </label>
+                      </div>
                  
-                           $valor=null;
-                           $item=null;
-                           $recarga = ControladorMontoRecargas::ctrMostrarMontoRecarga($item,$valor);
-                           // var_dump($bancosvene);
-                           if($monedas){
-                             foreach ($recarga as $key => $value) {
-                             echo '<option value="'.$value["id"].'">'.$value['operadora'].' - '.$value['simbolo_monto'].''.number_format($value['monto'],2,',','.').' ('.$value['iso_monto'].') '.$value['simbolo_monto_r'].''.number_format($value['total_recarga'],2,',','.').' ('.$value['iso_monto_r'].')</option>';
-                             }
-                           }else{
-                            echo'<option disabled>-- No hay monedas creadas, vaya a la seccion de monedas --</option>';
-                           }
-                           ?>
-                           
-                         </select>
-                        </div>
+                      <div class="icheck-primary d-inline">
+                        <input type="radio" id="digitel" value="Digitel" name="operadora">
+                        <label>
+                        Digitel
+                        </label>
+                      </div>
+                      <div class="icheck-primary d-inline">
+                        <input type="radio" id="digitel" value="Movilnet" name="operadora">
+                        <label>
+                        Movilnet
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                <!-- validar end -->
                       <div class="input-group mb-3 col-md-12">
-                      <select class="form-control bancoselect" id="seleccionarBanco" name="seleccionarBanco" required>
-                            <option value="" selected>-- Seleccionar banco para recarga --</option>
-                      <?php 
-                    
-                    $valor=null;
-                    $item=null;
-                    $bancosvene = BancoVeneController::ctrMostrarBancoVene($item,$valor);
-                    foreach ($bancosvene as $key => $value) {
-                     echo '<option value="'.$value['id'].'" >'.$value['nombre'].'</option>';
-                    }
-                    ?>
-
-                        </select>
-
+               
+                         <select class="form-control" id="nuevaMonedaRecarga" name="nuevaMonedaRecarga"> </select>
                         </div>
-                      
+                        <div class="input-group mb-3 col-md-12">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="telefonoRecarga" data-inputmask='"mask": "(+99) 999-999-9999"' data-mask placeholder="Ingrese el telefono a recargar" required>
+                        </div>
+                        <hr>
+                      <div class="input-group mb-3 col-md-12 off"></div>
+                        <hr>
+                      <div class="input-group mb-3 col-md-12 off2"></div>
+                      <input type="hidden" name="idUser" value="<?php echo $_SESSION["id"]; ?>">
                   </div>
 
                   
@@ -126,7 +145,10 @@
                 <div class="modal-footer justify-content-between">
                   <button type="submit" class="btn btn-primary">Registrar Recarga</button>
                 </div>
-         
+                <?php
+                       $recarga = new ControladorMontoRecargas();
+                       $recarga ->ctrIngresarRecarga();
+                ?>
   
             </form>
               </div>
@@ -137,4 +159,8 @@
         <!-- /.modal-dialog -->
       </div>
  <!--MODAL AGREGAR USUARIOS END-->
+<?php
+  $borrarRecarga = new ControladorMontoRecargas();
+  $borrarRecarga -> ctrBorrarRecarga();
 
+?>
