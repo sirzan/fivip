@@ -133,7 +133,7 @@ static public function mdlIngresarRecarga($tabla, $datos){
 
 static public function mdlMostrarRecargaAll(){
  
-        $stmt = Conexion::conectar()->prepare("SELECT T1.id AS id,T1.operadora,T1.tel_r AS telefono,T2.nombres,T2.apellidos,T4.n_titular_inter,T4.a_titular_inter,T4.nombre,T5.simbolo AS simbolo_monto,T1.monto,T5.iso AS iso_monto ,T3.n_titular,T3.a_titular,T3.nombre,T6.simbolo AS simbolo_r,T1.recarga,t6.iso AS iso_r,T1.user_id FROM (SELECT *  FROM recargas)T1 
+        $stmt = Conexion::conectar()->prepare("SELECT T1.id AS id,T1.operadora,T1.tel_r AS telefono,T2.nombres,T2.apellidos,T4.n_titular_inter,T4.a_titular_inter,T4.nombre,T5.simbolo AS simbolo_monto,T1.monto,T5.iso AS iso_monto ,T3.n_titular,T3.a_titular,T3.nombre,T6.simbolo AS simbolo_r,T1.recarga,T6.iso AS iso_r,T1.user_id FROM (SELECT *  FROM recargas)T1 
         LEFT JOIN (SELECT * from clientes)T2 ON T1.cliente_id = T2.id
         LEFT JOIN (SELECT cuenta_banco_vene.id,n_titular,a_titular,nombre FROM cuenta_banco_vene lEFT JOIN banco_vene ON cuenta_banco_vene.banco_id = banco_vene.id)T3 
         on T1.cuenta_vene_id = T3.id
