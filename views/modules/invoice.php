@@ -37,7 +37,36 @@
             $remesas = RemesasController::ctrMostrarRemesas($item,$valor);
             $valor2=$remesas['id'];
             $metodos_pagos = ModeloPagos::mdlMostrarPagosRealizados($item2,$valor2);
+         
+
        
+            $datos = array(
+              "metodo_pago_entrada"=>(isset($metodos_pagos['metodo_pago_entrada'])) ? $metodos_pagos['metodo_pago_entrada']:'',
+
+              "banco_entrada"=>(isset($metodos_pagos['banco_entrada'])) ? $metodos_pagos['banco_entrada']:'',
+              "n_titular_entrada"=>(isset($metodos_pagos['n_titular_entrada'])) ? $metodos_pagos['n_titular_entrada']:'',
+              "a_titular_entrada"=>(isset($metodos_pagos['a_titular_entrada'])) ? $metodos_pagos['a_titular_entrada']:'',
+
+              //Monto entrada
+              "simbolo_entrada"=>(isset($metodos_pagos['simbolo_entrada'])) ? $metodos_pagos['banco_salida']:'',
+              "monto_entrada"=>(isset($metodos_pagos['monto_entrada'])) ? number_format($metodos_pagos['monto_entrada'],2,',','.'):'',
+              "iso_entrada"=>(isset($metodos_pagos['iso_entrada'])) ? $metodos_pagos['iso_entrada']:'',
+              "metodo_pago_salida"=>(isset($metodos_pagos['metodo_pago_salida'])) ? $metodos_pagos['metodo_pago_salida']:'',
+
+              //banco salida
+              "banco_salida"=>(isset($metodos_pagos['banco_salida']))?$metodos_pagos['banco_salida']:'',
+              "n_titular_salida"=>(isset($metodos_pagos['n_titular_salida']))? $metodos_pagos['n_titular_salida'] :'',
+              "a_titular_salida"=>(isset($metodos_pagos['a_titular_salida'])) ? $metodos_pagos['a_titular_salida']:'',
+
+              //monto salida
+              "simbolo_salida"=>(isset($metodos_pagos['simbolo_salida']))?$metodos_pagos['simbolo_salida']:'',
+              "monto_salida"=>(isset($metodos_pagos['monto_salida']))?number_format($metodos_pagos['monto_salida'],2,',','.'):'',
+              "iso_salida"=>(isset($metodos_pagos['iso_salida']))?$metodos_pagos['iso_salida']:''
+            );
+
+
+
+
             if ($remesas['estado'] == 0) {
              echo ' <div class="ribbon-wrapper ribbon-xl"><div class="ribbon bg-danger text-xl">
                       No Pagada
@@ -113,7 +142,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                      <td>'.$metodos_pagos['metodo_pago_entrada'].' 
+                      <td>'.$datos['metodo_pago_entrada'].' 
                       <a type="button"  data-toggle="modal" data-target="#entrada">
                          	<i class="fas fa-eye text-primary"></i>
                       </a>
@@ -123,7 +152,7 @@
                           <div class="modal-content">
                             
                             <div class="modal-body">
-                            Banco: '.$metodos_pagos['banco_entrada'].' | Titular: '.$metodos_pagos['n_titular_entrada'].' '.$metodos_pagos['a_titular_entrada'].'
+                            Banco: '.$datos['banco_entrada'].' | Titular: '.$datos['n_titular_entrada'].' '.$datos['a_titular_entrada'].'
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -133,8 +162,8 @@
                       </div>
                       
                       </td>
-                      <td>'.$metodos_pagos['simbolo_entrada'].''.number_format($metodos_pagos['monto_entrada'],2,',','.').' ('.$metodos_pagos['iso_entrada'].')</td>
-                      <td>'.$metodos_pagos['metodo_pago_salida'].'
+                      <td>'.$datos['simbolo_entrada'].''.$datos['monto_entrada'].' ('.$datos['iso_entrada'].')</td>
+                      <td>'.$datos['metodo_pago_salida'].'
                       
                       <a type="button"  data-toggle="modal" data-target="#salida">
                       <i class="fas fa-eye text-primary"></i>
@@ -145,7 +174,7 @@
                      <div class="modal-content">
                        
                        <div class="modal-body">
-                       Banco: '.$metodos_pagos['banco_salida'].' | Titular: '.$metodos_pagos['n_titular_salida'].' '.$metodos_pagos['a_titular_salida'].'
+                       Banco: '.$datos['banco_salida'].' | Titular: '.$datos['n_titular_salida'].' '.$datos['a_titular_salida'].'
                        </div>
                        <div class="modal-footer">
                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -155,7 +184,7 @@
                  </div>
 
                       </td>
-                      <td>'.$metodos_pagos['simbolo_salida'].''.number_format($metodos_pagos['monto_salida'],2,',','.').' ('.$metodos_pagos['iso_salida'].')</td>
+                      <td>'.$datos['simbolo_salida'].''.$datos['monto_salida'].' ('.$datos['iso_salida'].')</td>
                      
                     </tr>
                    
