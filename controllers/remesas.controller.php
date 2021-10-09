@@ -274,7 +274,7 @@ static public function ctrBorrarRemesas(){
                 "id" => $cuenta_recargar['id_saldo'],
                 "saldo" => $saldo_nuevo
                      );
-                     var_dump($datos);
+               
                      $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene, $datos);
 
         }else if(isset($mostrar_pagos['cuenta_salida_inter_id'])){
