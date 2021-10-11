@@ -1,6 +1,7 @@
 
 $(document).ready(function(){
 
+
     $.ajax({
         url: "api/movimientosall.api.php",
         method: "POST",
@@ -32,5 +33,6 @@ $(document).ready(function(){
           
             }
   })
+   
   
   })

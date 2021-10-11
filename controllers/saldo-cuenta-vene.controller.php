@@ -145,6 +145,7 @@ static public function ctrTransferenciaSaldo(){
                         "cuenta_banco_inter_id" =>  null,
                         "signo" =>  '+'
                     ),
+                       
                     //cuenta que transfiere
                     array(
                         "id" => $_POST["idSaldo"],
@@ -159,21 +160,7 @@ static public function ctrTransferenciaSaldo(){
                     ),
                   
                 );
-                if ($_POST["codigobanco"] != $_POST["codigobanco2"]) {
-                    //array comision bancaria
-                    $data_comisiones = array(
-                        "id" => $_POST["idSaldo"],
-                        'id_cuenta'=> $_POST["idCuentaactual"],
-                        'c_transfer_vene_id'=> null,
-                        "saldo" => $saldo_debito,
-                        "monto" =>  $saldo_comision,
-                        "operacion" => 'Comision por Transferencia Bancaria',
-                        "pago_remesa_id" =>  null,
-                        "cuenta_banco_inter_id" =>  null,
-                        "signo" =>  '-'
-                    );
-                    array_push($datos,$data_comisiones);
-                }
+
 
                 if(isset($_POST["cuentasBancariasId"])){
                 if ($_POST["saldoTransferencia"] + $saldo_comision <= $_POST['saldoActual']) {
@@ -181,6 +168,34 @@ static public function ctrTransferenciaSaldo(){
                         $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $value);
                         $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $value);
                     }
+
+             
+
+                if ($_POST["codigobanco"] != $_POST["codigobanco2"]) {
+                           
+                $tabla_inter_salida = 'saldo_cuenta_vene';
+                $item4 ='id';
+                $valor4 =$_POST["idCuentaactual"];
+                $saldo_alctual_salida = CuentaBancoVeneController::ctrMostrarCuenta($item4, $valor4);
+    
+                    //array comision bancaria
+                    $data_comisiones = array(
+                        "id" => $_POST["idSaldo"],
+                        'id_cuenta'=> $_POST["idCuentaactual"],
+                        'c_transfer_vene_id'=> null,
+                        "saldo" => $saldo_alctual_salida['saldo'] - $saldo_comision,
+                        "monto" =>  $saldo_comision,
+                        "operacion" => 'Comision por Transferencia Bancaria',
+                        "pago_remesa_id" =>  null,
+                        "cuenta_banco_inter_id" =>  null,
+                        "signo" =>  '-'
+                    );
+                    
+                    $respuesta4 = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $data_comisiones);
+                    $respuesta3 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $data_comisiones);
+                }
+
+
                     if($respuesta=="ok"){
     
                         echo '<script>
@@ -226,7 +241,8 @@ static public function ctrTransferenciaSaldo(){
                         });
                 
                 </script>';
-                  }}else {
+                  }
+                }else {
                     echo '<script>
 
                     swal({

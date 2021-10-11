@@ -24,5 +24,6 @@ $stmt->execute();
 $monedas = $stmt->fetchAll();
 
 
+
 echo json_encode($monedas);
 exit();
