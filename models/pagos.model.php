@@ -31,9 +31,15 @@ class ModeloPagos{
 
 
     static public function mdlIngresarPagos($tabla, $datos){
+        date_default_timezone_set('America/Lima');
+
+        $fecha = date('Y-m-d');
+        $hora = date('H:i:s');
+
+        $fechaActual = $fecha.' '.$hora;
         // var_dump($datos["password"]);
-            $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(remesas_id,cuenta_entrada_id,cuenta_entrada_inter_id,monto_entrada,metodo_pago_entrada,n_operacion_entrada,cuenta_salida_id,cuenta_salida_inter_id,monto_salida,metodo_pago_salida,n_operacion_salida)
-             VALUES(:remesas_id,:cuenta_entrada_id,:cuenta_entrada_inter_id,:monto_entrada,:metodo_pago_entrada,:n_operacion_entrada,:cuenta_salida_id,:cuenta_salida_inter_id,:monto_salida,:metodo_pago_salida,:n_operacion_salida)");
+            $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(remesas_id,cuenta_entrada_id,cuenta_entrada_inter_id,monto_entrada,metodo_pago_entrada,n_operacion_entrada,cuenta_salida_id,cuenta_salida_inter_id,monto_salida,metodo_pago_salida,n_operacion_salida,created_at)
+             VALUES(:remesas_id,:cuenta_entrada_id,:cuenta_entrada_inter_id,:monto_entrada,:metodo_pago_entrada,:n_operacion_entrada,:cuenta_salida_id,:cuenta_salida_inter_id,:monto_salida,:metodo_pago_salida,:n_operacion_salida,:created_at)");
 
             $stmt->bindParam(":remesas_id", $datos["remesas_id"], PDO::PARAM_INT);
             $stmt->bindParam(":cuenta_entrada_id", $datos["cuenta_entrada_id"], PDO::PARAM_INT);
@@ -46,6 +52,7 @@ class ModeloPagos{
             $stmt->bindParam(":monto_salida", $datos["monto_salida"], PDO::PARAM_STR);
             $stmt->bindParam(":metodo_pago_salida", $datos["metodo_pago_salida"], PDO::PARAM_STR);
             $stmt->bindParam(":n_operacion_salida", $datos["n_operacion_salida"], PDO::PARAM_INT);
+            $stmt->bindParam(":created_at",  $fechaActual, PDO::PARAM_STR);
 
             if($stmt->execute()){
                 return "ok";
