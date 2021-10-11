@@ -140,6 +140,7 @@ static public function ctrTransferenciaSaldo(){
                         'c_transfer_vene_id'=>$_POST["idCuentaactual"],
                         "saldo" =>  $salto_transferencia,
                         "monto" =>  $_POST["saldoTransferencia"],
+                        "monto_actual" => $salto_transferencia,
                         "operacion" =>  $_POST["operacion2"],
                         "pago_remesa_id" =>  null,
                         "cuenta_banco_inter_id" =>  null,
@@ -153,11 +154,12 @@ static public function ctrTransferenciaSaldo(){
                         'c_transfer_vene_id'=> $_POST["cuentaId"],
                         "saldo" => $saldo_debito,
                         "monto" =>  $saldo_comision_apply,
+                        "monto_actual" =>  $saldo_debito,
                         "operacion" => $_POST["operacion"],
                         "pago_remesa_id" =>  null,
                         "cuenta_banco_inter_id" =>  null,
                         "signo" =>  '-'
-                    ),
+                    )
                   
                 );
 
@@ -185,6 +187,7 @@ static public function ctrTransferenciaSaldo(){
                         'c_transfer_vene_id'=> null,
                         "saldo" => $saldo_alctual_salida['saldo'] - $saldo_comision,
                         "monto" =>  $saldo_comision,
+                        "monto_actual" =>  $saldo_alctual_salida['saldo'] - $saldo_comision,
                         "operacion" => 'Comision por Transferencia Bancaria',
                         "pago_remesa_id" =>  null,
                         "cuenta_banco_inter_id" =>  null,
