@@ -31,6 +31,7 @@ static public function ctrSumaRestaSaldo(){
                     "saldo" => $saldo,
                     'id_cuenta'=>  $id_cuenta_actual,
                     "monto" => $monto,
+                    "monto_actual" => $saldo,
                     "operacion" => $_POST["operacion"],
                     "pago_remesa_id" =>  null,
                     "cuenta_banco_inter_id" =>  null,
