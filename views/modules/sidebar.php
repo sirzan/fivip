@@ -207,7 +207,7 @@
               </li>
            
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="punto-venta" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Punto de venta</p>
                 </a>

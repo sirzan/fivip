@@ -110,6 +110,7 @@ session_start();
             $_GET["ruta"]== "banco-cuentas-venezuela"|| 
             $_GET["ruta"]== "banco-cuentas-inter"|| 
             $_GET["ruta"]== "creditos"|| 
+            $_GET["ruta"]== "punto-venta"|| 
             $ruta3
         
         ){
@@ -148,6 +149,7 @@ session_start();
 <script src="views/js/recargas.js"></script>
 <script src="views/js/cuentas-banco.js"></script>
 <script src="views/js/movimientos.js"></script>
+<script src="views/js/viajes.js"></script>
 
 
 </body>

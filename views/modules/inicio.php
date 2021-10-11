@@ -93,6 +93,7 @@
                       <th>Banco</th>
                       <th>Titular</th>
                       <th>Monto</th>
+                      <th>Saldo</th>
                       <th>Operacion</th>
                       <th>accion</th>
                     </tr>

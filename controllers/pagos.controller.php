@@ -191,6 +191,7 @@ static public function ctrIngresarPago(){
                                     array(//movimeintos
                                         'id_cuenta'=>  $cuentaVeneSalida,
                                         "monto" => $_POST['monto-transferencia'],
+                                        "monto_actual" => $valor_saldo_salida - $_POST['monto-transferencia'],
                                         "operacion" => "Pago de Remesa",
                                         "c_transfer_vene_id" => null,
                                         "pago_remesa_id" =>  $_POST['id_remesa'],
@@ -201,6 +202,7 @@ static public function ctrIngresarPago(){
                                 
                                 'id_cuenta'=>  $cuentaVeneSalida,
                                 "monto" =>   ($_POST['monto-transferencia'] * 0.003),
+                                "monto_actual" => $valor_saldo_salida - ($_POST['monto-transferencia'] * 0.003),
                                 "operacion" => 'Comisión por Transferencia Bancaria Digital',
                                 'c_transfer_vene_id'=> null,
                                 "pago_remesa_id" =>  $_POST['id_remesa'],
@@ -220,6 +222,7 @@ static public function ctrIngresarPago(){
                                     array(//movimeintos
                                         'id_cuenta'=>  $cuentaVeneSalida,
                                         "monto" => $_POST['monto-transferencia'],
+                                        "monto_actual" => $valor_saldo_salida - $_POST['monto-transferencia'],
                                         "operacion" => "Pago de Remesa",
                                         "c_transfer_vene_id" => null,
                                         "pago_remesa_id" =>  $_POST['id_remesa'],
@@ -230,6 +233,7 @@ static public function ctrIngresarPago(){
                                 
                                 'id_cuenta'=>  $cuentaVeneSalida,
                                 "monto" =>  ($_POST['monto-transferencia'] * 0.003),
+                                "monto_actual" => $valor_saldo_salida - ($_POST['monto-transferencia'] * 0.003),
                                 "operacion" => 'Comisión pago movil',
                                 'c_transfer_vene_id'=> null,
                                 "pago_remesa_id" =>  $_POST['id_remesa'],
@@ -249,6 +253,7 @@ static public function ctrIngresarPago(){
                                        //movimeintos
                                             'id_cuenta'=>  $cuentaVeneSalida,
                                             "monto" => $_POST['monto-transferencia'],
+                                            "monto_actual" => $valor_saldo_salida - $_POST['monto-transferencia'],
                                             "operacion" => "Pago de Remesa",
                                             "c_transfer_vene_id" => null,
                                             "pago_remesa_id" =>  $_POST['id_remesa'],
@@ -271,6 +276,7 @@ static public function ctrIngresarPago(){
                                       //movimeintos
                                       'id_cuenta'=>  $cuentaVeneEntrada,
                                       "monto" => $_POST['pago-efectivo'],
+                                      "monto_actual" =>  $valor_saldo_entrada + $_POST['pago-efectivo'],
                                       "operacion" => "Cobro de Remesa",
                                       "c_transfer_vene_id" => null,
                                       "pago_remesa_id" =>  $_POST['id_remesa'],
@@ -290,6 +296,7 @@ static public function ctrIngresarPago(){
                                                   //movimeintos
                                                   'id_cuenta'=>  null,
                                                   "monto" => $_POST['pago-efectivo'],
+                                                  "monto_actual" => $valor_saldo_entrada + $_POST['pago-efectivo'],
                                                   "operacion" => "Cobro de Remesa",
                                                   "c_transfer_vene_id" => null,
                                                   "pago_remesa_id" =>  $_POST['id_remesa'],
@@ -360,6 +367,7 @@ static public function ctrIngresarPago(){
                             //movimeintos
                             'id_cuenta'=>  null,
                             "monto" => $_POST['monto-transferencia'],
+                            "monto_actual" => $valor_saldo_salida_inter - $_POST['monto-transferencia'],
                             "operacion" => "Pago de Remesa",
                             "c_transfer_vene_id" => null,
                             "pago_remesa_id" =>  $_POST['id_remesa'],
@@ -380,6 +388,7 @@ static public function ctrIngresarPago(){
                                 //movimeintos
                                 'id_cuenta'=>  $cuentaVeneEntrada,
                                 "monto" => $_POST['pago-efectivo'],
+                                "monto_actual" => $valor_saldo_entrada + $_POST['pago-efectivo'],
                                 "operacion" => "Cobro de Remesa",
                                 "c_transfer_vene_id" => null,
                                 "pago_remesa_id" =>  $_POST['id_remesa'],
@@ -397,6 +406,7 @@ static public function ctrIngresarPago(){
                                 //movimeintos
                                 'id_cuenta'=>  null,
                                 "monto" => $_POST['pago-efectivo'],
+                                "monto_actual" =>  $valor_saldo_entrada + $_POST['pago-efectivo'],
                                 "operacion" => "Cobro de Remesa",
                                 "c_transfer_vene_id" => null,
                                 "pago_remesa_id" =>  $_POST['id_remesa'],
