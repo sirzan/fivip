@@ -43,7 +43,7 @@ $(document).ready(function(){
 
 $('.verMovimientos').on('click',function() {
 
-
+  $('#movimientos').DataTable().destroy()
   console.log('click')
   const iDmovi = $(this).attr('idCuenta');
 
@@ -69,7 +69,9 @@ $('.verMovimientos').on('click',function() {
     "order": [[ 1, "desc" ]],
     "dom": 'Bfrtip',
     "buttons": [
-        'copy', 'excel', 'pdf', 'print'
+      { extend: 'pdf', className: 'btn-danger' },
+      { extend: 'excel', className: 'btn-success' },
+      { extend: 'print', className: 'btn-primary'}
     ],
     "ajax": {
       "url": "api/movimiento-vene.api.php",
@@ -78,12 +80,21 @@ $('.verMovimientos').on('click',function() {
       "dataSrc": "data"
   },
   "columns":[
-    {"data":"id"},
-    {"data":"created_at"},
-    {"data":"operacion"},
-    {"data": "signo"},
-    {"data":"monto"},
-    {"data":"monto_actual"}
+    {data:"created_at"},
+    {data:"operacion"},
+    {data: "signo", render: function(data, type) {
+   
+      if (data == '-') {
+          let color = 'red';
+
+          return '<span style="color:' + color + '">' + 'DEBITO' + '</span>';
+      }
+
+      return '<span style="color:green">' + 'CREDITO' + '</span>';
+
+  }},
+    {data:"monto"},
+    {data:"monto_actual"}
   ],
   "deferRender": true,
   "retrieve": true,

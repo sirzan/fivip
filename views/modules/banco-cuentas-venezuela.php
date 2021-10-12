@@ -294,7 +294,6 @@
             <table id="movimientos" class="table table-bordered table-striped"  style="width:100%">
                   <thead>
                   <tr>
-                    <th style="width:10px">#</th>
                     <th>Fecha</th>
                     <th>Operación</th>
                     <th>Débito / Crédito</th>
@@ -306,10 +305,7 @@
                
                 </table>
             </div>
-            <div class="modal-footer justify-content-end">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-           
-            </div>
+      
           </div>
           <!-- /.modal-content -->
         </div>
