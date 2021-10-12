@@ -60,6 +60,15 @@ session_start();
 <script src="views/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script src="views/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 <script src="views/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+
+
+
+
 <!-- <script src="views/plugins/sweetalert2/sweetalert2.all.js"></script> -->
 <script src="views/js/sweetalert2.all.js"></script>
 

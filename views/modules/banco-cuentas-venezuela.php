@@ -48,7 +48,7 @@
                               <b>Saldo</b> <a class="float-right">'.$value['simbolo'].' '.number_format($value['saldo'],2,',','.').'</a>
                             </li>
                           </ul>
-                          <a href="#" class="btn btn-outline-primary btn-block"><b>	<i class="fas fa-eye"></i> Movimientos</b></a>
+                          <button type="submit" class="btn btn-outline-primary btn-block verMovimientos" idCuenta="'.$value['id_cuenta'].'" data-toggle="modal" data-target="#modal-xl"><b>	<i class="fas fa-eye"></i> Movimientos</b></button>
                           <button type="submit" class="btn btn-success btn-block recargarCuenta" idCuenta="'.$value['id_cuenta'].'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-up"></i> Recargar Saldo</b></button>
                           <button type="submit" class="btn btn-secondary btn-block descargarCuenta" idCuenta="'.$value['id_cuenta'].'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-down"></i> Descargar Saldo</b></button>
                           <button type="submit" class="btn btn-warning btn-block TransferirSaldo" data-toggle="modal" data-target="#modal-transferencia" idCuenta="'.$value['id_cuenta'].'"><b><i class="fas fa-exchange-alt"></i> Transferir saldo</b></button>
@@ -274,3 +274,45 @@
  $borrarCuenta = new SaldoCuentaVeneController();
  $borrarCuenta->ctrBorrarCuenta();
  ?>
+
+
+
+
+
+      <!-- /.modal -->
+
+      <div class="modal fade" id="modal-xl">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Movimientos Bancarios</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <table id="movimientos" class="table table-bordered table-striped"  style="width:100%">
+                  <thead>
+                  <tr>
+                    <th style="width:10px">#</th>
+                    <th>Fecha</th>
+                    <th>Operación</th>
+                    <th>Débito / Crédito</th>
+                    <th>Monto</th>
+                    <th>Saldo</th>
+             
+                  </tr>
+                  </thead>
+               
+                </table>
+            </div>
+            <div class="modal-footer justify-content-end">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+           
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
