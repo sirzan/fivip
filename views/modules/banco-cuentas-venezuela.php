@@ -291,7 +291,7 @@
               </button>
             </div>
             <div class="modal-body">
-            <table id="movimientos" class="table table-bordered table-striped"  style="width:100%">
+            <table id="movimientos" class="table table-bordered table-striped display responsive">
                   <thead>
                   <tr>
                     <th>Fecha</th>

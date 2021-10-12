@@ -22,7 +22,7 @@ $(document).ready(function(){
               <td> ${(respuesta[i]['banco'] == null) ? respuesta[i]['banco_inter'] : respuesta[i]['banco']}</td>
               <td>${(respuesta[i]['n_titular'] == null) ? respuesta[i]['n_titular_inter'] : respuesta[i]['n_titular']} ${(respuesta[i]['a_titular'] == null) ? respuesta[i]['a_titular_inter'] : respuesta[i]['a_titular']}</td>
               <td>${(respuesta[i]['monto']) == null ? respuesta[i]['monto_inter'] : respuesta[i]['monto'] }</td>
-              <td>${(respuesta[i]['monto_actual']) == null ? ((respuesta[i]['signo'] == '+') ? '<span class="text-success">'+respuesta[i]['monto_actual_inter']+'</span>' :'<span class="text-danger"> -'+respuesta[i]['monto_actual_inter']+'</span>') : (respuesta[i]['signo'] == '+') ? '<span class="text-success"> -'+respuesta[i]['monto_actual']+'</span>': '<span class="text-danger"> -'+respuesta[i]['monto_actual']+'</span>'}</td>
+              <td>${(respuesta[i]['monto_actual']) == null ? ((respuesta[i]['signo'] == '+') ? '<span class="text-success">'+respuesta[i]['monto_actual_inter']+'</span>' :'<span class="text-danger"> -'+respuesta[i]['monto_actual_inter']+'</span>') : (respuesta[i]['signo'] == '+') ? '<span class="text-success">'+respuesta[i]['monto_actual']+'</span>': '<span class="text-danger"> -'+respuesta[i]['monto_actual']+'</span>'}</td>
               <td>${respuesta[i]['operacion']}</td>
               <td>${(respuesta[i]['signo'] == '+') ? '<i class="fas fa-arrow-alt-circle-up text-success"></i>': '<i class="fas fa-arrow-alt-circle-down text-danger"></i>'}</td>
             </tr>
@@ -66,7 +66,11 @@ $('.verMovimientos').on('click',function() {
     }
   })
   $('#movimientos').DataTable( {
-    "order": [[ 1, "desc" ]],
+ 
+    "order": [[ 0, "desc" ]],
+    "responsive": true,
+    "lengthChange": false,
+    "autoWidth": false,
     "dom": 'Bfrtip',
     "buttons": [
       { extend: 'pdf', className: 'btn-danger' },
@@ -80,7 +84,7 @@ $('.verMovimientos').on('click',function() {
       "dataSrc": "data"
   },
   "columns":[
-    {data:"created_at"},
+    {data:"created_at" },
     {data:"operacion"},
     {data: "signo", render: function(data, type) {
    
@@ -119,6 +123,26 @@ $('.verMovimientos').on('click',function() {
       "sNext":     "Siguiente",
       "sPrevious": "Anterior"
       },
+      "buttons": {
+        "copy": "Copiar",
+        "colvis": "Visibilidad",
+        "collection": "Colección",
+        "colvisRestore": "Restaurar visibilidad",
+        "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
+        "copySuccess": {
+            "1": "Copiada 1 fila al portapapeles",
+            "_": "Copiadas %d fila al portapapeles"
+        },
+        "copyTitle": "Copiar al portapapeles",
+        "csv": "CSV",
+        "excel": "Excel",
+        "pageLength": {
+            "-1": "Mostrar todas las filas",
+            "_": "Mostrar %d filas"
+        },
+        "pdf": "PDF",
+        "print": "Imprimir"
+    },
       "oAria": {
         "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
@@ -126,8 +150,8 @@ $('.verMovimientos').on('click',function() {
   
   }
   
-  } );
-
+  });
+ 
 
 
 })

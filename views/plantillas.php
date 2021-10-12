@@ -56,7 +56,6 @@ session_start();
   <!-- DataTables  & Plugins -->
   <script src="views/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="views/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="views/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="views/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script src="views/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 <script src="views/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
@@ -65,6 +64,7 @@ session_start();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+<script src="views/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 
 
 
