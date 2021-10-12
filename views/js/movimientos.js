@@ -59,7 +59,7 @@ $('.verMovimientos').on('click',function() {
     contentType:false,
     processData:false,
     success: function (res) {
-      console.log(res.data[0].id)
+      // console.log(res.data[0].id)
       $('.modal-title').html(`${res.data[0].nombre} - ${res.data[0].n_titular} ${res.data[0].a_titular}`)
 
 
