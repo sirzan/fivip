@@ -7,13 +7,13 @@ $(document).ready(function(){
     $.ajax({
         url: "api/movimientosall.api.php",
         method: "POST",
-      
+        async:true,
         cache: false,
         contentType: false,
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-          if (respuesta != 0) {
+          if (respuesta.legth != 0) {
             
             $.each(respuesta, function(i, item) {
               
@@ -21,10 +21,41 @@ $(document).ready(function(){
               <tr>
               <td> ${(respuesta[i]['banco'] == null) ? respuesta[i]['banco_inter'] : respuesta[i]['banco']}</td>
               <td>${(respuesta[i]['n_titular'] == null) ? respuesta[i]['n_titular_inter'] : respuesta[i]['n_titular']} ${(respuesta[i]['a_titular'] == null) ? respuesta[i]['a_titular_inter'] : respuesta[i]['a_titular']}</td>
-              <td>${(respuesta[i]['monto']) == null ? respuesta[i]['monto_inter'] : respuesta[i]['monto'] }</td>
+              <td>${(respuesta[i]['monto']) == null ? respuesta[i]['monto_inter'] :respuesta[i]['monto']}</td>
               <td>${(respuesta[i]['monto_actual']) == null ? ((respuesta[i]['signo'] == '+') ? '<span class="text-success">'+respuesta[i]['monto_actual_inter']+'</span>' :'<span class="text-danger"> -'+respuesta[i]['monto_actual_inter']+'</span>') : (respuesta[i]['signo'] == '+') ? '<span class="text-success">'+respuesta[i]['monto_actual']+'</span>': '<span class="text-danger"> -'+respuesta[i]['monto_actual']+'</span>'}</td>
               <td>${respuesta[i]['operacion']}</td>
               <td>${(respuesta[i]['signo'] == '+') ? '<i class="fas fa-arrow-alt-circle-up text-success"></i>': '<i class="fas fa-arrow-alt-circle-down text-danger"></i>'}</td>
+            </tr>
+            `);
+              });
+            }else{
+            $("#tbody-movimientos").append('<tr><td colspan="5" class"text-center">Sin movimientos<td><tr>');
+  
+          }
+          
+            }
+  })
+
+    $.ajax({
+        url: "api/movimientosefectivo.api.php",
+        method: "POST",
+        async:true,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function(res) {
+          
+          if (res.legth != 0) {
+            
+            $.each(res, function(i, item) {
+              
+              $("#tbody-efectivo").append(`
+              <tr>
+              <td> ${res[i]['correlativo']}</td>
+              <td>${res[i]['metodo_p']}</td>
+              <td>${res[i]['simbolo_moneda']} ${Math.round10(res[i]['monto'],-3)} (${res[i]['iso_moneda']})</td>
+              <td>${(res[i]['signo'] == '+') ? '<i class="fas fa-arrow-alt-circle-up text-success"></i>': '<i class="fas fa-arrow-alt-circle-down text-danger"></i>'}</td>
             </tr>
             `);
               });
@@ -68,7 +99,7 @@ $('.verMovimientos').on('click',function() {
   $('#movimientos').DataTable( {
  
     "order": [[ 0, "desc" ]],
-    "responsive": true,
+    // "responsive": true,
     "lengthChange": false,
     "autoWidth": false,
     "dom": 'Bfrtip',
@@ -97,8 +128,14 @@ $('.verMovimientos').on('click',function() {
       return '<span style="color:green">' + 'CREDITO' + '</span>';
 
   }},
-    {data:"monto"},
-    {data:"monto_actual"}
+    {data:"monto", render: function(data,type){
+
+          return trunc(data,2)
+    }},
+    {data:"monto_actual", render: function(data,type){
+
+      return trunc(data,2)
+}}
   ],
   "deferRender": true,
   "retrieve": true,

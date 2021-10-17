@@ -332,8 +332,6 @@ var ano = fecha.getFullYear();
 
 
 
-
-
 //calculo del total de la remesa
 
 
@@ -354,8 +352,9 @@ $(document).ready(function(){
                 $("#pagoremesa").parent().after('<div class="alert alert-warning">Debes seleccionar una tasa</div>');
                 $("#pagoremesa").val('')
             }else{
-  
-                $('#totalremesa').val(Number.parseFloat(total));
+            
+                $('#totalremesa').val(trunc(Math.round10(Number.parseFloat(total),-3),2));
+             
             }
         }
     
@@ -463,7 +462,7 @@ $(document).ready(function(){
           $.each(respuesta, function(i, item) {
             
             $(".totalRecibidas").append('<div class="col-sm-12 col-lg-3"><div class="small-box bg-info">'+
-              '<div class="inner"><h3>'+respuesta[i]['simbolo_moneda']+''+respuesta[i]['total']+' ('+respuesta[i]['iso_moneda']+')</h3><p>Total de recibidos de hoy</p>'+
+              '<div class="inner"><h3>'+respuesta[i]['simbolo_moneda']+''+Math.round10(respuesta[i]['total'],-3)+' ('+respuesta[i]['iso_moneda']+')</h3><p>Total de recibidos de hoy</p>'+
               '</div><div class="icon"><i class="fas fa-money-bill-alt"></i></div>'+
               '<a href="admin-remesa" class="small-box-footer">Mas información<i class="fas fa-arrow-circle-right"></i></a></div></div>');
             });
@@ -493,7 +492,7 @@ $(document).ready(function(){
       $.each(respuesta, function(i, item) {
         
         $(".totalEnviadas").append('<div class="col-sm-12 col-lg-3"><div class="small-box bg-info">'+
-          '<div class="inner"><h3>'+respuesta[i]['simbolo_tasa']+''+respuesta[i]['total']+' ('+respuesta[i]['iso_tasa']+')</h3><p>Total de enviados de hoy</p>'+
+          '<div class="inner"><h3>'+respuesta[i]['simbolo_tasa']+''+Math.round10(respuesta[i]['total'],-3)+' ('+respuesta[i]['iso_tasa']+')</h3><p>Total de enviados de hoy</p>'+
           '</div><div class="icon"><i class="fas fa-money-bill-alt"></i></div>'+
           '<a href="admin-remesa" class="small-box-footer">Mas información<i class="fas fa-arrow-circle-right"></i></a></div></div>');
         });

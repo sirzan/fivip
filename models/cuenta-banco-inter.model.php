@@ -33,7 +33,7 @@ class ModeloBancoCuentaInter{
 
 			$stmt -> execute();
 
-			return $stmt -> fetch();
+			return $stmt -> fetch(PDO::FETCH_ASSOC);
            } else {
         $stmt = Conexion::conectar()->prepare("SELECT $tabla.id AS cuenta_inter_id,estado,n_titular_inter,a_titular_inter,saldo_inter,saldo_cuenta_inter.id AS id_saldo,banco_inter_id,nombre,moneda,simbolo,iso FROM saldo_cuenta_inter  
         LEFT JOIN $tabla ON saldo_cuenta_inter.cuenta_inter_id = $tabla.id LEFT JOIN banco_inter ON  $tabla.banco_inter_id = banco_inter.id
@@ -41,7 +41,7 @@ class ModeloBancoCuentaInter{
             
         $stmt -> execute();
 
-        return $stmt -> fetchAll();
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC);
            }
 
         $stmt->close();   

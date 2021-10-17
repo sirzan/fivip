@@ -1,3 +1,74 @@
+
+//trncar decimales
+function trunc (x, posiciones = 0) {
+    var s = x.toString()
+    var l = s.length
+    var decimalLength = s.indexOf('.') + 1
+  
+    if (l - decimalLength <= posiciones){
+      return x
+    }
+    // Parte decimal del número
+    var isNeg  = x < 0
+    var decimal =  x % 1
+    var entera  = isNeg ? Math.ceil(x) : Math.floor(x)
+    // Parte decimal como número entero
+    // Ejemplo: parte decimal = 0.77
+    // decimalFormated = 0.77 * (10^posiciones)
+    // si posiciones es 2 ==> 0.77 * 100
+    // si posiciones es 3 ==> 0.77 * 1000
+    var decimalFormated = Math.floor(
+      Math.abs(decimal) * Math.pow(10, posiciones)
+    )
+    // Sustraemos del número original la parte decimal
+    // y le sumamos la parte decimal que hemos formateado
+    var finalNum = entera + 
+      ((decimalFormated / Math.pow(10, posiciones))*(isNeg ? -1 : 1))
+    
+    return finalNum
+  }
+
+
+//decimales 
+  function decimalAdjust(type, value, exp) {
+    // Si el exp no está definido o es cero...
+    if (typeof exp === 'undefined' || +exp === 0) {
+      return Math[type](value);
+    }
+    value = +value;
+    exp = +exp;
+    // Si el valor no es un número o el exp no es un entero...
+    if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+      return NaN;
+    }
+    // Shift
+    value = value.toString().split('e');
+    value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+    // Shift back
+    value = value.toString().split('e');
+    return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+  }
+
+  // Decimal round
+  if (!Math.round10) {
+    Math.round10 = function(value, exp) {
+      return decimalAdjust('round', value, exp);
+    };
+  }
+  // Decimal floor
+  if (!Math.floor10) {
+    Math.floor10 = function(value, exp) {
+      return decimalAdjust('floor', value, exp);
+    };
+  }
+  // Decimal ceil
+  if (!Math.ceil10) {
+    Math.ceil10 = function(value, exp) {
+      return decimalAdjust('ceil', value, exp);
+    };
+  }
+
+
 //Datemask dd/mm/yyyy
  $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
  //Datemask2 mm/dd/yyyy

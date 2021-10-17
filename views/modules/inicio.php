@@ -112,6 +112,39 @@
           </div>
         </div>
 
+
+      <div class="row">
+          <div class="col-6">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Movimientos de Efectivo</h3>
+              </div>
+              <!-- /.card-header -->
+            
+  
+         
+              <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Correlativo</th>
+                      <th>Metodo</th>
+                      <th>Monto</th>
+                      <th>Operacion</th>
+                     
+                    </tr>
+                  </thead>
+                  <tbody id="tbody-efectivo">
+                    
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+
     </section>
     <!-- /.content -->
   </div>

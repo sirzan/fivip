@@ -39,31 +39,6 @@
             $metodos_pagos = ModeloPagos::mdlMostrarPagosRealizados($item2,$valor2);
          
 
-       
-            $datos = array(
-              "metodo_pago_entrada"=>(isset($metodos_pagos['metodo_pago_entrada'])) ? $metodos_pagos['metodo_pago_entrada']:'',
-
-              "banco_entrada"=>(isset($metodos_pagos['banco_entrada'])) ? $metodos_pagos['banco_entrada']:'',
-              "n_titular_entrada"=>(isset($metodos_pagos['n_titular_entrada'])) ? $metodos_pagos['n_titular_entrada']:'',
-              "a_titular_entrada"=>(isset($metodos_pagos['a_titular_entrada'])) ? $metodos_pagos['a_titular_entrada']:'',
-
-              //Monto entrada
-              "simbolo_entrada"=>(isset($metodos_pagos['simbolo_entrada'])) ? $metodos_pagos['banco_salida']:'',
-              "monto_entrada"=>(isset($metodos_pagos['monto_entrada'])) ? number_format($metodos_pagos['monto_entrada'],2,',','.'):'',
-              "iso_entrada"=>(isset($metodos_pagos['iso_entrada'])) ? $metodos_pagos['iso_entrada']:'',
-              "metodo_pago_salida"=>(isset($metodos_pagos['metodo_pago_salida'])) ? $metodos_pagos['metodo_pago_salida']:'',
-
-              //banco salida
-              "banco_salida"=>(isset($metodos_pagos['banco_salida']))?$metodos_pagos['banco_salida']:'',
-              "n_titular_salida"=>(isset($metodos_pagos['n_titular_salida']))? $metodos_pagos['n_titular_salida'] :'',
-              "a_titular_salida"=>(isset($metodos_pagos['a_titular_salida'])) ? $metodos_pagos['a_titular_salida']:'',
-
-              //monto salida
-              "simbolo_salida"=>(isset($metodos_pagos['simbolo_salida']))?$metodos_pagos['simbolo_salida']:'',
-              "monto_salida"=>(isset($metodos_pagos['monto_salida']))?number_format($metodos_pagos['monto_salida'],2,',','.'):'',
-              "iso_salida"=>(isset($metodos_pagos['iso_salida']))?$metodos_pagos['iso_salida']:''
-            );
-
 
 
 
@@ -77,8 +52,23 @@
             <div class="col-12">
               <h4>
                 <img src="views/img/logo-ticket.png" width="250" alt="">';
-            }else{
+            }else if($remesas['estado'] == -1){
+              echo ' <div class="ribbon-wrapper ribbon-xl"><div class="ribbon bg-warning text-xl">
+                     Crédito
+                    </div>
+                  </div>
+          <!-- title row -->
+          <div class="row">
+            <div class="col-12">
+              <h4>
+                <img src="views/img/logo-ticket.png" width="250" alt="">';
+            }
+            else{
                 echo '
+                <div class="ribbon-wrapper ribbon-xl"><div class="ribbon bg-success text-xl">
+                     Pagado
+                    </div>
+                  </div>
           <!-- title row -->
           <div class="row">
             <div class="col-12">
@@ -87,7 +77,7 @@
             }
 
             // var_dump( $remesas);
-                  echo  '<small class="float-right">Fecha: '.$remesas['fecha'].'</small>
+                  echo  '<small class="float-left"></small>
                   </h4>
                 </div>
                 <!-- /.col -->
@@ -106,6 +96,7 @@
                 </div>
     
                 <div class="col-sm-6 invoice-col">
+                  <b>Fecha: '.$remesas['fecha'].'</b><br>
                   <b>Correlativo: '.$remesas['correlativo'].'</b><br>
                   <br>
                   <b>Cliente:</b> '.$remesas["CONCAT(nombres,' ',apellidos)"].'<br>
@@ -127,7 +118,7 @@
                   </p>
                 </div>
                 <!-- /.col -->
-                <div class="col-md-12">
+                <div class="col-md-8">
                 <div class="row">
                 <div class="col-md-12 table-responsive">
                   <table class="table table-striped">
@@ -135,24 +126,32 @@
                     <tr>
                       <th>Metodo de Cobro</th>
                       <th>Monto Cobro</th>
-                      <th>Metodo de Pago</th>
-                      <th>Monto Pago</th>
+                      <th>Acción</th>
+                      <th>Fecha</th>
+                 
+       
                      
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td>'.$datos['metodo_pago_entrada'].' 
-                      <a type="button"  data-toggle="modal" data-target="#entrada">
+                    ';
+                    
+                    
+                    foreach ($metodos_pagos as $key => $value) {
+                      echo '<tr>
+
+                      <td>
+                      '.$value['metodo_p'].'
+                      <a type="button"  data-toggle="modal" data-target="#entrada'.$value['id'].'">
                          	<i class="fas fa-eye text-primary"></i>
                       </a>
                                             <!-- Modal -->
-                      <div class="modal fade" id="entrada" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal fade" id="entrada'.$value['id'].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             
                             <div class="modal-body">
-                            Banco: '.$datos['banco_entrada'].' | Titular: '.$datos['n_titular_entrada'].' '.$datos['a_titular_entrada'].'
+                            Banco: '.$value['nombre'].' | Titular:  '.$value['n_titular'].' '.$value['a_titular'].'
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -162,43 +161,43 @@
                       </div>
                       
                       </td>
-                      <td>'.$datos['simbolo_entrada'].''.$datos['monto_entrada'].' ('.$datos['iso_entrada'].')</td>
-                      <td>'.$datos['metodo_pago_salida'].'
-                      
-                      <a type="button"  data-toggle="modal" data-target="#salida">
-                      <i class="fas fa-eye text-primary"></i>
-                 </a>
-                                       <!-- Modal -->
-                 <div class="modal fade" id="salida" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                   <div class="modal-dialog modal-dialog-centered" role="document">
-                     <div class="modal-content">
-                       
-                       <div class="modal-body">
-                       Banco: '.$datos['banco_salida'].' | Titular: '.$datos['n_titular_salida'].' '.$datos['a_titular_salida'].'
-                       </div>
-                       <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-
-                      </td>
-                      <td>'.$datos['simbolo_salida'].''.$datos['monto_salida'].' ('.$datos['iso_salida'].')</td>
+                        
+                      <td>
+                        '.$value['simbolo'].''.number_format(bcdiv($value['monto'],'1',2),2,',','.').' ('.$value['iso'].')
+                    </td>';
+                    if ($value['signo']=='+') {
+                    
+                      echo
+                     '<td>
+                     <span class="text-success">CREDITO</span>
+                   </td>';
+                    }else {
+                      echo
+                      '<td>
+                      <span class="text-danger">DEBITO</span>
+                    </td>';
+                    }
+                  echo '    <td>
+                        '.$value['created_at'].'
+                    </td>
+              
                      
-                    </tr>
+                    </tr>';
+                    }
                    
-                    </tbody>
+
+
+                   echo '</tbody>
                   </table>
                 </div>
                 <!-- /.col -->
               </div>
 
-                  <div class="col-md-6 table-responsive">
+                  <div class="col-md-8 table-responsive">
                     <table class="table">
                       <tbody><tr>
                         <th style="width:50%">Tasa: </th>
-                        <td>'.$remesas["simbolo_tasa"].''.number_format($remesas["tasa"],2,',','.').' ('.$remesas["iso_tasa"].')</td>
+                        <td>'.$remesas["simbolo_tasa"].''.number_format($remesas["tasa"],4,',','.').' ('.$remesas["iso_tasa"].')</td>
                       </tr>
                       <tr>
                         <th>Monto</th>

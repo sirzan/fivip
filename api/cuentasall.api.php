@@ -14,7 +14,7 @@ left join  cuenta_banco_inter ON saldo_cuenta_inter.cuenta_inter_id = cuenta_ban
 LEFT JOIN banco_inter ON cuenta_banco_inter.banco_inter_id = banco_inter.id
 LEFT JOIN monedas ON saldo_cuenta_inter.moneda_inter_id = monedas.id");
 $stmt->execute();
-$monedas = $stmt->fetchAll();
+$monedas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 echo json_encode($monedas);

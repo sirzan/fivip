@@ -38,6 +38,10 @@ session_start();
   <link rel="stylesheet" href="views/plugins/daterangepicker/daterangepicker.css">
  
     <link rel="stylesheet" href="views/plugins/morris/morris.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="views/plugins/toastr/toastr.min.css">
+
+
         <!-- ============================
              ARCHIVOS JS
     ============================== -->
@@ -45,6 +49,7 @@ session_start();
   
     <!-- jQuery -->
     <script src="views/plugins/jquery/jquery.min.js"></script>
+    <script src="views/plugins/jquery-number/jquery-number.js"></script>
    
     <!-- Bootstrap 4 -->
     <script src="views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -56,7 +61,6 @@ session_start();
   <!-- DataTables  & Plugins -->
   <script src="views/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="views/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="views/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script src="views/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 <script src="views/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -65,11 +69,14 @@ session_start();
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
 <script src="views/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="views/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
 
+<!-- Toastr -->
+<!-- SweetAlert2 -->
 
+<script src="views/plugins/toastr/toastr.min.js"></script>
 
-<!-- <script src="views/plugins/sweetalert2/sweetalert2.all.js"></script> -->
 <script src="views/js/sweetalert2.all.js"></script>
 
 <!-- InputMask -->
@@ -155,6 +162,8 @@ session_start();
 <script src="views/js/plantilla.js"></script>
 <script src="views/js/remesas.js"></script>
 <script src="views/js/pagos.js"></script>
+<script src="views/js/credito.js"></script>
+<!-- <script src="views/js/pago-prueba.js"></script> -->
 <script src="views/js/recargas.js"></script>
 <script src="views/js/cuentas-banco.js"></script>
 <script src="views/js/movimientos.js"></script>

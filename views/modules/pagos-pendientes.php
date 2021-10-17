@@ -26,12 +26,13 @@
          <h3>Pagos pendientes</h3>
         </div>
         <div class="card-body">
-        <table id="user" class="table table-bordered table-striped tablas">
+        <table id="pagosR" class="table table-bordered table-striped tablas">
                   <thead>
                   <tr>
                     <th style="width:10px">#</th>
                     <th>Correlativo</th>
-                    <th>Saldo pendiente</th>
+                    <th>Cobro</th>
+                    <th>Pago</th>
                     <th>Cliente</th>
                     <th>Teléfono</th>
           
@@ -48,14 +49,16 @@
                      echo '<tr>
                      <td>'.$value['id'].'</td>
                      <td>'.$value['correlativo'].'</td>
-                     <td>'.$value['simbolo_moneda'].''.$value['total_envio'].' ('.$value['iso_moneda'].')</td>
+                     <td>'.$value['simbolo_moneda'].''.number_format(bcdiv($value['total_envio'],'1',2),2,',','.').' ('.$value['iso_moneda'].')</td>
+                     <td>'.$value['simbolo_moneda'].''.number_format(bcdiv($value['total_remesa'],'1',2),2,',','.').' ('.$value['iso_moneda'].')</td>
                      <td>'.$value['cliente'].'</td>
                      <td>'.$value['telefono'].'</td>
 
                      <td> 
                    
 
-                       <button type="submit" data-toggle="modal" data-target="#modal-pagar" class="btn btn-success btn-sm btnPagar" idPagos="'.$value['id'].'"><i class="fas fa-money-bill-alt"></i> Pagar</button>
+                       <button type="submit" data-toggle="modal" data-target="#modal-pagarP" class="btn btn-success btn-sm btnPagarP" idPagosP="'.$value['id'].'"><i class="fas fa-money-bill-alt"></i> Pagar</button>
+        
                        <button type="submit" class="btn btn-primary btn-sm btnverPago" idPagos="'.$value['id'].'"><i class="fas fa-eye"></i></button>
                      </td>
                    </tr>';
@@ -75,137 +78,116 @@
   </div>
   <!-- /.content-wrapper -->
 
- <!--MODAL AGREGAR USUARIOS -->
-  <div class="modal fade" id="modal-pagar">
-        <div class="modal-dialog modal-lg">
+
+<!-- ----------------------------------- -->
+<!-- METODO DE PAGOS MULTIPLE (PRUEBA)  -->
+<!-- ----------------------------------- -->
+
+<div class="modal fade" id="modal-pagarP">
+        <div class="modal-dialog modal-xl">
           <div class="modal-content">
-              <form role="form" method="post" class="formularioRemesa">
-                <div class="modal-header" style="background:#ffc107">
-                  <h4 class="modal-title">Pagar Saldo pendiente</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row" id="datos-receptor">
-                      <div class="col-md-6 p-3">
+            <form action="" id="form-pago">
+
+          
+            <div class="modal-header card-warning card-outline">
+              <h4 class="modal-title">Pagos Pendientes</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                     <div class="col-md-4">
                         <div class="card-body">
-                          <div>
-        
-                            <strong>N° Remesa <span id="numero-remesa"></span></strong><br>
-                            <strong><i class="fas fa-user"></i> Cliente  <span id="numero-remesa"></span></strong>
-                        
-                                <div id="cliente"></div>
-                            <hr>
+                            <strong>N° Remesa: <span id="correlativo"></span></strong><br>
+                            <strong><i class="fas fa-user"></i> Cliente </strong>
+                                <div id="clienteP"></div>
                           </div>
-                          </div>
-                      </div>
-                      <div class="col-md-6 p-3">
-                        <div class="card-body">
-                          <div>
-        
-                            <strong> Titular: <span class="datos" id="titular-receptor"></span></strong><br>  
-                            <strong>Doc.: <span class="datos" id="titular-documento"></span> - <span class="datos" id="numero-documento"></span></strong><br>  
-                            <strong>Banco: <span class="datos" id="banco-receptor"></span></strong><br>
-                            <strong>Cuenta <span class="datos" id="cuenta-receptor"></span></strong>
-                            <hr>
-                          </div>
-                          </div>
-                      </div>
                     </div>
-
-
-              <!--=====================================
-                ENTRADA MÉTODO DE PAGO
-                ======================================-->
-            <div class="row">
-              <!-- cuentas de Deposito -->
-                <div class="col-md-6 p-2" style="border-right: 2px solid #ffc107;">
-
-                <div class="card card-primary">
-                  <div class="card-body">
-                    <strong><i class="fas fa-money-bill-alt"></i> Saldo a Recibir</strong>
-                        <div id="saldo"></div>
-                    <hr>
-                  </div>
-                </div>
-                        <div class="mb-3">
-                          <a class="btn btn-success mr-1" id="m-efectivo">Efectivo</a>
-                          <a class="btn btn-primary mr-1" id="m-dt">Deposito o Transferencia</a>
-                          <a class="btn btn-secondary" id="m-cred">Crédito</a>
+                    <div class="col-md-4">
+                      <div class="card-body receptor">
+                     
                         </div>
-                        <div class="off">
+                     </div>
+                    <div class="col-md-4">
+                      <div class="card-body saldoTransferencia">
+                      <strong><i class="fas fa-money-bill-alt"></i> Saldo a Transferir</strong>
+                                    <div id="transferir"></div>
+                        </div>
+                     </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12 p-3 card order-md-2">
+                    <div class="mb-3">
+                          <a class="btn btn-success mr-1" id="m-efectivoP">Efectivo <i class="fas fa-plus-square"></i></a>
+                          <a class="btn btn-primary mr-1" id="m-dtP">Deposito o Transferencia <i class="fas fa-plus-square"></i></a>
+                          <a class="btn btn-secondary" id="m-credP">Crédito</a>
+                        </div>
+
+                        <!-- METODO DE DEPOSITO -->
+                        <div class="off-deposito-pago">
+                          <div class="contenedor-texto">
+                            <h5><i class="fas fa-arrow-alt-circle-down text-success"></i> Cuenta Depósito</h5>
+                          </div>
+
+                     
                        
                         </div>
-                </div>
-                  <!-- cuentas de tranferencia -->
-                    <div class="col-md-6 p-2">
-                          <div class="card card-primary">
-                        <div class="card-body">
-                          <strong><i class="fas fa-money-bill-alt"></i> Saldo a Transferir</strong>
-                              <div id="transferir"></div>
-                          <hr>
-                        </div>
-                      </div>
-
-                      <h4><i class="fas fa-arrow-alt-circle-up text-danger"></i> Cuenta Transferencia</h4>
-             
-                      <div class="form-group">
-                        <div class="input-form">
-                            <label for="exampleInputEmail1">Bancos de Internacionales</label>
-                            <select class="form-control bancoselect" id="seleccionarBancoTransfer" name="seleccionarBancoTransfer" required>
-                                      <option value="" selected>-- Seleccionar un banco --</option>
-                            </select>
-                        </div>
+                         <!-- METODO DE DEPOSITO END-->
                     </div>
+                    <div class="col-md-12 p-3 card order-md-1">
+                         
+                              <h5><i class="fas fa-arrow-alt-circle-up text-danger"></i> Cuenta Transferencia</h5>
 
-                        <div class="form-group row">
-                          <div class="input-form col-md-6">
-                            <label for="exampleInputEmail1">Metodo de Pago</label>
-                            <select class="form-control bancoselect" id="metodoPagoTransfer" name="metodoPagoTransfer" required>
-                              <option value="" selected>-- Seleccionar un Metodo --</option>
-                            </select>
-                          </div>
-                          <div class="form-group col-md-6">
-                            <label for="exampleInputEmail1">N° de Trans.</label>
-                            <div class="input-group ">
-                              <input type="number" id="n_operacion_salida"  name="n_operacion_salida" class="form-control" >
+                          <div class="form-group row">
+                            <div class="input-form col-md-4">
+                                <label for="exampleInputEmail1">Bancos de transferencia</label>
+                                <select class="form-control bancoselect" id="BancoTransfer" name="BancoTransfer" required>
+                                       
+                                </select>
                             </div>
-                          </div>
+                            <div class="input-form col-md-4">
+                                <label for="exampleInputEmail1">Metodo de Pago</label>
+                                <select class="form-control" id="metodoPagosalida" name="metodoPagosalida" required>
+                                  <option value="" selected>-- Seleccionar un Metodo --</option>
+                                </select>
+                              </div>
+                  
+                              <div class="form-group col-md-2 float-right">
+                                <label for="exampleInputEmail1">N° de Trans.</label>
+                                <div class="input-group ">
+                                  <input type="number" id="nOpeSalida"  name="nOpeSalida" class="form-control" >
+                                </div>
+                              </div>
+                              <div class="form-group col-md-2 float-right">
+                                <label for="exampleInputEmail1">Monto a Transferir</label>
+                                <div class="input-group ">     <div class="input-group-prepend">
+                                      <span class="input-group-text tipo-moneda"></span>
+                                    </div>
+                                <input type="number" id="monto-salida" step="any" name="monto-salida" class="form-control" readonly>
+                                <input type="hidden" id="monto-cobro" step="any">
+                                <input type="hidden" id="remesa_id" >
+                                <input type="hidden" id="tipoBancoSalida" >
+                                <input type="hidden" id="tipoBancoEntrada" >
+                                </div>
+                              </div>
+                        </div>
 
-                          <div class="form-group col-md-6">
-                            <label for="exampleInputEmail1">Monto a Transferir</label>
-                            <div class="input-group ">
-                              <input type="number" id="monto-transferencia" step="any" name="monto-transferencia" class="form-control" >
-                              <!-- id de la remesa -->
-                              <input type="hidden" id="id_remesa" name="id_remesa" class="form-control" >
-                              <input type="hidden" id="tipo_cuenta_salida" name="tipo_cuenta_salida" class="form-control" >
-                            </div>
-                          </div>
-                      </div>
-
-                  </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="submit" class="btn btn-primary btn-lg">Pagar Remesa</button>
             </div>
 
-
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="submit" class="btn btn-primary btn-lg">Pagar Saldo</button>
-                </div>
-                <?php
-
-                  $pagaRemesa = new PagosController();
-                  $pagaRemesa -> ctrIngresarPago();
-
-                ?>
-  
             </form>
-              </div>
-
-        
+          </div>
           <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
       </div>
- <!--MODAL AGREGAR USUARIOS END-->
-
+      <!-- /.modal -->
+<!-- ----------------------------------- -->
+<!-- METODO DE PAGOS MULTIPLE (PRUEBA)  -->
+<!-- ----------------------------------- -->

@@ -13,19 +13,53 @@ class ModeloPagos{
 
 			$stmt -> execute();
 
-			return $stmt -> fetch();
+			return $stmt -> fetch(PDO::FETCH_ASSOC);
            } else {
         $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla LEFT JOIN clientes ON $tabla.cliente_id = clientes.id LEFT JOIN usuarios ON $tabla.vendedor_id = usuarios.id WHERE $tabla.estado = 0");
             
         $stmt -> execute();
 
-        return $stmt -> fetchAll();
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC);
            }
 
         $stmt->close();   
 
         $stmt = null;
     }
+
+
+
+
+    //pagar creditos
+
+    static public function mdlMostrarCreditos($tabla, $item, $valor){
+        if ($item != null) {
+            $stmt = Conexion::conectar()->prepare("	SELECT $tabla.id,simbolo_moneda,sum(monto) AS abonado,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos,telefono FROM $tabla 
+            LEFT JOIN remesas ON $tabla.remesas_id= remesas.id
+            LEFT JOIN clientes ON remesas.cliente_id = clientes.id
+             WHERE estado=-1 and signo = '+' and remesas_id= :$item GROUP BY remesas_id ");
+            
+            $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetch(PDO::FETCH_ASSOC);
+           } else {
+        $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,simbolo_moneda,sum(monto) AS abonado,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos,telefono FROM $tabla 
+        LEFT JOIN remesas ON $tabla.remesas_id= remesas.id
+        LEFT JOIN clientes ON remesas.cliente_id = clientes.id
+         WHERE estado=-1 and signo = '+' GROUP BY remesas_id");
+            
+        $stmt -> execute();
+
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+           }
+
+        $stmt->close();   
+
+        $stmt = null;
+    }
+
 
 
 
@@ -91,13 +125,13 @@ static public function mdlEditarRemesaEstado($tabla2, $datos2){
 
 static public function mdlMostrarPagosProcesados($tabla, $item, $valor){
     if ($item != null) {
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_remesas WHERE $item= :$item");
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos WHERE $item= :$item");
         
         $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
         $stmt -> execute();
 
-        return $stmt -> fetch();
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC);
        } else {
     $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla 
     LEFT JOIN clientes ON $tabla.cliente_id = clientes.id 
@@ -118,55 +152,26 @@ static public function mdlMostrarPagosProcesados($tabla, $item, $valor){
 
 static public function mdlMostrarPagosRealizados($item, $valor){
 
-        $stmt = Conexion::conectar()->prepare("SELECT T1.remesas_id,
-        T1.metodo_pago_entrada,
-        if(T2.nombre is null,T3.nombre,T2.nombre) as banco_entrada,
-        if(T2.n_titular is null,T3.n_titular_inter,T2.n_titular) as n_titular_entrada,
-        if(T2.a_titular is null,T3.a_titular_inter,T2.a_titular) as a_titular_entrada,
-        if(T2.simbolo is null,T3.simbolo,T2.simbolo) as simbolo_entrada,
-        T1.monto_entrada,
-        if(T2.iso is null,T3.iso,T2.iso) as iso_entrada,
-        T1.metodo_pago_salida,
-        if(T4.nombre is null,T5.nombre,T4.nombre) as banco_salida,
-        if(T4.n_titular is NULL,T5.n_titular_inter,T4.n_titular) as n_titular_salida,
-        if(T4.a_titular is null,T5.a_titular_inter,T4.a_titular) as a_titular_salida,
-        if(T4.simbolo is NULL,T5.simbolo,T4.simbolo) as simbolo_salida,
-        T1.monto_salida,
-        if(T4.iso is NULL,T5.iso,T4.iso) as iso_salida  FROM (SELECT * FROM pagos_remesas)T1 
+        $stmt = Conexion::conectar()->prepare("SELECT T1.id,T1.remesas_id,
+        if(T1.signo = '+',T4.simbolo_moneda,T4.simbolo_tasa) AS simbolo,
+        T1.monto,
+        if(T1.signo = '+',T4.iso_moneda,T4.iso_tasa) AS iso,
+        T1.n_ope,T1.metodo_p,T1.signo,T1.created_at,
+        if(T2.n_titular_inter Is NULL,T3.n_titular,T2.n_titular_inter) AS n_titular,
+        if(T2.a_titular_inter Is NULL,T3.a_titular,T2.a_titular_inter) AS a_titular ,
+        if(T2.nombre IS NULL , T3.nombre,T2.nombre) AS nombre
         
-        
-        LEFT JOIN (SELECT cuenta_banco_vene.id,n_titular,a_titular,moneda,simbolo,iso,nombre FROM saldo_cuenta_vene 
-        LEFT JOIN cuenta_banco_vene ON saldo_cuenta_vene.cuenta_id = cuenta_banco_vene.id
-        LEFT JOIN monedas ON saldo_cuenta_vene.moneda_id = monedas.id
-        LEFT JOIN banco_vene ON cuenta_banco_vene.banco_id =banco_vene.id)T2
-        ON T1.cuenta_entrada_id = T2.id 
-        
-        
-        LEFT JOIN (SELECT cuenta_banco_inter.id,n_titular_inter,a_titular_inter,moneda,simbolo,iso,nombre FROM saldo_cuenta_inter 
-        LEFT JOIN cuenta_banco_inter ON saldo_cuenta_inter.cuenta_inter_id = cuenta_banco_inter.id
-        LEFT JOIN monedas ON saldo_cuenta_inter.moneda_inter_id = monedas.id
-        LEFT JOIN banco_inter ON cuenta_banco_inter.banco_inter_id =banco_inter.id)T3 
-        ON T1.cuenta_entrada_inter_id = T3.id 
-        
-        
-        LEFT JOIN (SELECT cuenta_banco_vene.id,n_titular,a_titular,moneda,simbolo,iso,nombre FROM saldo_cuenta_vene 
-        LEFT JOIN cuenta_banco_vene ON saldo_cuenta_vene.cuenta_id = cuenta_banco_vene.id
-        LEFT JOIN monedas ON saldo_cuenta_vene.moneda_id = monedas.id
-        LEFT JOIN banco_vene ON cuenta_banco_vene.banco_id =banco_vene.id)T4
-        ON T1.cuenta_salida_id = T4.id 
-        
-        
-        LEFT JOIN (SELECT cuenta_banco_inter.id,n_titular_inter,a_titular_inter,moneda,simbolo,iso,nombre FROM saldo_cuenta_inter 
-        LEFT JOIN cuenta_banco_inter ON saldo_cuenta_inter.cuenta_inter_id = cuenta_banco_inter.id
-        LEFT JOIN monedas ON saldo_cuenta_inter.moneda_inter_id = monedas.id
-        LEFT JOIN banco_inter ON cuenta_banco_inter.banco_inter_id =banco_inter.id)T5
-        ON T1.cuenta_salida_inter_id = T5.id  WHERE T1.$item= :$item");
+        FROM (SELECT * from pagos)T1
+        LEFT JOIN (SELECT * FROM remesas)T4 ON T1.remesas_id = T4.id
+        LEFT JOIN (SELECT cuenta_banco_inter.id,n_titular_inter,a_titular_inter,nombre from cuenta_banco_inter LEFT JOIN banco_inter ON cuenta_banco_inter.banco_inter_id = banco_inter.id)T2 ON T1.cuenta_inter_id = T2.id
+        LEFT JOIN (SELECT cuenta_banco_vene.id,n_titular,a_titular,nombre FROM cuenta_banco_vene LEFT JOIN banco_vene ON cuenta_banco_vene.banco_id = banco_vene.id)T3 ON T1.cuenta_vene_id = T3.id
+        WHERE  T1.remesas_id= :$item");
         
         $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
         $stmt -> execute();
 
-        return $stmt -> fetch();
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
              $stmt->close();   
 

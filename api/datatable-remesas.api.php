@@ -40,13 +40,13 @@ class TablaRemesas{
 					  }else{
 						  $botones =  "<div class='btn-group'><button class='btn btn-primary btnVer' idRemesa='".$remesas[$i]["id"]."'><i class='fas fa-eye'></i></button><div class='btn-group'><button class='btn btn-success btnImprimirFactura' idRemesa='".$remesas[$i]["id"]."'><i class='fas fa-file-pdf'></i></button></div>"; 
 					  }
-				  
-	  
-						if($remesas[$i]["estado"] == 1){
-							$estado = "<span class='badge badge-success'>Procesado</span>";
-						}else{
-							$estado = "<span class='badge badge-secondary'>Sin verificar</span>";
-						}
+					  if($remesas[$i]["estado"] == 1){
+						$estado = "<span class='badge badge-success'>Procesado</span>";
+					}else if($remesas[$i]["estado"] == -1){
+						$estado = "<span class='badge badge-warning'>Crédito</span>";
+					}else {
+						$estado = "<span class='badge badge-secondary'>Sin verificar</span>";
+					}
 		  
 					  
 					   $datosJson .='[
@@ -55,9 +55,9 @@ class TablaRemesas{
 						   "'.$remesas[$i]["CONCAT(nombres,' ',apellidos)"].'",
 						   "'.$remesas[$i]["rol"].'",
 						   "'.$remesas[$i]["pais"].'",
-						   "'.number_format($remesas[$i]["tasa"],2,',','.').' '.$remesas[$i]["simbolo_tasa"].'",
-						   "'.number_format($remesas[$i]["total_envio"],2,',','.').' '.$remesas[$i]["simbolo_moneda"].'",
-						   "'.number_format($remesas[$i]["total_remesa"],2,',','.').' '.$remesas[$i]["simbolo_tasa"].'",
+						   "'.number_format(bcdiv($remesas[$i]["tasa"],'1',4),4,',','.').' '.$remesas[$i]["simbolo_tasa"].'",
+						   "'.number_format(bcdiv($remesas[$i]["total_envio"],'1',2),2,',','.').' '.$remesas[$i]["simbolo_moneda"].'",
+						   "'.number_format(bcdiv($remesas[$i]["total_remesa"],'1',2),2,',','.').' '.$remesas[$i]["simbolo_tasa"].'",
 						   "'.$remesas[$i]["fecha"].'",
 						   "'.$estado.'",
 		 
@@ -83,7 +83,9 @@ class TablaRemesas{
 		  
 							if($remesas[$i]["estado"] == 1){
 								$estado = "<span class='badge badge-success'>Procesado</span>";
-							}else{
+							}else if($remesas[$i]["estado"] == -1){
+								$estado = "<span class='badge badge-warning'>Crédito</span>";
+							}else {
 								$estado = "<span class='badge badge-secondary'>Sin verificar</span>";
 							}
 			  
@@ -94,9 +96,9 @@ class TablaRemesas{
 							   "'.$remesas[$i]["CONCAT(nombres,' ',apellidos)"].'",
 							   "'.$remesas[$i]["rol"].'",
 							   "'.$remesas[$i]["pais"].'",
-							   "'.number_format($remesas[$i]["tasa"],2,',','.').' '.$remesas[$i]["simbolo_tasa"].'",
-							   "'.number_format($remesas[$i]["total_envio"],2,',','.').' '.$remesas[$i]["simbolo_moneda"].'",
-							   "'.number_format($remesas[$i]["total_remesa"],2,',','.').' '.$remesas[$i]["simbolo_tasa"].'",
+							   "'.number_format(bcdiv($remesas[$i]["tasa"],'1',4),4,',','.').' '.$remesas[$i]["simbolo_tasa"].'",
+							   "'.number_format(bcdiv($remesas[$i]["total_envio"],'1',2),2,',','.').' '.$remesas[$i]["simbolo_moneda"].'",
+							   "'.number_format(bcdiv($remesas[$i]["total_remesa"],'1',2),2,',','.').' '.$remesas[$i]["simbolo_tasa"].'",
 							   "'.$remesas[$i]["fecha"].'",
 							   "'.$estado.'",
 			 

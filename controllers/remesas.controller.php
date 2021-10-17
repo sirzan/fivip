@@ -202,7 +202,7 @@ static public function ctrMostrarRemesas($item,$valor){
 static public function ctrBorrarRemesas(){
     if(isset($_GET["idRemesa"])){
         $tabla="remesas";
-        $tabla2="pagos_remesas";
+        $tabla2="pagos";
         $id = $_GET["idRemesa"];  
         $item = "remesas_id";
 
@@ -210,94 +210,102 @@ static public function ctrBorrarRemesas(){
 
         $mostrar_pagos = ModeloPagos::mdlMostrarPagosProcesados( $tabla2,$item, $id);
    
+// var_dump($mostrar_pagos);
+     
+        foreach ($mostrar_pagos as $key => $value) {
 
-        ////////////////////////////////////////////////
-        ///////          Restar saldos      //////////
-        ////////////////////////////////////////////////
 
-        if (isset($mostrar_pagos['cuenta_entrada_id'])) {
+               ////////////////////////////////////////////////
+                ///////          Restar saldos      //////////
+                ////////////////////////////////////////////////
 
-            $tabla_vene = "saldo_cuenta_vene";
-                $item = 'id';
-                $valor = $mostrar_pagos['cuenta_entrada_id'];
+           if ($value['signo'] == '+') {
+                
+                if (isset($value['cuenta_vene_id'])) {
 
-               $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item,$valor);
-                $saldo_nuevo= $cuenta_recargar['saldo'] - $mostrar_pagos['monto_entrada']; 
-               $datos = array(
-                //cargar saldo
-                "id" => $cuenta_recargar['id_saldo'],
-                "saldo" => $saldo_nuevo, 
-                     );
-            $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene, $datos);
+                    $tabla_vene = "saldo_cuenta_vene";
+                        $item = 'id';
+                
+        
+                    $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item, $value['cuenta_vene_id']);
+                    $datos = array(
+                        //cargar saldo
+                        "id" => $cuenta_recargar['id_saldo'],
+                        "saldo" => $cuenta_recargar['saldo'] - $value['monto'], 
+                            );
+                    $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene, $datos);
+        
+                } else if (isset($value['cuenta_inter_id'])) {
+                    $tabla_inter = "saldo_cuenta_inter";
+                        $item = 'id';
+                       
+                    $cuenta_recargar= CuentaBancoInterController::ctrMostrarCuenta($item,$value['cuenta_inter_id']);
+                    $datos = array(
+                        //cargar saldo
+                        "id" => $cuenta_recargar['id_saldo'],
+                        "saldo_inter" =>$cuenta_recargar['saldo_inter'] - $value['monto'], 
+                            );
+        
+                    $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_inter, $datos);
+                        
+                }
+           }
 
-        } else if (isset($mostrar_pagos['cuenta_entrada_inter_id'])) {
-            $tabla_inter = "saldo_cuenta_inter";
-                $item = 'id';
-                $valor = $mostrar_pagos['cuenta_entrada_inter_id'];
+                 ////////////////////////////////////////////////
+                ///////          Restar saldos  end    //////////
+                ////////////////////////////////////////////////
 
-               $cuenta_recargar= CuentaBancoInterController::ctrMostrarCuenta($item,$valor);
-               $saldo_nuevo= $cuenta_recargar['saldo_inter'] - $mostrar_pagos['monto_entrada']; 
-               $datos = array(
-                //cargar saldo
-                "id" => $cuenta_recargar['id_saldo'],
-                "saldo_inter" =>$saldo_nuevo, 
-                     );
-
-            $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_inter, $datos);
-                  
-
+       
         }
 
 
+   
+        foreach ($mostrar_pagos as $key => $value) {
 
-    ////////////////////////////////////////////////
+               ////////////////////////////////////////////////
         ///////          sumar saldos      //////////
         ////////////////////////////////////////////////
+ 
 
-        if (isset($mostrar_pagos['cuenta_salida_id'])) {
-           
-             $tabla_vene = "saldo_cuenta_vene";
-                $item = 'id';
-                $valor = $mostrar_pagos['cuenta_salida_id'];
-
-                $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item,$valor);
-                if ($mostrar_pagos['metodo_pago_salida'] =='transferencia digital' || $mostrar_pagos['metodo_pago_salida'] =='pago movil') {
+            if ($value['signo'] == '-') {
                 
-                    $saldo_nuevo= $cuenta_recargar['saldo'] + $mostrar_pagos['monto_salida'] + ($mostrar_pagos['monto_salida']*0.003); 
-                }else {
-                    $saldo_nuevo= $cuenta_recargar['saldo'] + $mostrar_pagos['monto_salida']; 
-                  
+                if (isset($value['cuenta_vene_id'])) {
+    
+                    $tabla_vene = "saldo_cuenta_vene";
+                        $item = 'id';
+                
+        
+                    $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item, $value['cuenta_vene_id']);
+                     if  ($value['metodo_p'] =='transferencia digital' || $value['metodo_p'] =='pago movil'){
+                        $comi=bcdiv($value['monto']*0.003,'1',2);
+                    }else {
+                        $comi=0;
+                    }
+                    $datos = array(
+                        //cargar saldo
+                        "id" => $cuenta_recargar['id_saldo'],
+                        "saldo" => $cuenta_recargar['saldo'] + $value['monto'] + $comi, 
+                            );
+                    $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene, $datos);
+        
+                } else if (isset($value['cuenta_inter_id'])) {
+                    $tabla_inter = "saldo_cuenta_inter";
+                        $item = 'id';
+                       
+                    $cuenta_recargar= CuentaBancoInterController::ctrMostrarCuenta($item,$value['cuenta_inter_id']);
+                    $datos = array(
+                        //cargar saldo
+                        "id" => $cuenta_recargar['id_saldo'],
+                        "saldo_inter" =>$cuenta_recargar['saldo_inter'] + $value['monto'], 
+                            );
+        
+                    $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_inter, $datos);
+                        
                 }
-
-                $datos = array(
-                //cargar saldo
-                "id" => $cuenta_recargar['id_saldo'],
-                "saldo" => $saldo_nuevo
-                     );
-               
-                     $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene, $datos);
-
-        }else if(isset($mostrar_pagos['cuenta_salida_inter_id'])){
-            
-            $tabla_inter = "saldo_cuenta_inter";
-            $item = 'id';
-            $valor = $mostrar_pagos['cuenta_salida_inter_id'];
-
-            $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item,$valor);
-            $saldo_nuevo= $cuenta_recargar['saldo_inter'] + $mostrar_pagos['monto_salida']; 
-
-            $datos = array(
-            //cargar saldo
-            "id" => $cuenta_recargar['id_saldo'],
-            "saldo_inter" => $saldo_nuevo
-                 );
-                //  var_dump($respuesta);
-             $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_inter, $datos);
+           }
+    
         }
-
-
-
-
+      
 
 
         $respuesta = ModeloRemesas::mdlBorrarRemesas($tabla, $id);

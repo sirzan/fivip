@@ -5,179 +5,158 @@ class CreditosController{
 
     //mostrar monedas en la tabla
   static public function ctrMostrarCreditos($item,$valor){
-      $tabla = 'pagos_remesas';
+      $tabla = 'pagos';
       $respuesta = ModeloCredito::mdlMostrarCreditos($tabla, $item, $valor);
       return $respuesta;
   }
   
-  
-  //mostrar monedas en la tabla
-  
-      static public function ctrIngresarCredito(){
-  
-        if(isset($_POST['remesas_id'])){
+  // ingresar credito
 
-            
-            $tabla = 'pagos_remesas';
+  static public function ctrIngresarAbono($data){
+
+
+            $tablaRemesa = 'remesas';
+            $tabla='pagos';
             $tabla_movi = 'movimientos_bancarios';
+            $datos = json_decode($data['metodo'], true);
+            $valor=[];
 
-            //numero de operacion
-            if(isset($_POST['n-op-entrada'])){
-                $nOpEntrada = $_POST['n-op-entrada'];
-            }else {
-                $nOpEntrada = null;
+        ///////////////////////
+          //ingreso de pago//
+        ///////////////////////
+        foreach ($datos as $dato) {
+                    
+            array_push($valor,array(
+                "cuenta_vene_id" => ($dato['tipoBanco'] == 'inter')?null:$dato['banco'],
+                "cuenta_inter_id"=>($dato['tipoBanco'] == 'inter')?$dato['banco']:null,
+                "monto"=>$dato['monto'],
+                "n_ope"=>$dato['nOperacion'],
+                "metodo_p"=>$dato['metodo'],
+                "remesas_id"=>$dato['id_remesa'],
+                "signo" =>'+'
+            ));
+        }
+ 
+        foreach ($valor as $val) {
+            $respuesta = PagosPModel::mdlIngresarPagos($tabla,$val);
+        }
+    
+        
+        ///////////////////////
+          //ingreso de pago end//
+        ///////////////////////
+          ///////////////////////////////////
+        //sumar de cuanta que deposito  //
+        //////////////////////////////////
+
+        if ($data['tipoBancoEntrada'] == "inter") {
+            $tabla_saldo_inter_entrada = 'saldo_cuenta_inter';
+            $item_inter_entrada ='id';
+            $saldoEntrada=array();
+            $saldoIngreso=[];
+            $movimientoDataEntrada=[];
+            //interar array para consulta saldo
+            $d=count($datos);
+            for ($i=0; $i < $d; $i++) { 
+               array_push($saldoEntrada,CuentaBancoInterController::ctrMostrarCuenta($item_inter_entrada, $datos[$i]['banco']));
+                for ($v=0; $v< count($saldoEntrada); $v++) { 
+                    if (isset($saldoEntrada[$v]['id_saldo'])) {
+                    if ($saldoEntrada[$v]['cuenta_inter_id'] == $datos[$i]['banco']) {
+                        # code...
+                            $saldoIngreso[]= [ "id" => $saldoEntrada[$v]['id_saldo'],
+                            "saldo_inter" =>$saldoEntrada[$v]['saldo_inter']+$datos[$i]['monto']
+                               ] ;
+
+                               $movimientoDataEntrada[]=[
+                                'id_cuenta'=>  null,
+                                "monto" => $datos[$i]['monto'],
+                                "monto_actual" => $saldoEntrada[$v]['saldo_inter']+$datos[$i]['monto'],
+                                "operacion" => "Abono de Remesa a crédito",
+                                "c_transfer_vene_id" => null,
+                                "pago_remesa_id" =>  $datos[$i]['id_remesa'],
+                                "cuenta_banco_inter_id" =>  $saldoEntrada[$v]['cuenta_inter_id'],
+                                "signo" =>  '+'
+                            ] ;
+            
+                     
+                            
+                    
+                        }
+                    }
+                 }
+            }
+            foreach ($saldoIngreso as $value) {
+                $sumarsaldo = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_saldo_inter_entrada,$value ); 
             }
 
 
+            //movimientos//
+            foreach ($movimientoDataEntrada as $value) {
+                $movimientos = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $value);
+            }
 
-            //cuentas de entrada sumar saldo 
-            if (isset($_POST['tipo_cuenta_entrada'])) {
-                if ($_POST['tipo_cuenta_entrada'] == "vene") {
-                $cuentaVeneEntrada = $_POST['seleccionarBancoInter2'];
-                    $cuentaInterEntrada = null;
 
-                    $item3 ='id';
-                    $valor3 =$cuentaVeneEntrada;
+        }else if($data['tipoBancoEntrada'] == "vene") {
+            $tabla_saldo_vene_entrada = 'saldo_cuenta_vene';
+            $item_inter_entrada ='id';
+            $saldoEntrada=array();
+            $saldoIngreso=[];
+            $movimientoDataEntrada=[];
+            //interar array para consulta saldo
+            $d=count($datos);
+            for ($i=0; $i < $d; $i++) { 
+               array_push($saldoEntrada,CuentaBancoVeneController::ctrMostrarCuenta($item_inter_entrada, $datos[$i]['banco']));
+                for ($v=0; $v< count($saldoEntrada); $v++) { 
+                    if (isset($saldoEntrada[$v]['id_saldo'])) {
+                    if ($saldoEntrada[$v]['cuenta_id'] == $datos[$i]['banco']) {
+                        # code...
+                            $saldoIngreso[]= [ "id" => $saldoEntrada[$v]['id_saldo'],
+                                     "saldo" =>$saldoEntrada[$v]['saldo']+$datos[$i]['monto']
+                               ] ;
 
-                    $tabla_vene = 'saldo_cuenta_inter';
-                    $saldo_alctual_entrada = CuentaBancoVeneController::ctrMostrarCuenta($item3, $valor3);
-                    
-                    $valor_saldo_entrada= $saldo_alctual_entrada['saldo'];
-                    $saldo_final_entrada =$valor_saldo_entrada +$_POST['pago-efectivo'];
-                    $id_saldo_actual= $saldo_alctual_entrada['id_saldo'];
-                
-                    $datos3 = array(
-                        "id" => $id_saldo_actual,
-                        "saldo" => $saldo_final_entrada,
-                
-                    );
-
-                
-                    
-                }else {
-                    $cuentaVeneEntrada =null;
-                    $cuentaInterEntrada = $_POST['seleccionarBancoInter2'];
-                    
-                
-                    $item3 ='id';
-                    $valor3 =$cuentaInterEntrada;
-                    
-                    $tabla_inter = 'saldo_cuenta_inter';
-                    $saldo_alctual_entrada = CuentaBancoInterController::ctrMostrarCuenta($item3, $valor3);
-                    $valor_saldo_entrada= $saldo_alctual_entrada['saldo_inter'];
-                    $saldo_final_entrada =$valor_saldo_entrada + $_POST['pago-efectivo'];
-                    $id_saldo_actual= $saldo_alctual_entrada['id_saldo'];
-
-                    $datos3 = array(
-                        "id" => $id_saldo_actual,
-                        "saldo_inter" => $saldo_final_entrada,
-                
-                    );
-                                
-                            }
-                    }else {
-                        $cuentaVeneEntrada =null;
-                        $cuentaInterEntrada = null;
+                               $movimientoDataEntrada[]=[
+                                'id_cuenta'=>  $saldoEntrada[$v]['id_cuenta'],
+                                "monto" => $datos[$i]['monto'],
+                                "monto_actual" => $saldoEntrada[$v]['saldo']+$datos[$i]['monto'],
+                                "operacion" => "Abono de Remesa a crédito",
+                                "c_transfer_vene_id" => null,
+                                "pago_remesa_id" =>  $data['remesa_id'],
+                                "cuenta_banco_inter_id" => null,
+                                "signo" =>  '+'
+                            ] ;
+            
+                        }
                     }
+                 }
+            }
+            foreach ($saldoIngreso as $value) {
+                $sumarsaldo = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_saldo_vene_entrada,$value ); 
+            }
 
-
-
-                $datos = array(
-                    "remesas_id" =>  $_POST['remesas_id'],
-                    "metodo_pago_entrada" =>  $_POST['metodoPagoRemeda2'],
-                    "cuenta_entrada_id" => $cuentaVeneEntrada,
-                    "cuenta_entrada_inter_id" => $cuentaInterEntrada,
-                    "n_operacion_entrada" => $nOpEntrada,
-                    "monto_entrada" => $_POST['pago-efectivo']
-                );
-
-
-
-
-
-                  /////////////////////////////////
-                //proceso de entrada de datos///
-                ////////////////////////////////
-      
-        
-                    
-                    $respuesta = ModeloCredito::mdlPagoCredito($tabla, $datos);
-                          var_dump($respuesta);
-                      // suma del pago
-                      if (isset($_POST['tipo_cuenta_entrada'])) {
-                        
-                          if ($_POST['tipo_cuenta_entrada'] == "vene") {
-  
-                              $sumarsaldo = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene,  $datos3);
-                              //movimiento cobro de remesa venezuela
-                                  $datos_movimientos = array(
-                                  //movimeintos
-                                  'id_cuenta'=>  $cuentaVeneEntrada,
-                                  "monto" => $_POST['pago-efectivo'],
-                                  "operacion" => "Cobro de Remesa",
-                                  "c_transfer_vene_id" => null,
-                                  "pago_remesa_id" =>  $_POST['id_remesa'],
-                                  "cuenta_banco_inter_id" =>  null,
-                                  "signo" =>  '+'
-                              );
-                              //movimiento pago de remesa venezuela end
-  
-                              $movimientos2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $datos_movimientos);
-  
-                          }else {
-  
-                              $sumarsaldo = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_inter, $datos3); 
-  
-                                          //movimiento cobro de remesa internacional
-                                          $datos_movimientos = array(
-                                              //movimeintos
-                                              'id_cuenta'=>  null,
-                                              "monto" => $_POST['pago-efectivo'],
-                                              "operacion" => "Cobro de Remesa",
-                                              "c_transfer_vene_id" => null,
-                                              "pago_remesa_id" =>  $_POST['id_remesa'],
-                                              "cuenta_banco_inter_id" =>  $cuentaInterEntrada,
-                                              "signo" =>  '+'
-                                          );
-                                          //movimiento pago de remesa internacional end
-              
-                                          $movimientos2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $datos_movimientos);
-  
-                          }
-                      }
-
-                    if($respuesta=="ok"){
-                        echo '<script>
     
-                        swal({
-                                type: "success",
-                                title: "¡El pago se registro correctamente!",
-                                showConfirmButton: true,
-                                confirmButtonText: "Cerrar",
-                                closeOnConfirm: false
-                
-                            }).then((result)=>{
-                
-                            if(result.value){
-                
-                                window.location = "pagos-pendientes";
-                
-                            }
-                
-                            });
-                    
-                    </script>';
-                    }
-           
-
+            //movimientos//
+            foreach ($movimientoDataEntrada as $value) {
+                $movimientos = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $value);
+            }
 
         }
 
-
-
-
-
+///////////////////////////////////
+    //sumar de cuanta que deposito end //
+    //////////////////////////////////
+        if ($data['abonocompleto'] == 0) {
+            $estadoRemesa = array(
+                "id" =>  $data['id_remesa'],
+                "estado" => 1
+            );
+            $respuesta2 = PagosPModel::mdlEditarRemesaEstado($tablaRemesa, $estadoRemesa);
         }
+        return $respuesta;
+
+  }
+
+  
+
 
 
 }

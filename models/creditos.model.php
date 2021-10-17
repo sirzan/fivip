@@ -5,33 +5,32 @@ require_once "conexion.php";
 class ModeloCredito{
 
 
-
-
-
-
-
     static public function mdlMostrarCreditos($tabla, $item, $valor){
 
             if ($item != null) {
-                $stmt = Conexion::conectar()->prepare("SELECT $tabla.id AS id,remesas_id,monto_entrada,metodo_pago_entrada,correlativo,nombre_moneda,remesas.pais,iso_moneda, simbolo_moneda,total_envio,nombres,apellidos
-                FROM $tabla LEFT JOIN remesas ON $tabla.remesas_id = remesas.id LEFT JOIN clientes ON remesas.cliente_id = clientes.id WHERE $item = :$item and metodo_pago_entrada = 'credito'");
+                $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,simbolo_moneda,telefono,sum(monto) AS abonado,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos FROM $tabla 
+                LEFT JOIN remesas ON $tabla.remesas_id= remesas.id
+                LEFT JOIN clientes ON remesas.cliente_id = clientes.id
+                 WHERE estado=-1 and signo = '+' GROUP BY remesas_id and $item = :$item");
                 
                 $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
         
                 $stmt -> execute();
         
-                return $stmt -> fetch();
+                return $stmt -> fetch(PDO::FETCH_ASSOC);
                } 
                
                else 
                
                {
-            $stmt = Conexion::conectar()->prepare("SELECT $tabla.id as id, remesas_id,monto_entrada,metodo_pago_entrada,correlativo,nombre_moneda,remesas.pais,iso_moneda, simbolo_moneda,total_envio,nombres,apellidos
-            FROM $tabla LEFT JOIN remesas ON $tabla.remesas_id = remesas.id LEFT JOIN clientes ON remesas.cliente_id = clientes.id WHERE metodo_pago_entrada = 'credito'");
+            $stmt = Conexion::conectar()->prepare("	SELECT $tabla.id,simbolo_moneda,sum(monto) AS abonado,telefono,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos FROM $tabla 
+            LEFT JOIN remesas ON $tabla.remesas_id= remesas.id
+            LEFT JOIN clientes ON remesas.cliente_id = clientes.id
+             WHERE estado=-1 and signo = '+' GROUP BY remesas_id");
                 
             $stmt -> execute();
         
-            return $stmt -> fetchAll();
+            return $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
                }
         

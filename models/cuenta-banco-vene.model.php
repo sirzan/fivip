@@ -33,7 +33,7 @@ class ModeloBancoCuentaVene{
 
 			$stmt -> execute();
 
-			return $stmt -> fetch();
+			return $stmt -> fetch(PDO::FETCH_ASSOC);
            } else {
         $stmt = Conexion::conectar()->prepare("SELECT $tabla.id AS id_cuenta,n_titular,a_titular,saldo,saldo_cuenta_vene.id AS id_saldo,estado,banco_id,nombre,moneda,simbolo,iso FROM saldo_cuenta_vene  
         LEFT JOIN $tabla ON saldo_cuenta_vene.cuenta_id = $tabla.id
@@ -42,7 +42,7 @@ class ModeloBancoCuentaVene{
             
         $stmt -> execute();
 
-        return $stmt -> fetchAll();
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC);
            }
 
         $stmt->close();   

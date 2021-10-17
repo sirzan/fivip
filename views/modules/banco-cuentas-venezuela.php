@@ -45,7 +45,7 @@
           
                           <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                              <b>Saldo</b> <a class="float-right">'.$value['simbolo'].' '.number_format($value['saldo'],2,',','.').'</a>
+                              <b>Saldo</b> <a class="float-right">'.$value['simbolo'].' '.number_format(bcdiv($value['saldo'],'1',2),2,',','.').'</a>
                             </li>
                           </ul>
                           <button type="submit" class="btn btn-outline-primary btn-block verMovimientos" idCuenta="'.$value['id_cuenta'].'" data-toggle="modal" data-target="#modal-xl"><b>	<i class="fas fa-eye"></i> Movimientos</b></button>

@@ -32,8 +32,9 @@
                     <th style="width:10px">#</th>
                     <th>Correlativo</th>
                     <th>Cliente</th>
-                    <th>Saldo pendiente</th>
-                    <th>Condición</th>
+                    <th>Teléfono</th>
+                    <th>Saldo abonado</th>
+                    <th>Saldo Pendiente</th>
                     <th>Acciones</th>
                   </tr>
                   </thead>
@@ -49,12 +50,14 @@
                      <td>'.$value['id'].'</td>
                      <td>'.$value['correlativo'].'</td>
                      <td>'.$value['nombres'].''.$value['apellidos'].'</td>
-                     <td>'.$value['simbolo_moneda'].''.$value['total_envio'].' ('.$value['iso_moneda'].')</td>
-                     <td>'.$value['metodo_pago_entrada'].'</td>
+                     <td>'.$value['telefono'].'</td>
+                     <td style="color:green">'.$value['simbolo_moneda'].''.number_format(bcdiv($value['abonado'],'1',2),2,',','.').' ('.$value['iso_moneda'].')</td>
+                     <td style="color:red">'.$value['simbolo_moneda'].''.number_format(bcdiv($value['total_envio'],'1',2),2,',','.').' ('.$value['iso_moneda'].')</td>
+              
                      <td> 
                    
 
-                       <button type="submit" data-toggle="modal" data-target="#modal-credito" class="btn btn-success btn-sm btnCreditos" idPagos="'.$value['remesas_id'].'"><i class="fas fa-money-bill-alt"></i> Pagar</button>
+                       <button type="submit" data-toggle="modal" data-target="#modal-credito" class="btn btn-success btn-sm btnCreditos" idCreditos="'.$value['remesas_id'].'"><i class="fas fa-money-bill-alt"></i> Pagar</button>
                        <button type="submit" class="btn btn-primary btn-sm btnverPago" idPagos="'.$value['remesas_id'].'"><i class="fas fa-eye"></i></button>
                      </td>
                    </tr>';
@@ -77,71 +80,71 @@
 
  <!--MODAL AGREGAR USUARIOS -->
   <div class="modal fade" id="modal-credito">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
           <div class="modal-content">
-              <form role="form" method="post" class="formularioRemesa">
+              <form role="form" method="post" class="formularioCredito">
                 <div class="modal-header" style="background:#ffc107">
-                  <h4 class="modal-title">Pagar Saldo pendiente</h4>
+                  <h4 class="modal-title">Pagar saldo pendiente</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
+
                 <div class="modal-body">
                     <div class="row" id="datos-receptor">
                       <div class="col-md-12">
                         <div class="card-body">
-                          <div>
-        
-                            <strong>N° Remesa <span id="numero-remesa"></span></strong><br>
-                            <strong><i class="fas fa-user"></i> Cliente  <span id="numero-remesa"></span></strong>
-                        
-                                <div id="cliente"></div>
+                        <div class="row">
+
+                             <div class="col-md-4">
+                              <div class="card-body">
+                                  <strong>N° Remesa: <span id="correlativo"></span></strong><br>
+                                  <strong><i class="fas fa-user"></i> Cliente </strong>
+                                      <div id="clienteC"></div>
+                                    </div>
+                              </div>
+
+                                <div class="col-md-8">
+                                  <div class="card-body">
+                                                <div id="deuda"></div>
+                                    </div>
+                                </div>
+
+                            </div>
                             <hr>
-                          </div>
+
+                            <div class="row">
+                                        <div class="col-md-12 p-3 card order-md-2">
+                                <div class="mb-3">
+                                      <a class="btn btn-success mr-1" id="m-efectivoC">Efectivo <i class="fas fa-plus-square"></i></a>
+                                      <a class="btn btn-primary mr-1" id="m-dtC">Deposito o Transferencia <i class="fas fa-plus-square"></i></a>
+                            
+                                    </div>
+
+                                    <!-- METODO DE DEPOSITO -->
+                                    <div class="off-deposito-credito">
+                                      <div class="contenedor-texto">
+                                        <h5><i class="fas fa-arrow-alt-circle-down text-success"></i> Cuenta Depósito</h5>
+                                      </div>
+
+                                
+                                  
+                                    </div>
+                                    <!-- METODO DE DEPOSITO END-->
+                                </div>
+                            </div>
                           </div>
                       </div>
                     </div>
 
-
-              <!--=====================================
-                ENTRADA MÉTODO DE PAGO
-                ======================================-->
-            <div class="row">
-              <!-- cuentas de Deposito -->
-                <div class="col-md-12">
-
-                <div class="card card-primary">
-                  <div class="card-body">
-                    <strong><i class="fas fa-money-bill-alt"></i> Saldo a Recibir</strong>
-                        <div id="saldo"></div>
-                    <hr>
-                  </div>
                 </div>
-                        <div class="mb-3">
-                          <a class="btn btn-success mr-1" id="m-efectivo">Efectivo</a>
-                          <a class="btn btn-primary mr-1" id="m-dt">Deposito o Transferencia</a>
-                          
-                        </div>
-                        <div class="off">
-                       
-                        </div>
-                </div>
-                
-            </div>
 
-
-                </div>
                 <div class="modal-footer justify-content-between">
-                  <input type="hidden" id="remesas_id" name="remesas_id">
-                  <button type="submit" class="btn btn-primary btn-lg">Pagar Saldo</button>
+                <input type="hidden" id="tipoBancoEntrada" >
+                  <input type="hidden" id="id_remesa" name="id_remesa">
+                  <input type="hidden" id="abonadototal" name="abonadototal">
+                  <button type="submit" class="btn btn-primary btn-lg">Abonar</button>
                 </div>
-                <?php
-
-                  $pagaRemesa = new CreditosController();
-                  $pagaRemesa -> ctrIngresarCredito();
-
-                ?>
-  
             </form>
               </div>
 
