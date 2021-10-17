@@ -829,9 +829,9 @@ $(document).ready(function(){
       })
     }
 
- setInterval(function(){ 
-        $('.caja').remove()
-    load_notification();
- }, 5000);
+//  setInterval(function(){ 
+//         $('.caja').remove()
+//     load_notification();
+//  }, 5000);
 
 })
