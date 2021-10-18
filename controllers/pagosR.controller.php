@@ -12,11 +12,12 @@ class PagosPController{
         $item_inter ='id';
         $valor_inter=$data['BancoTransfer'];
         $saldo = CuentaBancoInterController::ctrMostrarCuenta($item_inter, $valor_inter);
-        $t=$saldo['saldo']-$data['monto-salida'];
+        $t=$saldo['saldo_inter']-$data['monto-salida'];
         $saldo_tranferencia = array(
             "id" =>  $saldo['id_saldo'],
             "saldo_inter" =>$t
         );
+  
         $restarsaldo = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_saldo_inter, $saldo_tranferencia); 
 
         //ingresando movimientos//
@@ -232,8 +233,8 @@ class PagosPController{
                 ));
             }
             array_push($valor, array(
-                "cuenta_vene_id" => ($data['remesa_id'] == 'inter')?null:$data['BancoTransfer'],
-                "cuenta_inter_id"=>($data['remesa_id'] == 'inter')?$data['BancoTransfer']:null,
+                "cuenta_vene_id" => ($data['tipoBancoSalida'] == 'inter') ? null : $data['BancoTransfer'],
+                "cuenta_inter_id"=> ($data['tipoBancoSalida'] == 'inter') ? $data['BancoTransfer'] : null,
                 "monto"=>$data['monto-salida'],
                 "n_ope"=>$data['nOpeSalida'],
                 "metodo_p"=>$data['metodoPagosalida'],
