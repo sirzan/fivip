@@ -287,7 +287,7 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
               contentType:false,
               processData:false,
               success: function (res) {
-               
+           
                   if (respuesta.iso_tasa == 'VEN') {
                       var tipoBanco1='vene'
                   }else{
@@ -307,16 +307,62 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                       if (respuesta.iso_tasa == res[i].iso) {
                           
                           $('#BancoTransfer').append(`<option value="${res[i].id_cuenta}">${res[i].n_titular} ${res[i].a_titular} - ${res[i].nombre}: ${res[i].simbolo}${res[i].saldo} (${res[i].iso})</option>`)
+                     
                       }
+                    
+                        ///////////////////////////////////////////
+                      //validados de saldo disponible en la cuenta//
+                      /////////////////////////////////////////////
+
+                      $('#BancoTransfer').on('change', function(){
+                        var idBancoSalida=$('#BancoTransfer').val()
+                        console.log(idBancoSalida)
+                        if (idBancoSalida == res[i].id_cuenta) {
+                            if (Number.parseFloat(res[i].saldo) < Number.parseFloat(respuesta.total_remesa)) {
+                                swal({
+                                    type: "error",
+                                    title: "¡La cuenta que seleccionaste, no cuenta con el saldo suficiente!",
+                                    text: "Verique los montos y vuelva a intentarlo",
+                                    showConfirmButton: true,
+                                    confirmButtonText: "Cerrar",
+                                    closeOnConfirm: false
+                    
+                                }).then((result)=>{
+                    
+                                    if(result.value){
+                                        $('#BancoTransfer option').each(function () {
+                                            this.selected = true;
+                                            return false;
+                                    });
+                                    }
+                    
+                                });
+                            }
+                            
+
+                        }
+                          
+     
+                         })
+
+                        ///////////////////////////////////////////
+                      //validados de saldo disponible en la cuenta//
+                      /////////////////////////////////////////////
+
+
                   })
+
+
+
                   if (respuesta.iso_tasa == 'VEN') {     
                       $('#metodoPagosalida').append(`<option value="transferencia">Transferencia</option><option value="transferencia digital">Transferencia Digital</option><option value="pago movil">Pago Movil</option>`);
                   }else{
                       $('#metodoPagosalida').append(`<option value="transferecia">Transferencia</option><option value="deposito">Deposito</option>`);
 
                   }
-              
-
+                  
+               
+                 
                            ///////////////////////////////
                           // metodo de pago en credito//
                           //////////////////////////////

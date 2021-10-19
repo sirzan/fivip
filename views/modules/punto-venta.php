@@ -1,3 +1,11 @@
+<style>
+  .tooltip {
+    display:inline-block;
+    position:relative;
+    border-bottom:1px dotted #666;
+    text-align:left;
+}
+</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -22,39 +30,9 @@
 
     <div class="row">
 
-        <!-- Default box -->
-        <div class="card col-md-8 col-sm-12 order-sm-2">
-          <div class="card-header">
-            <h3 class="card-title">Lista de Boletos vendidos</h3>
-    
-          </div>
-          <div class="card-body">
-          
-              <table id="user" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                      <th style="width:10px">#</th>
-                      <th>Usuario</th>
-                      <th>Nombre Usuario</th>
-                      <th>rol</th>
-                      <th>estado</th>
-                      <th>Ultimo Login</th>
-                      <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-         
-                      
-                    
-                    </tbody>
-                  </table>
-             
-              
-          </div>
-    
-        </div>
+
         
-            <div class="col-md-4 col-sm-12 order-sm-1">
+            <div class="col-md-8 col-sm-12 m-auto">
         
                 <!-- Default box -->
                 <div class="card">
@@ -64,10 +42,10 @@
                   <div class="card-body">
                       <div class="card card-primary">   
                         <div class="card-body">
-                            <form action="">
+                            <form action="" method="POST" id="formulario-boletos">
                             <div class="form-group row">
           
-                              <div class="input-group mb-3 col-md-6">
+                              <div class="input-group mb-3 col-md-3">
                               <div class="input-group-prepend">
                                   <span class="input-group-text"><i class="fas fa-user"></i></span>
                               </div>
@@ -78,25 +56,25 @@
                                   <!--=====================================
                                   ENTRADA DEL CÓDIGO
                                   ======================================--> 
-                                  <div class="input-group mb-3 col-md-6">
+                                  <div class="input-group mb-3 col-md-3">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                                   </div>
           
-                                  <input type="text" class="form-control" id="nuevaserie" name="nuevaserie" readonly>
+                                  <input type="text" class="form-control" id="nuevaserieViaje" name="nuevaserieViaje" readonly>
           
                                   </div>
           
           
           
-                              <div class="input-group mb-3 col-md-9">
+                              <div class="input-group mb-3 col-md-4">
           
                               <select class="form-control select2 select2bs4" style="width: 100%;" id="seleccionarCliente" name="seleccionarCliente" required>
                               <option value="" selected="selected">Seleccione un cliente</option>
                               </select>
                               </div>
           
-                              <div class="input-group mb-3 col-md-3" >
+                              <div class="input-group mb-3 col-md-2" >
           
                               <div class="input-group-prepend ">
           
@@ -104,113 +82,134 @@
                               <span class="input-group-prepend"><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-agregar-cliente" data-dismiss="modal">Nuevo cliente</button></span>
                               </div>
                               </div>
-                              <div class="input-group mb-3 col-md-6">
-                              <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-address-card"></i></span>
-                              </div>
+                              <div class="input-group mb-3 col-md-4">
+
+                                <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                                </div>
           
                               <select class="form-control" id="nuevotipodocumento" name="nuevotipodocumento" required>
-          
-                              <option selected>-- Tipo de Documento --</option>
-                              <option value="Pasaporte">Pasaporte</option>
-                              <option value="Carnet E.">Carnet E.</option>
-                              <option value="DNI">DNI</option>
-                              <option value="Cedula de Identidad">Cedula de Identidad</option>
-          
-          
+                                <option selected>-- Tipo de Documento --</option>
+                                <option value="Pasaporte">Pasaporte</option>
+                                <option value="Carnet E.">Carnet E.</option>
+                                <option value="DNI">DNI</option>
+                                <option value="Cedula de Identidad">Cedula de Identidad</option>
                               </select>
           
                               </div>
           
-                              <div class="input-group mb-3 col-md-6">
+                              <div class="input-group mb-3 col-md-3">
                               <input type="number" class="form-control" id="nuevoNumeroDocumento" name="nuevoNumeroDocumento" placeholder="Numero de Documento" >
           
                               </div>
                               </div>
-                                <input type="datetime-local"class="form-control" name="fechahora" id="fechahora">
+                                <hr>
                               <div class="form-group row">
-                              <div class="input-group mb-3 col-md-6">
-                              <label>Fecha y hora de Reservación:</label>
-                              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                              <input type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
-                              <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+
+                              <div class="input-group mb-3 col-md-3">
+                                <label>Fecha y hora de Reservación:</label>
+                                <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                <input type="datetime-local"class="form-control" name="fechahoraR" id="fechahoraR">
+                              
+                                </div>
                               </div>
-                              </div>
-                              </div>
-                              <div class="input-group mb-3 col-md-6">
-                              <label>Fecha y hora de salida:</label>
-                              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                              <input type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
-                              <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                              </div>
-                              </div>
+
+                              <div class="input-group mb-3 col-md-3">
+                                <label>Fecha y hora de salida:</label>
+                                <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                <input type="datetime-local"class="form-control" name="fechahoraS" id="fechahoraS">
+                            
+                                </div>
                               </div>
 
                               </div>
 
-
+                              <hr>
                                 <div class="form-group row">
+                                  <div class="col-md-6">
 
-                                <div class="col-md-12">
-                                          <h5 class="text-center"><i class="fas fa-map-marked-alt"></i> Rutas de Salida</h5>
-                                      </div>
+                                    <div class="col-md-12">
+                                              <h5 class="text-center"><i class="fas fa-map-marked-alt"></i> Rutas de Salida</h5>
+                                          </div>
+    
+                                          <div class="row">
 
-                                <div class="input-group mb-3 col-md-6">
-                                    <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
-                                    </div>
-                                <select class="form-control" name="paisClienteSalida" id="paisClienteSalida">
-                                    <option selected>-- Pais de Salida --</option>
-                                  
-                                </select>
-                                </div>
-
-                                <div class="input-group mb-3 col-md-6">
-                                    <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
-                                    </div>
-                                <select class="form-control" name="estadoClienteSalida" id="estadoClienteSalida">
-                                    <option selected>-- Estado de Salida --</option>
-                                  
-                                </select>
-                                </div>
-
-                                <div class="col-md-12">
-                                          <h5 class="text-center"><i class="fas fa-map-marked-alt"></i> Rutas de Destino</h5>
-                                      </div>
-                            <div class="input-group mb-3 col-md-6">
-                 
-                                      
-                                            <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                                            <div class="input-group mb-3 col-md-6">
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                                                </div>
+                                              <select class="form-control" name="paisClienteSalida" id="paisClienteSalida">
+                                                  <option selected>-- Pais de Salida --</option>
+                                                
+                                              </select>
                                             </div>
-                                        <select class="form-control" name="paisClienteDestino" id="paisClienteDestino">
-                                            <option selected>-- Pais de Destino --</option>
-                                  
-                                        </select>
-                            </div>
-                            <div class="input-group mb-3 col-md-6">
-                 
-                                      
-                                            <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                                            <div class="input-group mb-3 col-md-6">
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                                                </div>
+                                              <select class="form-control" name="estadoClienteSalida" id="estadoClienteSalida">
+                                                  <option selected>-- Estado de Salida --</option>
+                                                
+                                              </select>
                                             </div>
-                                        <select class="form-control" name="estadoClienteDestino" id="estadoClienteDestino">
-                                            <option selected>-- Estado de Destino --</option>
+                                          </div>
+    
+                                    
+                                  </div>
+                                  <div class="col-md-6" style="border-left: 2px solid #007bff !important;">
+                                      <div class="col-md-12">
+                                              <h5 class="text-center"><i class="fas fa-map-marked-alt"></i> Rutas de Destino</h5>
+                                      </div>
+                                      <div class="row">
+                                        <div class="input-group mb-3 col-md-6">
+                                                        <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                                                        </div>
+                                                    <select class="form-control" name="paisClienteDestino" id="paisClienteDestino">
+                                                        <option selected>-- Pais de Destino --</option>
+                                              
+                                                    </select>
+                                        </div>
+                                        <div class="input-group mb-3 col-md-6">
+                             
+                                                  
+                                                        <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                                                        </div>
+                                                    <select class="form-control" name="estadoClienteDestino" id="estadoClienteDestino">
+                                                        <option selected>-- Estado de Destino --</option>
+                                              
+                                                    </select>
+                                        </div>
+                                      </div>
+                                  </div>
                                   
-                                        </select>
+                                </div>
+                                <hr>
+                        <div class="row">
+
+                            <div class="form-group col-md-6">
+                              <label>Serivicios adicionales</label>
+                              <select class="form-control" name="serviciosA" id="serviciosA">
+                                <option selected class="text-center">--- Seleccione un servicio -----</option>
+                                <option>Con Guía</option>
+                                <option>Sin Guía</option>
+                              </select>
                             </div>
 
-                            <div class="form-group col-md-12">
-                        <label>Serivicios adicionales</label>
-                        <select class="form-control">
-                          <option selected class="text-center">--- Seleccione un servicio -----</option>
-                          <option>Con Guía</option>
-                          <option>Sin Guía</option>
-                        </select>
+                            <div class="col-md-6 " style="margin-top:28px">
+                                <button type="button" class="btn btn-primary btn-lg " style="font-size: 17px;" data-toggle="modal" data-target="#agregarServicios"> <i class="fas fa-plus-square"></i></button>
+                            </div>
+
+                        </div>
+
+                      <div class="col-sm-12">
+                      <!-- textarea -->
+                      <div class="form-group">
+                        <label>Observación</label>
+                        <textarea class="form-control" rows="3" name="obs" id="obs"></textarea>
                       </div>
+                    </div>
                             <div class="form-group col-md-12">
                                 
                             <div class="custom-control custom-switch">
@@ -220,32 +219,38 @@
                  
                              </div>
 
-                            <div class="form-group col-md-12 promotor">
+                            <div class="form-group col-md-6 promotor">
                           
                  
                              </div>
-
-                                </div>
                  
 
-                                  <div class="form-group row d-flex justify-content-center">
-                                      <div class="col-md-12">
-                                          <h4 class="text-center"><i class="fas fa-arrow-alt-circle-down text-success"></i> Metodo de Pago</h4>
+                                  <div class="form-group row">
+                               
+
+                                  <div class="col-md-12 p-3 card order-md-2">
+                                      <div class="mb-3 d-flex justify-content-center">
+                                            <a class="btn btn-dark mr-1 col-md-3" id="m-efectivoP">Efectivo <i class="fas fa-plus-square"></i></a>
+                                            <a class="btn btn-dark mr-1 col-md-5" id="m-dtP">Deposito o Transferencia <i class="fas fa-plus-square"></i></a>
+                                            <a class="btn btn-secondary col-md-3" id="m-credP">Crédito</a>
+                                          </div>
+
+                                          <!-- METODO DE DEPOSITO -->
+                                          <div class="off-deposito-pago">
+                                            <div class="contenedor-texto">
+                                              <h5><i class="fas fa-arrow-alt-circle-down text-success"></i> Cuenta Depósito</h5>
+                                            </div>
+
+                                      
+                                        
+                                          </div>
+                                          <!-- METODO DE DEPOSITO END-->
                                       </div>
-                                      <div class="input-group col-md-3">
-                                              <a href="" id="efectivo-viaje" class="btn btn-dark btn-block">Efectivo</a>
-                                      </div>
-                                      <div class="input-group col-md-6">
-                                              <a href="" id="td-viaje" class="btn btn-dark btn-block">Transferencia / Deposito</a>
-                                      </div>
-                                      <div class="input-group col-md-3">
-                                              <a href="" id="credito-viaje" class="btn btn-secondary btn-block">Credito</a>
-                                      </div>
+
+
+
                                   </div>
 
-                                  <div class="off-pago-viaje">
-
-                                  </div>
 
                                   <div class="pt-2 mt-4" style="border-top:0.2px solid #CECECE;">
                                       <div class="form-group d-flex justify-content-center">
@@ -400,3 +405,27 @@ MODAL AGREGAR CLIENTE
         <!-- /.modal-dialog -->
       </div>
  <!--MODAL AGREGAR USUARIOS END-->
+
+
+    <!-----------------------  -->
+    <!-- AGREGAR NUEVO SERVICIOS -->
+    <!-----------------------  -->
+ <!-- Modal -->
+<div class="modal fade" id="agregarServicios" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title" id="exampleModalLongTitle">Agregar servicio adicional</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" placeholder="Ingrese la descripcion del servicios">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>

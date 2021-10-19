@@ -107,6 +107,7 @@ session_start();
     $ruta2= ($_SESSION["rol"] == 'administrador') ?  $_GET["ruta"]== "pagos-pendientes":  $_GET["ruta"]== "inicio";
     $ruta3= ($_SESSION["rol"] == 'administrador' || $_SESSION["rol"] == 'especial') ?  $_GET["ruta"]== "tasa":  $_GET["ruta"]== "inicio";
     $ruta4= ($_SESSION["rol"] == 'administrador') ? $_GET["ruta"]== "moneda":  $_GET["ruta"]== "inicio";
+    $ruta5= ($_SESSION["rol"] == 'administrador') ?  $_GET["ruta"]== "creditos":  $_GET["ruta"]== "inicio";
    
     if(isset($_GET["ruta"])){
         if(
@@ -125,7 +126,7 @@ session_start();
             $_GET["ruta"]== "clientes"|| 
             $_GET["ruta"]== "banco-cuentas-venezuela"|| 
             $_GET["ruta"]== "banco-cuentas-inter"|| 
-            $_GET["ruta"]== "creditos"|| 
+            $ruta5|| 
             $_GET["ruta"]== "punto-venta"|| 
             $ruta3
         
