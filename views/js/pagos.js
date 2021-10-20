@@ -306,7 +306,7 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                    
                       if (respuesta.iso_tasa == res[i].iso) {
                           
-                          $('#BancoTransfer').append(`<option value="${res[i].id_cuenta}">${res[i].n_titular} ${res[i].a_titular} - ${res[i].nombre}: ${res[i].simbolo}${res[i].saldo} (${res[i].iso})</option>`)
+                          $('#BancoTransfer').append(`<option value="${res[i].id_cuenta}">${res[i].n_titular} ${res[i].a_titular} - ${res[i].nombre}: ${res[i].simbolo}${parseFloat(res[i].saldo).toFixed(2)} (${res[i].iso})</option>`)
                      
                       }
                     
@@ -318,7 +318,7 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                         var idBancoSalida=$('#BancoTransfer').val()
                         console.log(idBancoSalida)
                         if (idBancoSalida == res[i].id_cuenta) {
-                            if (Number.parseFloat(res[i].saldo) < Number.parseFloat(respuesta.total_remesa)) {
+                            if (parseFloat(res[i].saldo) < parseFloat(respuesta.total_remesa)) {
                                 swal({
                                     type: "error",
                                     title: "¡La cuenta que seleccionaste, no cuenta con el saldo suficiente!",
