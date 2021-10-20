@@ -318,7 +318,7 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                         var idBancoSalida=$('#BancoTransfer').val()
                         console.log(idBancoSalida)
                         if (idBancoSalida == res[i].id_cuenta) {
-                            if (parseFloat(res[i].saldo) < parseFloat(respuesta.total_remesa)) {
+                            if (Math.round10(res[i].saldo,-3) < Math.round10(respuesta.total_remesa,-3)) {
                                 swal({
                                     type: "error",
                                     title: "¡La cuenta que seleccionaste, no cuenta con el saldo suficiente!",
