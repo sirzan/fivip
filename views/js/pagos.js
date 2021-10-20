@@ -314,36 +314,38 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                       //validados de saldo disponible en la cuenta//
                       /////////////////////////////////////////////
 
-                    //   $('#BancoTransfer').on('change', function(){
-                    //     var idBancoSalida=$('#BancoTransfer').val()
-                    //     console.log(idBancoSalida)
-                    //     if (idBancoSalida == res[i].id_cuenta) {
-                    //         if (Math.round10(res[i].saldo,-3) < Math.round10(respuesta.total_remesa,-3)) {
-                    //             swal({
-                    //                 type: "error",
-                    //                 title: "¡La cuenta que seleccionaste, no cuenta con el saldo suficiente!",
-                    //                 text: "Verique los montos y vuelva a intentarlo",
-                    //                 showConfirmButton: true,
-                    //                 confirmButtonText: "Cerrar",
-                    //                 closeOnConfirm: false
+                      $('#BancoTransfer').on('change', function(){
+                        var idBancoSalida=$('#BancoTransfer').val()
+                
+                        if (idBancoSalida == res[i].id_cuenta) {
+                            console.log(Math.round10(res[i].saldo,-3))
+                            console.log(Math.round10(respuesta.total_remesa,-3))
+                            if (Math.round10(res[i].saldo,-3) < Math.round10(respuesta.total_remesa,-3)) {
+                                swal({
+                                    type: "error",
+                                    title: "¡La cuenta que seleccionaste, no cuenta con el saldo suficiente!",
+                                    text: "Verique los montos y vuelva a intentarlo",
+                                    showConfirmButton: true,
+                                    confirmButtonText: "Cerrar",
+                                    closeOnConfirm: false
                     
-                    //             }).then((result)=>{
+                                }).then((result)=>{
                     
-                    //                 if(result.value){
-                    //                     $('#BancoTransfer option').each(function () {
-                    //                         this.selected = true;
-                    //                         return false;
-                    //                 });
-                    //                 }
+                                    if(result.value){
+                                        $('#BancoTransfer option').each(function () {
+                                            this.selected = true;
+                                            return false;
+                                    });
+                                    }
                     
-                    //             });
-                    //         }
+                                });
+                            }
                             
 
-                    //     }
+                        }
                           
      
-                    //      })
+                         })
 
                         ///////////////////////////////////////////
                       //validados de saldo disponible en la cuenta//
@@ -607,8 +609,9 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
   EJECUTANDO PAGOS
 =============================================*/
   
-  $('#form-pago').off('submit').on('submit',function(e){
-      e.preventDefault()
+  $('#form-pago').off('submit').on('submit',function(event){
+    event.preventDefault()
+  
       const clasesMetodo = $('.off-meto')
       const montoCobrar = Number.parseFloat($('#monto-cobro').val())
 
@@ -637,7 +640,7 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                   }else{
                    
             
-               
+                            event.stopImmediatePropagation()
                           $.ajax({
                               url:'api/pagosp.api.php',
                               data:datos,
@@ -649,16 +652,16 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                               success: function(res){
                                 
                                   if (res == 'ok') {
+                              
                                       swal({
                                           type: "success",
                                           title: "¡El pago se registro correctamente!",
-                                          showConfirmButton: true,
-                                          confirmButtonText: "Cerrar",
-                                          closeOnConfirm: false
-                                      }).then((result)=>{
-                                          if(result.value){
+                                          showConfirmButton: false,
+                                          timer: 1500
+                                      }).then(()=>{
+                                         
                                               window.location ="pagos-pendientes"
-                                          }
+                                          
                                       })
                                   }else{
                                     
@@ -692,7 +695,7 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                   
               }else{
                
-      
+                event.stopImmediatePropagation()
                   $.ajax({
                       url:'api/pagosp.api.php',
                       data:datos,
@@ -706,13 +709,10 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                           swal({
                               type: "success",
                               title: "¡El pago a crédito se registro correctamente!",
-                              showConfirmButton: true,
-                              confirmButtonText: "Cerrar",
-                              closeOnConfirm: false
-                          }).then((result)=>{
-                              if(result.value){
+                              showConfirmButton: false,
+                              timer: 1500
+                          }).then(()=>{
                                   window.location ="pagos-pendientes"
-                              }
                           })
                       }else{
                         
@@ -747,11 +747,11 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
           
       
 
-
+      return false;
 
   })
 
-
+ 
 })
 
 
