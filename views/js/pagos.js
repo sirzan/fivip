@@ -316,8 +316,7 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                         var idBancoSalida=$('#BancoTransfer').val()
                 
                         if (idBancoSalida == res[i].id_cuenta) {
-                            console.log(Math.round10(res[i].saldo,-3))
-                            console.log(Math.round10(respuesta.total_remesa,-3))
+                           
                             if (Math.round10(res[i].saldo,-3) < Math.round10(respuesta.total_remesa,-3)) {
                                 swal({
                                     type: "error",
@@ -661,11 +660,14 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                                       swal({
                                           type: "success",
                                           title: "¡El pago se registro correctamente!",
-                                          showConfirmButton: false,
-                                          timer: 1500
-                                      }).then(()=>{
-                                         
-                                              window.location ="pagos-pendientes"
+                                          showConfirmButton: true,
+                                          confirmButtonText: "Cerrar",
+                                          closeOnConfirm: false
+                                      }).then((result)=>{
+                                        if(result.value){
+                                            window.location ="pagos-pendientes"
+
+                                        }
                                           
                                       })
                                   }else{
@@ -714,10 +716,13 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                           swal({
                               type: "success",
                               title: "¡El pago a crédito se registro correctamente!",
-                              showConfirmButton: false,
-                              timer: 1500
-                          }).then(()=>{
-                                  window.location ="pagos-pendientes"
+                              showConfirmButton: true,
+                              confirmButtonText: "Cerrar",
+                              closeOnConfirm: false
+                          }).then((result)=>{
+                            if(result.value){
+                                window.location ="pagos-pendientes"
+                            }
                           })
                       }else{
                         
