@@ -313,39 +313,39 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                         ///////////////////////////////////////////
                       //validados de saldo disponible en la cuenta//
                       /////////////////////////////////////////////
-                      $("#form-pago").off( ".bancoselect" );
-                      $('#form-pago').on('change','.bancoselect',function(){
-                        var idBancoSalida=$('#BancoTransfer').val()
+                    //   $("#form-pago").off( ".bancoselect" );
+                    //   $('#form-pago').on('change','.bancoselect',function(){
+                    //     var idBancoSalida=$('#BancoTransfer').val()
                 
-                        if (idBancoSalida == res[i].id_cuenta) {
-                            console.log(Math.round10(res[i].saldo,-3))
-                            console.log(Math.round10(respuesta.total_remesa,-3))
-                            if (Math.round10(res[i].saldo,-3) < Math.round10(respuesta.total_remesa,-3)) {
-                                swal({
-                                    type: "error",
-                                    title: "¡La cuenta que seleccionaste, no cuenta con el saldo suficiente!",
-                                    text: "Verique los montos y vuelva a intentarlo",
-                                    showConfirmButton: true,
-                                    confirmButtonText: "Cerrar",
-                                    closeOnConfirm: false
+                    //     if (idBancoSalida == res[i].id_cuenta) {
+                    //         console.log(Math.round10(res[i].saldo,-3))
+                    //         console.log(Math.round10(respuesta.total_remesa,-3))
+                    //         if (Math.round10(res[i].saldo,-3) < Math.round10(respuesta.total_remesa,-3)) {
+                    //             swal({
+                    //                 type: "error",
+                    //                 title: "¡La cuenta que seleccionaste, no cuenta con el saldo suficiente!",
+                    //                 text: "Verique los montos y vuelva a intentarlo",
+                    //                 showConfirmButton: true,
+                    //                 confirmButtonText: "Cerrar",
+                    //                 closeOnConfirm: false
                     
-                                }).then((result)=>{
+                    //             }).then((result)=>{
                     
-                                    if(result.value){
-                                        $('#BancoTransfer option').each(function () {
-                                            this.selected = true;
-                                            return false;
-                                    });
-                                    }
+                    //                 if(result.value){
+                    //                     $('#BancoTransfer option').each(function () {
+                    //                         this.selected = true;
+                    //                         return false;
+                    //                 });
+                    //                 }
                     
-                                });
-                            }
+                    //             });
+                    //         }
                             
 
-                        }
+                    //     }
                           
      
-                         })
+                    //      })
                          
 
                         ///////////////////////////////////////////
