@@ -335,14 +335,6 @@ static public function ctrBorrarRemesas(){
     }
 }
 
-//mostrar monedas en la tabla
-static public function ctrRengoFechaRemesas($fechaInicial,$fechaFinal){
-    $tabla = 'remesas';
-            
-    $respuesta = ModeloRemesas::mdlRengoFechaRemesas($tabla, $fechaInicial, $fechaFinal);
-
-    return $respuesta;
-}
 
 
 }

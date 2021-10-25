@@ -41,7 +41,6 @@ session_start();
   <!-- Toastr -->
   <link rel="stylesheet" href="views/plugins/toastr/toastr.min.css">
 
-
         <!-- ============================
              ARCHIVOS JS
     ============================== -->
@@ -121,13 +120,16 @@ session_start();
             $_GET["ruta"]== "reporte-remesa"|| 
             $ruta4|| 
             $_GET["ruta"]== "invoice"|| 
+            $_GET["ruta"]== "view-boleto"|| 
             $_GET["ruta"]== "admin-recargas"|| 
             $_GET["ruta"]== "crear-monto"|| 
             $_GET["ruta"]== "clientes"|| 
             $_GET["ruta"]== "banco-cuentas-venezuela"|| 
             $_GET["ruta"]== "banco-cuentas-inter"|| 
             $ruta5|| 
+            $_GET["ruta"]== "admin-boletos"|| 
             $_GET["ruta"]== "punto-venta"|| 
+            $_GET["ruta"]== "credito-boleto"|| 
             $ruta3
         
         ){

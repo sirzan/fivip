@@ -200,7 +200,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="admin-boletos" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Admin. Pasajes</p>
                 </a>
@@ -210,6 +210,12 @@
                 <a href="punto-venta" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Punto de venta</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="credito-boleto" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Creditos</p>
                 </a>
               </li>
               

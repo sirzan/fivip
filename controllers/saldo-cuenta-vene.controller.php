@@ -75,7 +75,7 @@ static public function ctrSumaRestaSaldo(){
         
                           swal({
                                   type: "success",
-                                  title: "¡Se ha recargado '.$_POST["simboloRecarga"].''.number_format($_POST["saldoRecarga"],2,',','.').' a su cuenta!",
+                                  title: "¡Se ha descargado '.$_POST["simboloRecarga"].''.number_format($_POST["saldoRecarga"],2,',','.').' a su cuenta!",
                                   showConfirmButton: true,
                                   confirmButtonText: "Cerrar",
                                   closeOnConfirm: false

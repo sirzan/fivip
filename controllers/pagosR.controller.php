@@ -60,7 +60,8 @@ class PagosPController{
                 "monto_actual" => ($saldo['saldo']-$data['monto-salida']) - bcdiv($comi,'1',2),
                 "operacion" => ($data['metodoPagosalida'] == 'transferencia digital')?'Comisión por Transferencia Bancaria Digital':'Comisión por Pago Movil',
                 'c_transfer_vene_id'=> null,
-                "pago_remesa_id" => $data['remesa_id'],
+                "pago_remesa_id" => $data['remesa_id'], 
+                "boleto_id" =>  null,
                 "cuenta_banco_inter_id" =>  null,
                 "signo" =>  '-'
             ] ; 
@@ -73,6 +74,7 @@ class PagosPController{
                 "operacion" => "Pago de Remesa",
                 "c_transfer_vene_id" => null,
                 "pago_remesa_id" =>  $data['remesa_id'],
+                "boleto_id" =>  null,
                 "cuenta_banco_inter_id" =>  null,
                 "signo" =>  '-'
             ]   ;
@@ -125,6 +127,7 @@ class PagosPController{
                             "operacion" => "Cobro de Remesa",
                             "c_transfer_vene_id" => null,
                             "pago_remesa_id" =>  $data['remesa_id'],
+                            "boleto_id" =>  null,
                             "cuenta_banco_inter_id" =>  $saldoEntrada[$v]['cuenta_inter_id'],
                             "signo" =>  '+'
                         ] ;
@@ -162,7 +165,7 @@ class PagosPController{
                 if ($saldoEntrada[$v]['cuenta_id'] == $datos[$i]['banco']) {
                     # code...
                         $saldoIngreso[]= [ "id" => $saldoEntrada[$v]['id_saldo'],
-                                 "saldo" =>$saldoEntrada[$v]['saldo']+$datos[$i]['monto']
+                                 "saldo" =>$saldoEntrada[$v]['saldo'] + $datos[$i]['monto']
                            ] ;
 
                            $movimientoDataEntrada[]=[
@@ -172,6 +175,7 @@ class PagosPController{
                             "operacion" => "Cobro de Remesa",
                             "c_transfer_vene_id" => null,
                             "pago_remesa_id" =>  $data['remesa_id'],
+                            "boleto_id" =>  null,
                             "cuenta_banco_inter_id" => null,
                             "signo" =>  '+'
                         ] ;
@@ -206,7 +210,7 @@ class PagosPController{
 
             $tablaRemesa = 'remesas';
             $tabla='pagos';
-            $tabla_movi = 'movimientos_bancarios';
+            // $tabla_movi = 'movimientos_bancarios';
             $datos = json_decode($data['metodo'], true);
             $valor=[];
             // Total de pago
@@ -216,9 +220,9 @@ class PagosPController{
             // }
             // $total;  
 
-        ///////////////////////
-          //ingreso de pago//
-        ///////////////////////
+        // ///////////////////////
+        //   //ingreso de pago//
+        // ///////////////////////
             foreach ($datos as $dato) {
               
                 
@@ -268,8 +272,8 @@ class PagosPController{
                 );
             }
                 $respuesta2 = PagosPModel::mdlEditarRemesaEstado($tablaRemesa, $estadoRemesa);
+                // return $data;
                 return $respuesta;
-                // return $respuesta;
       
 
         }

@@ -50,7 +50,7 @@
                                   <span class="input-group-text"><i class="fas fa-user"></i></span>
                               </div>
                               <input type="text" class="form-control" value="<?php echo $_SESSION["rol"]; ?>" readonly>
-                              <input type="hidden" name="idVendedor" value="<?php echo $_SESSION["id"]; ?>">
+                              <input type="hidden" name="idVendedor" id="idVendedor" value="<?php echo $_SESSION["id"]; ?>">
                               </div>
           
                                   <!--=====================================
@@ -67,7 +67,7 @@
           
           
           
-                              <div class="input-group mb-3 col-md-4">
+                              <div class="input-group mb-3 col-md-8">
           
                               <select class="form-control select2 select2bs4" style="width: 100%;" id="seleccionarCliente" name="seleccionarCliente" required>
                               <option value="" selected="selected">Seleccione un cliente</option>
@@ -82,26 +82,9 @@
                               <span class="input-group-prepend"><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-agregar-cliente" data-dismiss="modal">Nuevo cliente</button></span>
                               </div>
                               </div>
-                              <div class="input-group mb-3 col-md-4">
-
-                                <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-address-card"></i></span>
-                                </div>
+                      
           
-                              <select class="form-control" id="nuevotipodocumento" name="nuevotipodocumento" required>
-                                <option selected>-- Tipo de Documento --</option>
-                                <option value="Pasaporte">Pasaporte</option>
-                                <option value="Carnet E.">Carnet E.</option>
-                                <option value="DNI">DNI</option>
-                                <option value="Cedula de Identidad">Cedula de Identidad</option>
-                              </select>
-          
-                              </div>
-          
-                              <div class="input-group mb-3 col-md-3">
-                              <input type="number" class="form-control" id="nuevoNumeroDocumento" name="nuevoNumeroDocumento" placeholder="Numero de Documento" >
-          
-                              </div>
+                           
                               </div>
                                 <hr>
                               <div class="form-group row">
@@ -192,14 +175,15 @@
                               <label>Serivicios adicionales</label>
                               <select class="form-control" name="serviciosA" id="serviciosA">
                                 <option selected class="text-center">--- Seleccione un servicio -----</option>
-                                <option>Con Guía</option>
-                                <option>Sin Guía</option>
                               </select>
                             </div>
 
-                            <div class="col-md-6 " style="margin-top:28px">
+                            <div class="col-md-2" style="margin-top:28px">
                                 <button type="button" class="btn btn-primary btn-lg " style="font-size: 17px;" data-toggle="modal" data-target="#agregarServicios"> <i class="fas fa-plus-square"></i></button>
+                                <button type="button" class="btn btn-danger btn-lg " style="font-size: 17px;" data-toggle="modal" data-target="#eliminarServicios"> <i class="fas fa-minus-square"></i></button>
                             </div>
+
+                       
 
                         </div>
 
@@ -211,23 +195,55 @@
                       </div>
                     </div>
                             <div class="form-group col-md-12">
-                                
-                            <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="promotor">
-                            <label class="custom-control-label" for="promotor">Añadir Promotor</label>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input" id="promotor">
+                                  <label class="custom-control-label" for="promotor">Añadir Promotor</label>
+                              </div>
                             </div>
-                 
-                             </div>
 
-                            <div class="form-group col-md-6 promotor">
-                          
-                 
-                             </div>
-                 
+                            <div class="form-group col-md-6 promotor"></div>
+                            
+                            <div class="row">
+
+                              <div class="input-group mb-3 col-md-6">
+                                  
+                                   <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-money-bill-alt"></i></span>
+                                    </div>
+                                                <select class="form-control" name="tipoMoneda" id="tipoMoneda">
+                                                    <option value="" selected>-- Tipo de moneda --</option>
+                                                    <?php 
+               
+                                                    $valor=null;
+                                                    $item=null;
+                                                    $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
+                                                    // var_dump($bancosvene);
+                                                    if($monedas){
+                                                      foreach ($monedas as $key => $value) {
+                                                      echo '<option value="'.$value["iso"].'">'.$value["moneda"].' ('.$value["iso"].')</option>';
+                                                      }
+                                                    }else{
+                                                      echo'<option disabled>-- No hay monedas creadas, vaya a la seccion de monedas --</option>';
+                                                    }
+                                                    ?>
+                                                </select>        
+                                           </div>
+                                              <div class="form-group col-md-2 ">
+                        
+                                                  <div class="input-group ">
+                                                  <div class="input-group-prepend">
+                                                  <span class="input-group-text tipo-moneda"></span>
+                                                </div>
+                                                  <input type="number" step="any" name="costo" class="form-control costo" placeholder="Ingrese el costo">
+                                              
+                                             
+                                                  </div>
+                                                  </div>
+
+                                            </div>
+
 
                                   <div class="form-group row">
-                               
-
                                   <div class="col-md-12 p-3 card order-md-2">
                                       <div class="mb-3 d-flex justify-content-center">
                                             <a class="btn btn-dark mr-1 col-md-3" id="m-efectivoP">Efectivo <i class="fas fa-plus-square"></i></a>
@@ -241,8 +257,6 @@
                                               <h5><i class="fas fa-arrow-alt-circle-down text-success"></i> Cuenta Depósito</h5>
                                             </div>
 
-                                      
-                                        
                                           </div>
                                           <!-- METODO DE DEPOSITO END-->
                                       </div>
@@ -255,6 +269,8 @@
                                   <div class="pt-2 mt-4" style="border-top:0.2px solid #CECECE;">
                                       <div class="form-group d-flex justify-content-center">
                                           <div class="input-group col-md-6">
+                                          <input type="hidden" id="tipoBancoEntradaBoleto">
+                                          <input type="hidden" id="tipoPagoBtn">
                                                   <button type="submit" class="btn btn-success btn-block p-2"><strong style="font-size: 20px;">Registrar Boleto</strong></button>
                                           </div>
                                       </div>
@@ -291,7 +307,7 @@ MODAL AGREGAR CLIENTE
 ======================================-->
 
  
- <!--MODAL AGREGAR USUARIOS -->
+ <!--MODAL AGREGAR CLIENTE -->
  <div class="modal fade" id="modal-agregar-cliente">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -404,7 +420,7 @@ MODAL AGREGAR CLIENTE
         </div>
         <!-- /.modal-dialog -->
       </div>
- <!--MODAL AGREGAR USUARIOS END-->
+ <!--MODAL AGREGAR CLIENTE END-->
 
 
     <!-----------------------  -->
@@ -414,17 +430,56 @@ MODAL AGREGAR CLIENTE
 <div class="modal fade" id="agregarServicios" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <h5 class="modal-title" id="exampleModalLongTitle">Agregar servicio adicional</h5>
+          <form  method="POST" id="form-servicios">
+            <div class="modal-header bg-primary">
+              <h5 class="modal-title" id="exampleModalLongTitle">Agregar servicio adicional</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input type="text" class="form-control" id="serviciosAdicional" name="serviciosAdicional" placeholder="Ingrese la descripcion del servicios">
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Agregar</button>
+            </div>
+      </form>             
+
+    </div>
+  </div>
+</div>
+
+
+    <!-----------------------  -->
+    <!-- ELIMINAR SERVICIOS -->
+    <!-----------------------  -->
+ <!-- Modal -->
+<div class="modal fade" id="eliminarServicios" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title" id="exampleModalLongTitle">Eliminar servicio adicional</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <input type="text" class="form-control" placeholder="Ingrese la descripcion del servicios">
-      </div>
+      <div class="card-body table-responsive p-0" style="height: 200px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                   
+                      <th>Descripción</th>
+                      <th>Accion</th>
+               
+                    </tr>
+                  </thead>
+                  <tbody id="listaServicios">
+                    
+                  </tbody>
+                </table>
+              </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Agregar</button>
+        
       </div>
     </div>
   </div>

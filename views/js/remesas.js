@@ -333,34 +333,55 @@ var ano = fecha.getFullYear();
 
 
 //calculo del total de la remesa
+$("#divCalculo").on('click', function () {
+  $("#pagoremesa").val('')
+})
 
-
-$(document).ready(function(){
     $(".formularioVenta").on("change", "input#pagoremesa", function(){
-    // $("#pagoremesa").keydown( function () {
+ 
         $(".alert").remove();
         if($("#pagoremesa").val() == ''){
 
             $('#totalremesa').val('');
         }
         else{
-
-            const total = Number.parseFloat($("#pagoremesa").val()) * Number.parseFloat($('#agregartasa').val())
+            if ($("input:radio[name=calculotasa]:checked").val() == 'multiplicar') {
            
-            if(isNaN(total)){
+              const total = Number.parseFloat($("#pagoremesa").val()) * Number.parseFloat($('#agregartasa').val())
+              if(isNaN(total)){
                 $('#totalremesa').val('');
                 $("#pagoremesa").parent().after('<div class="alert alert-warning">Debes seleccionar una tasa</div>');
                 $("#pagoremesa").val('')
-            }else{
+                }else{
+                
+                    $('#totalremesa').val(trunc(Math.round10(Number.parseFloat(total),-3),2));
+                
+                }
+           
+            }else if ($("input:radio[name=calculotasa]:checked").val() == 'dividir') {
             
-                $('#totalremesa').val(trunc(Math.round10(Number.parseFloat(total),-3),2));
-             
+              const total = Number.parseFloat($("#pagoremesa").val()) / Number.parseFloat($('#agregartasa').val())
+              if(isNaN(total)){
+                $('#totalremesa').val('');
+                $("#pagoremesa").parent().after('<div class="alert alert-warning">Debes seleccionar una tasa</div>');
+                $("#pagoremesa").val('')
+                }else{
+                
+                    $('#totalremesa').val(trunc(Math.round10(Number.parseFloat(total),-3),2));
+                
+                }
+           
+            }else{
+              alert('Seleccione un metodo de calculo de tasa')
             }
+            
+           
+          
         }
     
        
    })
-});
+
 
 
 

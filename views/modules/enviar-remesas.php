@@ -215,17 +215,31 @@
                 BOTÓN PARA AGREGAR PRODUCTO
                 ======================================-->
 
-                <!-- <button type="button" class="btn btn-default hidden-lg btnAgregarProducto">Agregar producto</button> -->
+             
 
                 
 
                 <div class="row">
+                  <div id="divCalculo" class="row col-md-12">
+                    <div class="col-md-3 mb-2">
+                    <div class="custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" id="multiplicar" name="calculotasa" value="multiplicar">
+                            <label for="multiplicar" class="custom-control-label">Multiplicar Tasa</label>
+                          </div>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                    <div class="custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" id="dividir" name="calculotasa" value="dividir">
+                            <label for="dividir" class="custom-control-label">Dividir Tasa</label>
+                          </div>
+                    </div>
+                  </div>
 
                   <!--=====================================
                   ENTRADA IMPUESTOS Y TOTAL
                   ======================================-->
                   
-                  <div class="col-mb-12">
+                  <div class="col-md-12">
                     
                     <table class="table">
 

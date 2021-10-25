@@ -31,13 +31,13 @@ class ModeloMoneda{
 
 			$stmt -> execute();
 
-			return $stmt -> fetch();
+			return $stmt -> fetch(PDO::FETCH_ASSOC);
            } else {
         $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,moneda,simbolo,iso,nombre as pais FROM $tabla LEFT JOIN pais ON $tabla.pais = pais.id");
             
         $stmt -> execute();
 
-        return $stmt -> fetchAll();
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC);
            }
 
         $stmt->close();   

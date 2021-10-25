@@ -17,6 +17,7 @@ require_once "controllers/saldo-cuenta-vene.controller.php";
 require_once "controllers/saldo-cuenta-inter.controller.php";
 require_once "controllers/creditos.controller.php";
 require_once "controllers/pagosR.controller.php";
+require_once "controllers/boletos.controller.php";
 
 //modelos
 require_once "models/usuario.model.php";
@@ -36,6 +37,9 @@ require_once "models/saldo-cuenta-inter.model.php";
 require_once "models/movimientos-bancarios.model.php";
 require_once "models/creditos.model.php";
 require_once "models/pagosR.model.php";
+require_once "models/servicios-adicionales.model.php";
+require_once "models/boletos.model.php";
+require_once "models/pagos-boletos.model.php";
 
 require_once "extensions/vendor/autoload.php";
 
