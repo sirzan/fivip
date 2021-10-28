@@ -61,7 +61,7 @@ class ModeloRemesas{
         if ($item != null) {
             $stmt = Conexion::conectar($info)->prepare("SELECT remesas.id,rol,correlativo,receptor,remesas.tipo_doc AS tipo_documento,n_doc,ban_pa_m,obs,nombre_moneda,remesas.pais,iso_moneda,simbolo_moneda,total_envio,tasa,total_remesa,remesas.estado,remesas.fecha,banco,n_cuenta,CONCAT(nombres,' ',apellidos) as clientes,documento,telefono,rol,simbolo_tasa,iso_tasa,usuarios.id as id_user FROM $tabla
             LEFT JOIN clientes ON remesas.cliente_id = clientes.id
-            LEFT JOIN `config_system`.usuarios ON remesas.vendedor_id = `config_system`.usuarios.id WHERE $tabla.$item = :$item ");
+            LEFT JOIN `fivipnet_config`.usuarios ON remesas.vendedor_id = `fivipnet_config`.usuarios.id WHERE $tabla.$item = :$item ");
             
             $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
@@ -72,7 +72,7 @@ class ModeloRemesas{
         else {
         $stmt = Conexion::conectar($info)->prepare("SELECT remesas.id,rol,correlativo,receptor,remesas.tipo_doc AS tipo_documento,n_doc,ban_pa_m,obs,nombre_moneda,remesas.pais,iso_moneda,simbolo_moneda,total_envio,tasa,total_remesa,remesas.estado,remesas.fecha,banco,n_cuenta,CONCAT(nombres,' ',apellidos) as clientes,documento,telefono,rol,simbolo_tasa,iso_tasa,usuarios.id as id_user FROM $tabla
         LEFT JOIN clientes ON remesas.cliente_id = clientes.id
-        LEFT JOIN `config_system`.usuarios ON remesas.vendedor_id = `config_system`.usuarios.id");
+        LEFT JOIN `fivipnet_config`.usuarios ON remesas.vendedor_id = `fivipnet_config`.usuarios.id");
             
         $stmt -> execute();
 
