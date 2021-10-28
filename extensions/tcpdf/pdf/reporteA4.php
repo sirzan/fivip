@@ -24,7 +24,7 @@ class MYPDF extends TCPDF {
         // Logo
 		$fechaInicial = $_GET["fechaInicial"];
 $fechaFinal = $_GET["fechaFinal"];
-        $image_file = K_PATH_IMAGES.'logo.PNG';
+        $image_file = 'images/logo2.png';
         $this->Image($image_file, 10, 10, 40, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         // Set font
         $this->SetFont('helvetica', 'B', 10);
@@ -54,10 +54,9 @@ $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('TCPDF Example 003');
-$pdf->SetSubject('TCPDF Tutorial');
-$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+$pdf->SetAuthor('FIVIP');
+$pdf->SetTitle('Reporte totales');
+
 
 // set default header data
 $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);

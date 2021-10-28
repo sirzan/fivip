@@ -22,7 +22,7 @@ class MYPDF extends TCPDF {
         // Logo
 		date_default_timezone_set('America/Lima');
 		$fecha=date("Y-m-d H:i:s");
-        $image_file = K_PATH_IMAGES.'logo.PNG';
+        $image_file = 'images/logo2.png';
         $this->Image($image_file, 10, 10, 40, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         // Set font
         $this->SetFont('helvetica', 'B', 10);
