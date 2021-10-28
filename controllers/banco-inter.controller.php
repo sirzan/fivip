@@ -5,7 +5,7 @@ class BancoInterController{
 
 
 //crear Bancos de venezuela
-    static public function ctrCrearBancoInter(){
+    static public function ctrCrearBancoInter($info){
    
         if(isset($_POST['nuevoBancoInter'])){
        
@@ -20,7 +20,7 @@ class BancoInterController{
                     "nombre" => $_POST["nuevoBancoInter"]
                 );
     
-                $respuesta = ModeloBancoInter::mdlIngresarBancoInter($tabla, $datos);
+                $respuesta = ModeloBancoInter::mdlIngresarBancoInter($tabla, $datos,$info);
                 if($respuesta=="ok"){
                     echo '<script>
     
@@ -75,10 +75,10 @@ class BancoInterController{
     
 
     //mostrar Bancos de venezuela
-    static public function ctrMostrarBancoInter($item,$valor){
+    static public function ctrMostrarBancoInter($item,$valor,$info){
         $tabla = 'banco_inter';
                 
-        $respuesta = ModeloBancoInter::mdlMostrarBancoInter($tabla, $item, $valor);
+        $respuesta = ModeloBancoInter::mdlMostrarBancoInter($tabla, $item, $valor,$info);
 
         return $respuesta;
     }
@@ -87,7 +87,7 @@ class BancoInterController{
     
 //Editar  Bancos de venezuela
 
-static public function ctrEditarBancoInter(){
+static public function ctrEditarBancoInter($info){
     if(isset($_POST['editarBancoInter'])){
         if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarBancoInter"])) 
             {
@@ -98,12 +98,13 @@ static public function ctrEditarBancoInter(){
 
                 $datos = array(
                     "nombre" => $_POST["editarBancoInter"],
-                    "id" => $_POST["editarId"]
+                    "id" => $_POST["editarIdBancoInter"]
                 
                 );
     
-               
-                $respuesta = ModeloBancoInter::mdlEditarBancoInter($tabla, $datos);
+              
+                $respuesta = ModeloBancoInter::mdlEditarBancoInter($tabla, $datos,$info);
+                
                 if($respuesta=="ok"){
                     echo '<script>
 
@@ -160,8 +161,9 @@ static public function ctrEditarBancoInter(){
         if(isset($_GET["idBancoInter"])){
             $tabla="banco_inter";
             $datos = $_GET["idBancoInter"];
+            $info = $_GET["info"];
 
-            $respuesta = ModeloBancoInter::mdlBorrarBancoInter($tabla, $datos);
+            $respuesta = ModeloBancoInter::mdlBorrarBancoInter($tabla, $datos,$info);
             if($respuesta=="ok"){
                 echo '<script>
 

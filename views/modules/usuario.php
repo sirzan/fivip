@@ -43,8 +43,9 @@
                     
                     $item = null;
                     $valor = null;
+                    $info= $_SESSION['info'];
 
-                    $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+                    $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor,$info);
                     foreach ($usuarios as $key => $value) {
                      echo '<tr>
                      <td>'.$value['id'].'</td>
@@ -59,8 +60,8 @@
                      
                      echo '<td>'.$value['login_time'].'</td>
                      <td> 
-                       <button type="submit" data-toggle="modal" data-target="#modal-editar-usuario" class="btn btn-success btn-sm btnEditarUsuario" idUsuario="'.$value['id'].'"><i class="fas fa-edit"></i></button>
-                       <button type="submit" class="btn btn-danger btn-sm btnEliminarUsuario" idUsuario="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button>
+                       <button type="submit" data-toggle="modal" data-target="#modal-editar-usuario" class="btn btn-success btn-sm btnEditarUsuario" idUsuario="'.$value['id'].'" info="'.$_SESSION['info'].'"><i class="fas fa-edit"></i></button>
+                       <button type="submit" class="btn btn-danger btn-sm btnEliminarUsuario" idUsuario="'.$value['id'].'" info="'.$_SESSION['info'].'"><i class="fas fa-trash-alt"></i></button>
                      </td>
                    </tr>';
                     }
@@ -91,9 +92,18 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                <div class="form-group">
-                        <label for="usuario">Usuario</label>
-                        <input type="text" class="form-control" id="nuevoUsuario" name="nuevoUsuario" placeholder="Escriba el nombre de usuario">
+                  <div class="form-group">
+                    <label for="">Usuario</label>
+                  </div>
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <input type="text" class="form-control" id="iso" name="iso" value="<?php echo $_SESSION['iso'] ?>" readonly>
+                  </div>
+                  <div class="col-md-6">
+                   
+                    <input type="text" class="form-control" id="nuevoUsuario" name="nuevoUsuario" placeholder="Escriba el nombre de usuario">
+                    <input type="hidden" class="form-control" id="info" value="<?php echo $_SESSION['info'] ?>">
+                  </div>
                       </div>
                       <div class="form-group">
                         <label for="nuevoNombre">Nombre del Usuario</label>
@@ -117,10 +127,9 @@
                   <button type="submit" class="btn btn-primary">Registrar Usuario</button>
                 </div>
                 <?php
-  
+                  $info=$_SESSION['info'];
                   $crearUsuario = new ControladorUsuarios();
-                  $crearUsuario -> ctrCrearUsuario();
-  
+                  $crearUsuario -> ctrCrearUsuario($info);
                 ?>
   
             </form>

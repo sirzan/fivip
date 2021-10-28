@@ -43,7 +43,8 @@
                     
                     $valor=null;
                     $item=null;
-                    $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
+                    $info=$_SESSION['info'];
+                    $monedas = MonedaController::ctrMostrarMonedas($item,$valor,$info);
                     foreach ($monedas as $key => $value) {
                      echo '<tr>
                      <td>'.$value['id'].'</td>
@@ -53,8 +54,8 @@
                      <td>'.$value['pais'].'</td>
 
                      <td> 
-                       <button type="submit" data-toggle="modal" data-target="#modal-editar-moneda" class="btn btn-success btn-sm btnEditarMoneda" idMoneda="'.$value['id'].'"><i class="fas fa-edit"></i></button>
-                       <button type="submit" class="btn btn-danger btn-sm btnEliminarMoneda" idMoneda="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button>
+                       <button type="submit" data-toggle="modal" data-target="#modal-editar-moneda" class="btn btn-success btn-sm btnEditarMoneda" idMoneda="'.$value['id'].'" info="'.$_SESSION['info'].'"><i class="fas fa-edit"></i></button>
+                       <button type="submit" class="btn btn-danger btn-sm btnEliminarMoneda" idMoneda="'.$value['id'].'" info="'.$_SESSION['info'].'"><i class="fas fa-trash-alt"></i></button>
                      </td>
                    </tr>';
                     }
@@ -90,8 +91,8 @@
                               <option selected>-- Seleccione un Pais --</option>
                           
                        <?php 
-             
-             $pais = PaisController::ctrMostrarApiPais();
+              $info=$_SESSION['info'];
+             $pais = PaisController::ctrMostrarApiPais($info);
              // var_dump($pais);
          
              if($pais){
@@ -107,6 +108,7 @@
                           <div class="form-group">
                             <label for="nuevoMoneda">Moneda</label>
                             <input type="text" class="form-control" id="nuevoMoneda" name="nuevoMoneda" placeholder="Nombre de la moneda">
+                            <input type="hidden" id="info" value="<?php echo $_SESSION['info']?>">
                         </div>
                           <div class="form-group">
                             <label for="nuevoSimbolo">Simbolo</label>
@@ -123,9 +125,9 @@
                   <button type="submit" class="btn btn-primary">Registrar Moneda</button>
                 </div>
                 <?php
-  
+                 $info=$_SESSION['info'];
                 $crearMoneda = new MonedaController();
-                $crearMoneda -> ctrCrearMoneda();
+                $crearMoneda -> ctrCrearMoneda($info);
 
               ?>
   
@@ -160,17 +162,16 @@
                               <option selected>-- Seleccione un Pais --</option>
                            
                                     <?php 
-                          
-                                    $pais = PaisController::ctrMostrarApiPais();
-                                    // var_dump($pais);
+                                      $info=$_SESSION['info'];
+                                      $pais = PaisController::ctrMostrarApiPais($info);
                                 
-                                    if($pais){
-                                      foreach ($pais as $key => $value) {
-                                      echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';
-                                      }
-                                    }else{
-                                      echo'<option disabled>-- No hay monedas creadas, vaya a la seccion de monedas --</option>';
-                                    }
+                                      if($pais){
+                                        foreach ($pais as $key => $value) {
+                                        echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';
+                                        }
+                                        }else{
+                                          echo'<option disabled>-- No hay monedas creadas, vaya a la seccion de monedas --</option>';
+                                        }
                                     ?>
                             </select>
                           </div>
@@ -195,7 +196,7 @@
                  <?php
   
                   $crearUsuario = new MonedaController();
-                  $crearUsuario -> ctrEditarMoneda();
+                  $crearUsuario -> ctrEditarMoneda($info);
   
                 ?> 
   
@@ -212,6 +213,8 @@
 
 
  <?php
- $borrarUsuario = new MonedaController();
- $borrarUsuario->ctrBorrarMoneda();
+
+  $borrarUsuario = new MonedaController();
+  $borrarUsuario->ctrBorrarMoneda();
+
  ?>

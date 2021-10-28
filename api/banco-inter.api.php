@@ -10,7 +10,9 @@ class ApiBancoInter
     public function apiEditarBancoInter(){
         $item = "id";
         $valor = $this->idBancoInter;
-        $respuesta = BancoInterController::ctrMostrarBancoInter($item,$valor);
+        $info =$valor['info'];
+        $data = $valor['idBancoInter'];
+        $respuesta = BancoInterController::ctrMostrarBancoInter($item,$data,$info);
         echo json_encode($respuesta);
     }
 
@@ -20,7 +22,7 @@ class ApiBancoInter
 
 if (isset($_POST['idBancoInter'])) {
     $editar = new ApiBancoInter;
-    $editar -> idBancoInter = $_POST["idBancoInter"];
+    $editar -> idBancoInter = $_POST;
     $editar ->apiEditarBancoInter();
 }
 

@@ -4,7 +4,7 @@ $(function() {
   $("#pagosR").DataTable({
       "order": [[ 1, "desc" ]],
       "responsive": true,
-      "lengthChange": false,
+      "lengthChange": true,
       "autoWidth": false,
       "language": {
           "processing": "Procesando...",
@@ -237,9 +237,11 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
   //mandar datos id al ajax de perfil//
 
   const idPago = $(this).attr('idPagosP')
+  const info = $(this).attr('info')
 
   const data = new FormData();
   data.append('idPagos', idPago)
+  data.append('info', info)
 
   /////////////////////////////
   //Perfil del pago pendiente//
@@ -255,7 +257,7 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
       contentType:false,
       processData:false,
       success: function (respuesta) {
-
+       
         
           $('#remesa_id').val(respuesta.id);
           $('#monto-cobro').val(respuesta.total_envio);
@@ -277,17 +279,19 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
           ///////////////////////////////
           //   cuenta que transfiere   //
           //////////////////////////////
-
+          const data2 = new FormData();
+          data2.append('info', info)
           $.ajax({
               url:'api/cuentasall.api.php',
               method:'POST',
               dataType:'json',
+              data:data2,
               async:true,
               cache:false,
               contentType:false,
               processData:false,
               success: function (res) {
-           
+                console.log(res)
                   if (respuesta.iso_tasa == 'VEN') {
                       var tipoBanco1='vene'
                   }else{
@@ -630,6 +634,7 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
       datos.append('remesa_id',parseFloat($('#remesa_id').val()))
       datos.append('tipoBancoSalida',$('#tipoBancoSalida').val())
       datos.append('tipoBancoEntrada',$('#tipoBancoEntrada').val())
+      datos.append('info',info)
 
       if (clasesMetodo.length <= 0) {
           toastr.warning('Debe agregar un metodo de pago')
@@ -650,8 +655,9 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                               data:datos,
                               method:'POST',
                               dataType:'json',
-                              processData:false,
+                              async:true,
                               cache:false,
+                              processData:false,
                               contentType:false,
                               success: function(res){
                                 
@@ -672,7 +678,6 @@ $(document).off("click", ".btnPagarP").on("click", ".btnPagarP",function () {
                                       })
                                   }else{
                                     
-
                                       swal({
                                               type: "error",
                                               title: "¡Algo salio mal",
@@ -850,13 +855,18 @@ window.open("index.php?ruta=invoice&id="+idPagos, "_blank");
 /// creditos y pagos notificacion ////////////
 /////////////////////////////////////////////////////
 $(document).ready(function(){
-    load_notification()
+    const info=$('#info').val();
+
+    load_notification(info)
  
-    function load_notification(){
-   
+    function load_notification(info){
+        const data= new FormData();
+        data.append('info',info)
         $.ajax({
             url: "api/pagosnoti.api.php",
             method: "POST",
+            data:data,
+            async:true,
             cache: false,
             contentType: false,
             processData: false,
@@ -867,6 +877,8 @@ $(document).ready(function(){
                 $.ajax({
                     url: "api/credinoti.api.php",
                     method: "POST",
+                    data:data,
+                    async:true,
                     cache: false,
                     contentType: false,
                     processData: false,
@@ -885,9 +897,5 @@ $(document).ready(function(){
       })
     }
 
-//  setInterval(function(){ 
-//         $('.caja').remove()
-//     load_notification();
-//  }, 5000);
 
 })

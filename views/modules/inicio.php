@@ -24,11 +24,11 @@
       <div class="card">
 
         <div class="card-header clearfix">
-
+            <input type="hidden" id="info" value="<?php echo $_SESSION['info']?>">
           <?php if($_SESSION["rol"] == 'administrador') {
-            echo '  <button type="button" id="btnReporteDia" class="btn btn-success float-left">
+            echo '  <button disabled  type="button" id="btnReporteDia" class="btn btn-success float-left">
             <i class="fas fa-print"></i> Reporte del dia
-          </button> <button type="button" id="btnReporteDiaA4" class="btn btn-success float-left ml-3">
+          </button> <button type="button" id="btnReporteDiaA4" info="'.$_SESSION['info'].'" class="btn btn-success float-left ml-3">
           <i class="fas fa-print"></i> Reporte del dia (A4)
         </button>  <button type="button" class="btn btn-primary float-right" id="daterange-btn">
           <span><i class="far fa-calendar-alt"></i> Rango de Fechas</span> <i class="fas fa-caret-down"></i>
@@ -114,7 +114,7 @@
 
 
       <div class="row">
-          <div class="col-6">
+          <div class="col-md-6">
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Movimientos de Efectivo</h3>

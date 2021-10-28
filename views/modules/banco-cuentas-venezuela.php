@@ -31,8 +31,8 @@
         <?php
         $item = null;
         $valor = null;
-
-        $respuesta =  CuentaBancoVeneController::ctrMostrarCuenta($item, $valor);
+        $info=$_SESSION['info'];
+        $respuesta =  CuentaBancoVeneController::ctrMostrarCuenta($item, $valor,$info);
 
         foreach ($respuesta as $key => $value) {
    
@@ -48,13 +48,13 @@
                               <b>Saldo</b> <a class="float-right">'.$value['simbolo'].' '.number_format(bcdiv($value['saldo'],'1',2),2,',','.').'</a>
                             </li>
                           </ul>
-                          <button type="submit" class="btn btn-outline-primary btn-block verMovimientos" idCuenta="'.$value['id_cuenta'].'" data-toggle="modal" data-target="#modal-xl"><b>	<i class="fas fa-eye"></i> Movimientos</b></button>
-                          <button type="submit" class="btn btn-success btn-block recargarCuenta" idCuenta="'.$value['id_cuenta'].'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-up"></i> Recargar Saldo</b></button>
-                          <button type="submit" class="btn btn-secondary btn-block descargarCuenta" idCuenta="'.$value['id_cuenta'].'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-down"></i> Descargar Saldo</b></button>
-                          <button type="submit" class="btn btn-warning btn-block TransferirSaldo" data-toggle="modal" data-target="#modal-transferencia" idCuenta="'.$value['id_cuenta'].'"><b><i class="fas fa-exchange-alt"></i> Transferir saldo</b></button>
+                          <button type="submit" class="btn btn-outline-primary btn-block verMovimientos" idCuenta="'.$value['id_cuenta'].'" info="'.$info.'" data-toggle="modal" data-target="#modal-xl"><b>	<i class="fas fa-eye"></i> Movimientos</b></button>
+                          <button type="submit" class="btn btn-success btn-block recargarCuenta" idCuenta="'.$value['id_cuenta'].'" info="'.$info.'"  data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-up"></i> Recargar Saldo</b></button>
+                          <button type="submit" class="btn btn-secondary btn-block descargarCuenta" idCuenta="'.$value['id_cuenta'].'" info="'.$info.'"  data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-down"></i> Descargar Saldo</b></button>
+                          <button type="submit" class="btn btn-warning btn-block TransferirSaldo" data-toggle="modal" data-target="#modal-transferencia" info="'.$info.'" idCuenta="'.$value['id_cuenta'].'"><b><i class="fas fa-exchange-alt"></i> Transferir saldo</b></button>
                          ';
                         if($value['estado'] == 0){
-                          echo' <button type="submit" class="btn btn-danger btn-block eliminarCuenta" idCuenta="'.$value['id_cuenta'].'" idCuentaSaldo="'.$value['id_saldo'].'" estado="'.$value['estado'].'"><b> 	<i class="fas fa-trash-alt"></i> Eliminar cuenta</b></button>';
+                          echo' <button type="submit" class="btn btn-danger btn-block eliminarCuenta" idCuenta="'.$value['id_cuenta'].'" info="'.$info.'" idCuentaSaldo="'.$value['id_saldo'].'" estado="'.$value['estado'].'"><b> 	<i class="fas fa-trash-alt"></i> Eliminar cuenta</b></button>';
                         }
                     
                          echo' </div>
@@ -103,7 +103,7 @@
                     
                     $valor=null;
                     $item=null;
-                    $bancosvene = BancoVeneController::ctrMostrarBancoVene($item,$valor);
+                    $bancosvene = BancoVeneController::ctrMostrarBancoVene($item,$valor,$info);
                     foreach ($bancosvene as $key => $value) {
                      echo '<option value="'.$value['id'].'" >'.$value['nombre'].'</option>';
                     }
@@ -125,7 +125,7 @@
             </div>
             <?php
             $crearBanco = new CuentaBancoVeneController();
-            $crearBanco->ctrCrearCuenta();
+            $crearBanco->ctrCrearCuenta($info);
             ?>
         </form>
               
@@ -171,8 +171,9 @@
                 <button type="submit" class="btn btn-primary btnModal"></button>
             </div>
             <?php
+            
             $sumarestaCuenta = new SaldoCuentaVeneController();
-            $sumarestaCuenta->ctrSumaRestaSaldo();
+            $sumarestaCuenta->ctrSumaRestaSaldo($info);
             ?>
         </form>
         </div>
@@ -227,7 +228,7 @@
           
                     $valor=null;
                     $item=null;
-                    $cuentas = CuentaBancoVeneController::ctrMostrarCuenta($item,$valor);
+                    $cuentas = CuentaBancoVeneController::ctrMostrarCuenta($item,$valor,$info);
                     // var_dump($bancosvene);
                     if($cuentas){
                       foreach ($cuentas as $key => $value) {
@@ -258,7 +259,7 @@
             </div>
             <?php
             $crearBanco = new SaldoCuentaVeneController();
-            $crearBanco->ctrTransferenciaSaldo();
+            $crearBanco->ctrTransferenciaSaldo($info);
             ?>
         </form>
       

@@ -7,6 +7,7 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="" class="nav-link"><?php echo $_SESSION["rol"];?></a>
+        <input type="hidden" id="info" value="<?php echo $_SESSION['info']?>">
       </li>
     
     </ul>

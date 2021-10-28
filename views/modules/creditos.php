@@ -43,7 +43,8 @@
                     
                     $valor=null;
                     $item=null;
-                    $creditos = CreditosController::ctrMostrarCreditos($item,$valor);
+                    $info=$_SESSION['info'];
+                    $creditos = CreditosController::ctrMostrarCreditos($item,$valor,$info);
                     foreach ($creditos as $key => $value) {
               
                      echo '<tr>
@@ -57,7 +58,7 @@
                      <td> 
                    
 
-                       <button type="submit" data-toggle="modal" data-target="#modal-credito" class="btn btn-success btn-sm btnCreditos" idCreditos="'.$value['remesas_id'].'"><i class="fas fa-money-bill-alt"></i> Pagar</button>
+                       <button type="submit" data-toggle="modal" data-target="#modal-credito" class="btn btn-success btn-sm btnCreditos" idCreditos="'.$value['remesas_id'].'" info="'.$info.'"><i class="fas fa-money-bill-alt"></i> Pagar</button>
                        <button type="submit" class="btn btn-primary btn-sm btnverPago" idPagos="'.$value['remesas_id'].'"><i class="fas fa-eye"></i></button>
                      </td>
                    </tr>';

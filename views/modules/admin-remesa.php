@@ -10,7 +10,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-              <li class="breadcrumb-item active">Tablero</li>
+              <li class="breadcrumb-item active" >Tablero <input type="hidden" id="info" value="<?php echo $_SESSION['info'] ?>"></li>
             </ol>
           </div>
         </div>
@@ -29,6 +29,7 @@
 
         </div>
         <div class="card-body">
+ 
         <table id="remesas" class="table table-bordered table-striped tablas">
                   <thead>
                   <tr>

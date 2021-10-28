@@ -1,304 +1,156 @@
 <?php
 require_once "../../../models/reporte-dia.api.php";
 
-class imprimirFacturaA4{
+
+// Include the main TCPDF library (search for installation path).
 
 
-public function traerImpresionFactura(){
-    $respuesta = new ReporteDia();
-    $data1 = $respuesta->apiReporte();
-    $data2 =$respuesta->apiReportemontoTotales();
-    $data3 =$respuesta->apiReporteremesaTotales();
-    $comision =$respuesta->apiReporteremesaComision();
-
-//REQUERIMOS LA CLASE TCPDF
-
+$respuesta = new ReporteDia();
+$data1 = $respuesta->apiReporte($_GET['info']);
+$data2 =$respuesta->apiReportemontoTotales($_GET['info']);
+$data3 =$respuesta->apiReporteremesaTotales($_GET['info']);
+$data4 =$respuesta->apiReporteremesaComision($_GET['info']);
+// var_dump($_GET);
+// var_dump($data4);
+// $comision =$respuesta->apiReporteremesaComision($_GET['info']);
 require_once('tcpdf_include.php');
+// Extend the TCPDF class to create custom Header and Footer
+class MYPDF extends TCPDF {
 
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+    //Page header
+    public function Header() {
+        // Logo
+		date_default_timezone_set('America/Lima');
+		$fecha=date("Y-m-d H:i:s");
+        $image_file = K_PATH_IMAGES.'logo.PNG';
+        $this->Image($image_file, 10, 10, 40, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        // Set font
+        $this->SetFont('helvetica', 'B', 10);
+        // Title
+        $this->Cell(0, 15, 'CORPORATIVO FIVIP', 0, false, 'R', 0, '', 0, false, 'M', 'M');
+		$this->Ln(4);
+        $this->Cell(0, 15, 'RUC: 20607982873', 0, false, 'R', 0, '', 0, false, 'M', 'M');
+        $this->SetFont('helvetica', 'N', 10);
+		$this->Ln(4);
+        $this->Cell(0, 15, ' Fecha:'.$fecha, 0, false, 'R', 0, '', 0, false, 'M', 'M');
+    }
 
-$pdf->startPageGroup();
+    // Page footer
+    public function Footer() {
+        // Position at 15 mm from bottom
+        $this->SetY(-15);
+        // Set font
+        $this->SetFont('helvetica', 'I', 8);
+        // Page number
+        $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+		
+    }
+}
 
-$pdf->AddPage();
+// create new PDF document
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Nicola Asuni');
+$pdf->SetTitle('TCPDF Example 003');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+
+// add a page
+$pdf->AddPage('P','A4');
 $pdf->Image('images/logo2.png', 30, 120, 150, '', '', '', '', false, 300);
 
-// ---------------------------------------------------------
-$fecha=date("Y-m-d H:i:s"); 
-$bloque1 = <<<EOF
+$pdf->SetFont('helvetica', 'B', 15);
+$pdf->Ln(4);
+$pdf->Cell(0, 15, 'REPORTES TOTALES DEL DIA', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Ln(6);
+$pdf->Cell(0, 15, 'TOTALES POR TASA', 0, false, 'L', 0, '', 0, false, 'M', 'M');
+$pdf->Ln(4);
+$pdf->SetFont('helvetica', 'N', 10);
 
-	<table>
-		
-		<tr>
-			
-			<td style="width:150px"><img src="images/logo.png"></td>
+// set some text to print
 
-
-
-			<td style="width:350px">
-
-				<div style="font-size:8.5px; text-align:right; line-height:15px;">
-                <br>
-                Fecha: $fecha
-					<br>
-					<strong style="font-size: 12px;">CORPORATIVO FIVIP</strong>
-
-					<br>
-					RUC: 20607982873
-
-				</div>
-				
-			</td>
-
-		</tr>
-
-	</table>
-
-EOF;
-
-$pdf->writeHTML($bloque1, false, false, false, false, '');
-
-$bloque3 = <<<EOF
-
-	<table>
-		
-		<tr>
-			
-
-			<td style="width:330px">
-
-				<div style="font-size:8.5px; text-align:right; line-height:15px;">
-             
-					<strong style="font-size: 12px;">REPORTE DEL DIA</strong>
-
-
-				</div>
-				
-			</td>
-
-		</tr>
-
-	</table>
-
-EOF;
-
-$pdf->writeHTML($bloque3, false, false, false, false, '');
-$pdf->Ln(2);
-// ---------------------------------------------------------
-foreach ($data1 as $key => $value) {
-    $serie=$value['correlativo'];
-    $cliente=$value['nombres'].' '.$value['apellidos'];
-	$pais=$value['pais'];
-	$monto=number_format($value['total_envio'],2,',','.');
-	$simbolo=$value['simbolo_moneda'];
-	$iso=$value['iso_moneda'];
-	$tasa=number_format($value['tasa'],2,',','.');
-	$iso_tasa=$value['iso_tasa'];
-	$simbolo_tasa=$value['simbolo_tasa'];
-	$total_remesa=number_format($value['total_remesa'],2,',','.');
-$bloque2 = <<<EOF
-
-
-
-	<table style="font-size:9px; padding:5px 10px;">
+foreach ($data2 as $value) {
+	$html = '
+	<table border="1" cellpadding="5">
+	<thead>
 	
-		<tr>
-		
-			<td style="border: 1px solid #666; background-color:white; width:390px">
+	<tr>
+	<th>'.$value['simbolo_tasa'].''.number_format($value['tasa'],4,',','.').' ('.$value['iso_tasa'].') x '.$value['simbolo_moneda'].''.number_format($value['total_envio'],2,',','.').' ('.$value['iso_moneda'].')</th>
+	<th>Total: '.$value['simbolo_tasa'].''.number_format($value['total_remesa'],2,',','.').' ('.$value['iso_tasa'].')</th>
 
-				Correlativo: $serie Cliente: $cliente
+	</tr>
+	
+	<thead>
 
-			</td>
-
-			<td style="border: 1px solid #666; background-color:white; width:150px; text-align:right">
-			
-				Pais: $pais
-
-			</td>
-
-		</tr>
-
-		<tr>
-		
-			<td style="border: 1px solid #666; background-color:white; width:180px">Monto: $simbolo$monto ($iso)</td>
-			<td style="border: 1px solid #666; background-color:white; width:180px">Tasa: $simbolo_tasa$tasa ($iso_tasa)</td>
-			<td style="border: 1px solid #666; background-color:white; width:180px">Total: $simbolo_tasa$total_remesa ($iso_tasa)</td>
-
-		</tr>
-
-
+	
 	</table>
-
-EOF;
-
-$pdf->writeHTML($bloque2, false, false, false, false, '');
-$pdf->Ln(3);
+	
+	';
+	
+	
+	// output the HTML content
+	$pdf->writeHTML($html, true, false, true, false, '');
+	$pdf->Ln(-3);
 }
-
-// ---------------------------------------------------------
-
-$bloque6 = <<<EOF
-
-
-	<table style="font-size:9px; padding:5px 10px;">
-	
-
-
-		<tr>
-		
-			<td style=" width:180px">Total de remesas recibidas</td>
-			
-
-		</tr>
-
-
-	</table>
-
-
-EOF;
-
-$pdf->writeHTML($bloque6, false, false, false, false, '');
-foreach ($data2 as $key => $value) {
-	$monto_total = number_format($value['total'],2,',','.');
-	$iso_total=$value['iso_moneda'];
-	$simbolo_total=$value['simbolo_moneda'];
-$bloque4 = <<<EOF
-
-	<table style="font-size:9px; padding:5px 10px;">
-	
-
-
-		<tr>
-		
-			<td style="border: 1px solid #666; background-color:white; width:200px">Monto: $simbolo_total $monto_total ($iso_total)</td>
-			
-
-		</tr>
-
-
-	</table>
-
-EOF;
-
-$pdf->writeHTML($bloque4, false, false, false, false, '');
-$pdf->Ln(3);
+$pdf->Ln(4);
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Cell(0, 15, 'TOTALES POR GENERALES', 0, false, 'L', 0, '', 0, false, 'M', 'M');
+$pdf->Ln(8);
+$pdf->SetFont('helvetica', 'N', 8);
+$pdf->Cell(65, 15, 'TOTALES ENVIADOS', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+$pdf->Cell(65, 15, 'TOTALES RECIBIDOS', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+$pdf->Ln(8);
+$pdf->SetFont('helvetica', 'N', 10);
+foreach ($data3 as $value) {
+	$pdf->Cell(65, 7, $value['simbolo_tasa'].''.number_format($value['total_remesa'],2,',','.').' ('.$value['iso_tasa'].')', 1, false, 'L', 0, '', 0, false, 'M', 'M');
+	$pdf->Cell(65, 7, $value['simbolo_moneda'].''.number_format($value['total_envio'],2,',','.').' ('.$value['iso_moneda'].')', 1, false, 'L', 0, '', 0, false, 'M', 'M');
+	$pdf->Ln(8);
 }
-
-// ---------------------------------------------------------
-
-
-$bloque7 = <<<EOF
-
-
-	<table style="font-size:9px; padding:5px 10px;">
-	
-
-
-		<tr>
-		
-			<td style=" width:180px">Total de remesas enviadas</td>
-			
-
-		</tr>
-
-
-	</table>
-
-
-EOF;
-
-$pdf->writeHTML($bloque7, false, false, false, false, '');
-foreach ($data3 as $key => $value) {
-	$monto_total=number_format($value['total'],2,',','.');
-	$iso_total=$value['iso_tasa'];
-	$simbolo_total=$value['simbolo_tasa'];
-$bloque5 = <<<EOF
-
-
-	<table style="font-size:9px; padding:5px 10px;">
-	
-
-
-		<tr>
-		
-			<td style="border: 1px solid #666; background-color:white; width:200px">Monto: $simbolo_total $monto_total ($iso_total)</td>
-			
-
-		</tr>
-
-
-	</table>
-
-EOF;
-
-$pdf->writeHTML($bloque5, false, false, false, false, '');
-$pdf->Ln(2);
+$pdf->Ln(10);
+if(isset($data)){
+	$pdf->Cell(0, 15, 'TOTAL DE COMISIONES BANCARIAS', 0, false, 'L', 0, '', 0, false, 'M', 'M');
+	$pdf->Ln(8);
+	$pdf->Cell(65, 7, $data4['simbolo'].''.number_format($data4['monto_comision'],2,',','.').' ('.$data4['iso'].')', 1, false, 'L', 0, '', 0, false, 'M', 'M');
 }
 // ---------------------------------------------------------
 
+//Close and output PDF document
+$pdf->Output('example_003.pdf', 'I');
 
-$bloque8 = <<<EOF
-
-
-	<table style="font-size:9px; padding:5px 10px;">
-	
-
-
-		<tr>
-		
-			<td style=" width:180px">Total de comisiones bancarias por transferencias o pago movil</td>
-			
-
-		</tr>
-
-
-	</table>
-
-
-EOF;
-
-$pdf->writeHTML($bloque8, false, false, false, false, '');
-foreach ($comision as $key => $value) {
-	$monto_total=number_format($value['monto_comision'],2,',','.');
-	$iso_total=$value['iso'];
-	$simbolo_total=$value['simbolo'];
-$bloque9 = <<<EOF
-
-
-	<table style="font-size:9px; padding:5px 10px;">
-	
-
-
-		<tr>
-		
-			<td style="border: 1px solid #666; background-color:white; width:200px">Monto: $simbolo_total $monto_total ($iso_total)</td>
-			
-
-		</tr>
-
-
-	</table>
-
-EOF;
-
-$pdf->writeHTML($bloque9, false, false, false, false, '');
-$pdf->Ln(2);
-}
-
-
-// ---------------------------------------------------------
-
-
-// ---------------------------------------------------------
-//SALIDA DEL ARCHIVO 
-
-//$pdf->Output('factura.pdf', 'D');
-$pdf->Output('reporte-diario.pdf');
-
-}
-
-}
-
-$factura = new imprimirFacturaA4();
-$factura -> traerImpresionFactura();
-
-?>
+//============================================================+
+// END OF FILE
+//============================================================+

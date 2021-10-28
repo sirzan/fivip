@@ -9,8 +9,10 @@ class ApiMonedas
 
     public function apiEditarMoneda(){
         $item = "id";
-        $valor = $this->idUsuario;
-        $respuesta = MonedaController::ctrMostrarMonedas($item,$valor);
+        $valor = $this->idMoneda;
+        $info = $valor['info'];
+        $idMon = $valor['idMoneda'];
+        $respuesta = MonedaController::ctrMostrarMonedas($item,$idMon,$info);
         echo json_encode($respuesta);
     }
 
@@ -21,18 +23,18 @@ class ApiMonedas
     public function apiValidarMoneda(){
          $item = "moneda";
          $valor = $this->validarMoneda;
-         $respuesta = MonedaController::ctrMostrarMonedas($item,$valor);
+         $info=$valor['info'];
+         $data=$valor['validarMoneda'];
+         $respuesta = MonedaController::ctrMostrarMonedas($item,$data,$info);
          echo json_encode($respuesta);
      }
-
- 
-   
+  
 }
 
 //editar moneda
 if (isset($_POST['idMoneda'])) {
     $editar = new ApiMonedas;
-    $editar -> idUsuario = $_POST["idMoneda"];
+    $editar -> idMoneda = $_POST;
     $editar ->apiEditarMoneda();
 }
 
@@ -41,7 +43,7 @@ if (isset($_POST['idMoneda'])) {
 if(isset($_POST['validarMoneda'])){
 
     $activarUsuario = new ApiMonedas();
-    $activarUsuario->validarMoneda = $_POST["validarMoneda"];
+    $activarUsuario->validarMoneda = $_POST;
     $activarUsuario->apiValidarMoneda();
 
 }

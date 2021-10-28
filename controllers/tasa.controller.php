@@ -2,7 +2,7 @@
 class TasaController{
 
 //crear monedas
-static public function ctrCrearTasa(){
+static public function ctrCrearTasa($info){
    
     if(isset($_POST['tasaCambio'])){
    
@@ -18,8 +18,8 @@ static public function ctrCrearTasa(){
                 "tasa_c" => $_POST["tasaCambio"],
                 "moneda_t_id" => $_POST['monedaTasa']
             );
-            var_dump($datos);
-            $respuesta = ModeloTasa::mdlIngresarTasa($tabla, $datos);
+    
+            $respuesta = ModeloTasa::mdlIngresarTasa($tabla, $datos,$info);
             if($respuesta=="ok"){
                 echo '<script>
 
@@ -51,10 +51,10 @@ static public function ctrCrearTasa(){
 
 
 //mostrar tasas en la tabla
-static public function ctrMostrarTasa($item,$valor){
+static public function ctrMostrarTasa($item,$valor,$info){
     $tabla = 'tasas';
             
-    $respuesta = ModeloTasa::mdlMostrarTasa($tabla, $item, $valor);
+    $respuesta = ModeloTasa::mdlMostrarTasa($tabla, $item, $valor,$info);
 
     return $respuesta;
 }
@@ -63,7 +63,7 @@ static public function ctrMostrarTasa($item,$valor){
 
 //Editar Moneda
 
-static public function ctrEditarTasa(){
+static public function ctrEditarTasa($info){
     if(isset($_POST['editarMoneda'])){
      
             
@@ -79,7 +79,7 @@ static public function ctrEditarTasa(){
             );
     
                
-                $respuesta = ModeloTasa::mdlEditarTasa($tabla, $datos);
+                $respuesta = ModeloTasa::mdlEditarTasa($tabla, $datos,$info);
                 if($respuesta=="ok"){
                     echo '<script>
 
@@ -112,8 +112,9 @@ static public function ctrEditarTasa(){
         if(isset($_GET["idTasa"])){
             $tabla="tasas";
             $datos = $_GET["idTasa"];
+            $info = $_GET["info"];
 
-            $respuesta = ModeloTasa::mdlBorrarTasa($tabla, $datos);
+            $respuesta = ModeloTasa::mdlBorrarTasa($tabla, $datos,$info);
             if($respuesta=="ok"){
                 echo '<script>
 

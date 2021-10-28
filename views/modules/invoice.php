@@ -29,14 +29,15 @@
        
                 
                     <?php 
-
+                    
+                     $item='id';
+                     $item2='remesas_id';
+                     $valor=$_GET['id'];
+                     $info=$_SESSION['info'];
                      
-            $item='id';
-            $item2='remesas_id';
-            $valor=$_GET['id'];
-            $remesas = RemesasController::ctrMostrarRemesas($item,$valor);
+            $remesas = RemesasController::ctrMostrarRemesas($item,$valor,$info);
             $valor2=$remesas['id'];
-            $metodos_pagos = ModeloPagos::mdlMostrarPagosRealizados($item2,$valor2);
+            $metodos_pagos = ModeloPagos::mdlMostrarPagosRealizados($item2,$valor2,$info);
          
 
 
@@ -99,7 +100,7 @@
                   <b>Fecha: '.$remesas['fecha'].'</b><br>
                   <b>Correlativo: '.$remesas['correlativo'].'</b><br>
                   <br>
-                  <b>Cliente:</b> '.$remesas["CONCAT(nombres,' ',apellidos)"].'<br>
+                  <b>Cliente:</b> '.$remesas["clientes"].'<br>
                   <b>Teléfono:</b> '.$remesas["telefono"].'
                 </div>
                 <!-- /.col -->

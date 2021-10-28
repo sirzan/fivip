@@ -23,8 +23,8 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <a href="punto-venta" class="btn btn-primary btn-lg">Vender Boleto</a>
-
+          <a href="punto-venta" class="btn btn-primary btn-lg">Vender Boleto </a>
+  <input type="hidden" id="info" value="<?php echo $_SESSION['info'] ?>">
      
 
         </div>

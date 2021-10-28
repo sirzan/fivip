@@ -4,7 +4,7 @@ require_once 'conexion.php';
 
 class PagoBoletoModel{
 
-    static public function mdlIngresar($tabla,$datos){
+    static public function mdlIngresar($tabla,$datos,$info){
        try {
         date_default_timezone_set('America/Lima');
 
@@ -12,7 +12,7 @@ class PagoBoletoModel{
         $hora = date('H:i:s');
 
         $fechaActual = $fecha.' '.$hora;
-        $stmt = Conexion::conectar()->prepare("INSERT INTO 
+        $stmt = Conexion::conectar($info)->prepare("INSERT INTO 
         $tabla(
             cuenta_vene_id,
             cuenta_inter_id,

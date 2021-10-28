@@ -10,7 +10,9 @@ class ApiUsuarios
     public function apiEditarUsuario(){
         $item = "id";
         $valor = $this->idUsuario;
-        $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item,$valor);
+        $data = $valor['info'];
+        $idUser =  $valor['idUsuario'];
+        $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item,$idUser,$data);
         echo json_encode($respuesta);
     }
 
@@ -36,7 +38,9 @@ class ApiUsuarios
    public function apiValidarUsuario(){
         $item = "usuario";
         $valor = $this->validarUsuario;
-        $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item,$valor);
+        $data = $valor['info'];
+        $nameCuenta =$valor['validarUsuario'];
+        $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item,$nameCuenta,$data);
         echo json_encode($respuesta);
     }
    
@@ -44,7 +48,7 @@ class ApiUsuarios
 
 if (isset($_POST['idUsuario'])) {
     $editar = new ApiUsuarios;
-    $editar -> idUsuario = $_POST["idUsuario"];
+    $editar -> idUsuario = $_POST;
     $editar ->apiEditarUsuario();
 }
 
@@ -64,7 +68,7 @@ if(isset($_POST['activarUsuario'])){
 if(isset($_POST['validarUsuario'])){
 
     $activarUsuario = new ApiUsuarios();
-    $activarUsuario->validarUsuario = $_POST["validarUsuario"];
+    $activarUsuario->validarUsuario = $_POST;
     $activarUsuario->apiValidarUsuario();
 
 }

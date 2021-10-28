@@ -3,7 +3,7 @@
 require_once 'conexion.php';
 
 class PagosPModel{
-    static public function mdlIngresarPagos($tabla, $datos){
+    static public function mdlIngresarPagos($tabla, $datos,$info){
         try {
             date_default_timezone_set('America/Lima');
 
@@ -12,7 +12,7 @@ class PagosPModel{
     
             $fechaActual = $fecha.' '.$hora;
             // var_dump($datos["password"]);
-                $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(cuenta_vene_id,cuenta_inter_id,monto,n_ope,metodo_p,remesas_id,signo,created_at)
+                $stmt = Conexion::conectar($info)->prepare("INSERT INTO $tabla(cuenta_vene_id,cuenta_inter_id,monto,n_ope,metodo_p,remesas_id,signo,created_at)
                  VALUES(:cuenta_vene_id,:cuenta_inter_id,:monto,:n_ope,:metodo_p,:remesas_id,:signo,:created_at)");
     
                 $stmt->bindParam(":cuenta_vene_id", $datos["cuenta_vene_id"], PDO::PARAM_INT);
@@ -33,9 +33,9 @@ class PagosPModel{
     }
 
 
-    static public function mdlEditarRemesaEstado($tabla2, $datos2){
+    static public function mdlEditarRemesaEstado($tabla2, $datos2,$info){
     
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla2 SET `estado` = :estado WHERE `id` = :id");
+        $stmt = Conexion::conectar($info)->prepare("UPDATE $tabla2 SET `estado` = :estado WHERE `id` = :id");
 
         $stmt->bindParam(":estado", $datos2["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":id", $datos2["id"], PDO::PARAM_INT);

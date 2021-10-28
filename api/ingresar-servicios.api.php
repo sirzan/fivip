@@ -9,8 +9,10 @@ class ApiServi
     public function apiAgregarS(){
        
         $valor = $this->servicioA;
+        $idData=$valor['servicios'];
+        $info=$valor['info'];
         $tabla='servicios_adicionales';
-        $respuesta = ServiciosModel::mdlIngresar($tabla,$valor);
+        $respuesta = ServiciosModel::mdlIngresar($tabla,$valor,$info);
         echo json_encode($respuesta);
     }
     public function apiMostrar(){
@@ -19,15 +21,17 @@ class ApiServi
         $tabla='servicios_adicionales';
         $item=null;
         $valor=null;
-        $respuesta = ServiciosModel::mdlMostrar($tabla,$item,$valor);
+        $info=$this->servicioA['info'];
+        $respuesta = ServiciosModel::mdlMostrar($tabla,$item,$valor,$info);
         echo json_encode($respuesta);
     }
     public function apiEliminar(){
        
         $valor = $this->servicioA;
         $tabla='servicios_adicionales';
-   
-        $respuesta = ServiciosModel::mdlBorrar($tabla,$valor);
+        $idData=$valor['eliminar'];
+        $info=$valor['info'];
+        $respuesta = ServiciosModel::mdlBorrar($tabla,$idData,$info);
         echo json_encode($respuesta);
     }
    
@@ -40,9 +44,10 @@ if (isset($_POST['servicios'])) {
     $agregar ->apiAgregarS();
 }else if(isset($_POST['mostrar'])){
     $agregar = new ApiServi;
+    $agregar -> servicioA = $_POST;
     $agregar ->apiMostrar();
 }else if(isset($_POST['eliminar'])){
     $agregar = new ApiServi;
-    $agregar -> servicioA = $_POST['eliminar'];
+    $agregar -> servicioA = $_POST;
     $agregar ->apiEliminar();
 }

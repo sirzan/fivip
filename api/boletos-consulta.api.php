@@ -22,7 +22,8 @@ class ApiBoletosSelect
     
         $item = null;
         $valor = null;
-        $respuesta = BoletosController::ctrMostrarBoleto($item,$valor);
+        $info = $this->idBoleto['info'];
+        $respuesta = BoletosController::ctrMostrarBoleto($item,$valor,$info);
         $arreglo['data']=$respuesta;
         echo json_encode($arreglo);
     
@@ -54,12 +55,13 @@ class ApiBoletosSelect
 if (isset($_POST['idBoleto'])) {
 
     $id = new ApiBoletosSelect;
-    $id -> idBoleto = $_POST["idBoleto"];
+    $id -> idBoleto = $_POST;
     $id ->apiBorrarBoleto();
 
 }else if(isset($_POST['all'])){
 
     $all = new ApiBoletosSelect;
+    $all -> idBoleto = $_POST;
     $all ->apiListaBoletos();
 
 }else if(isset($_POST['credito'])){

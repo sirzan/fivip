@@ -42,7 +42,8 @@
                     
                     $valor=null;
                     $item=null;
-                    $bancosvene = BancoVeneController::ctrMostrarBancoVene($item,$valor);
+                    $info=$_SESSION['info'];
+                    $bancosvene = BancoVeneController::ctrMostrarBancoVene($item,$valor,$info);
                     foreach ($bancosvene as $key => $value) {
                      echo '<tr>
                      <td>'.$value['id'].'</td>

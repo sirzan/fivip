@@ -4,9 +4,9 @@
 class CreditosController{
 
     //mostrar monedas en la tabla
-  static public function ctrMostrarCreditos($item,$valor){
+  static public function ctrMostrarCreditos($item,$valor,$info){
       $tabla = 'pagos';
-      $respuesta = ModeloCredito::mdlMostrarCreditos($tabla, $item, $valor);
+      $respuesta = ModeloCredito::mdlMostrarCreditos($tabla, $item, $valor,$info);
       return $respuesta;
         }
   
@@ -38,7 +38,7 @@ class CreditosController{
         }
  
         foreach ($valor as $val) {
-            $respuesta = PagosPModel::mdlIngresarPagos($tabla,$val);
+            $respuesta = PagosPModel::mdlIngresarPagos($tabla,$val,$data['info']);
         }
     
         
@@ -58,7 +58,7 @@ class CreditosController{
             //interar array para consulta saldo
             $d=count($datos);
             for ($i=0; $i < $d; $i++) { 
-               array_push($saldoEntrada,CuentaBancoInterController::ctrMostrarCuenta($item_inter_entrada, $datos[$i]['banco']));
+               array_push($saldoEntrada,CuentaBancoInterController::ctrMostrarCuenta($item_inter_entrada, $datos[$i]['banco'],$data['info']));
                 for ($v=0; $v< count($saldoEntrada); $v++) { 
                     if (isset($saldoEntrada[$v]['id_saldo'])) {
                     if ($saldoEntrada[$v]['cuenta_inter_id'] == $datos[$i]['banco']) {
@@ -86,13 +86,13 @@ class CreditosController{
                  }
             }
             foreach ($saldoIngreso as $value) {
-                $sumarsaldo = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_saldo_inter_entrada,$value ); 
+                $sumarsaldo = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_saldo_inter_entrada,$value ,$data['info']); 
             }
 
 
             //movimientos//
             foreach ($movimientoDataEntrada as $value) {
-                $movimientos = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $value);
+                $movimientos = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $value,$data['info']);
             }
 
 
@@ -105,7 +105,7 @@ class CreditosController{
             //interar array para consulta saldo
             $d=count($datos);
             for ($i=0; $i < $d; $i++) { 
-               array_push($saldoEntrada,CuentaBancoVeneController::ctrMostrarCuenta($item_inter_entrada, $datos[$i]['banco']));
+               array_push($saldoEntrada,CuentaBancoVeneController::ctrMostrarCuenta($item_inter_entrada, $datos[$i]['banco'],$data['info']));
                 for ($v=0; $v< count($saldoEntrada); $v++) { 
                     if (isset($saldoEntrada[$v]['id_saldo'])) {
                     if ($saldoEntrada[$v]['cuenta_id'] == $datos[$i]['banco']) {
@@ -130,13 +130,13 @@ class CreditosController{
                  }
             }
             foreach ($saldoIngreso as $value) {
-                $sumarsaldo = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_saldo_vene_entrada,$value ); 
+                $sumarsaldo = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_saldo_vene_entrada,$value,$data['info'] ); 
             }
 
     
             //movimientos//
             foreach ($movimientoDataEntrada as $value) {
-                $movimientos = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $value);
+                $movimientos = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $value,$data['info']);
             }
 
         }
@@ -149,7 +149,7 @@ class CreditosController{
                 "id" =>  $data['id_remesa'],
                 "estado" => 1
             );
-            $respuesta2 = PagosPModel::mdlEditarRemesaEstado($tablaRemesa, $estadoRemesa);
+            $respuesta2 = PagosPModel::mdlEditarRemesaEstado($tablaRemesa, $estadoRemesa,$data['info']);
         }
         return $respuesta;
 

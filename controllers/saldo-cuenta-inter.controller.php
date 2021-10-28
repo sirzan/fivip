@@ -6,7 +6,7 @@ class SaldoCuentaInterController{
 
 //Carga descarga banco
 
-static public function ctrSumaRestaSaldo(){
+static public function ctrSumaRestaSaldo($info){
     if(isset($_POST['saldoRecarga'])){
    
                 $tabla = 'saldo_cuenta_inter';
@@ -27,8 +27,6 @@ static public function ctrSumaRestaSaldo(){
                     $id_cuenta_actual =$_POST["idcuentaActualDescarga"];
                 } 
 
-        
-
                 $datos = array(
                     //cargar saldo
                     "id" => $_POST["idSaldo"],
@@ -43,8 +41,8 @@ static public function ctrSumaRestaSaldo(){
                 );
        var_dump( $datos);
                 if($_POST['operacion'] == 'recarga'){
-                        $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla, $datos);
-                        $respuesta2 =   ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos);
+                        $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla, $datos,$info);
+                        $respuesta2 =   ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos,$info);
                         if($respuesta=="ok"){
 
                             echo '<script>
@@ -72,8 +70,8 @@ static public function ctrSumaRestaSaldo(){
                   } else if ($_POST['operacion'] == 'descargar' &&  $_POST["saldoRecarga"] <= $_POST['saldoActual'] ) {
               
                    
-                       $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla, $datos);
-                       $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos);
+                       $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla, $datos,$info);
+                       $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos,$info);
                     if($respuesta=="ok"){
     
                         echo '<script>
@@ -127,8 +125,6 @@ static public function ctrSumaRestaSaldo(){
            
         }
 
-
-
         static public function ctrBorrarCuenta(){
             if(isset($_GET["idCuentaSaldo"])){
                 $tabla="saldo_cuenta_inter";
@@ -137,12 +133,13 @@ static public function ctrSumaRestaSaldo(){
                 $datos = $_GET["idCuentaSaldo"];
                 $valor = $_GET["idCuenta"];
                 $estado = $_GET["estado"];
+                $info = $_GET["info"];
 
-                $cuenta_inter =  ModeloBancoCuentaInter::mdlMostrarCuenta($tabla2, $item, $valor);
+                $cuenta_inter =  ModeloBancoCuentaInter::mdlMostrarCuenta($tabla2, $item, $valor,$info);
             
                 if ($estado == $cuenta_inter['estado']) {
                     
-                    $respuesta = ModeloSaldoCuentaInter::mdlBorrarCuenta($tabla, $datos);
+                    $respuesta = ModeloSaldoCuentaInter::mdlBorrarCuenta($tabla, $datos,$info);
                     if($respuesta=="ok"){
                         echo '<script>
         

@@ -31,8 +31,8 @@
         <?php
         $item = null;
         $valor = null;
-
-        $respuesta =  CuentaBancoInterController::ctrMostrarCuenta($item, $valor);
+        $info=$_SESSION['info'];
+        $respuesta =  CuentaBancoInterController::ctrMostrarCuenta($item, $valor,$info);
   // var_dump($respuesta);
         foreach ($respuesta as $key => $value) {
    
@@ -49,12 +49,12 @@
                             </li>
                           </ul>
                           <a href="#" class="btn btn-outline-primary btn-block"><b>	<i class="fas fa-eye"></i> Movimientos</b></a>
-                          <button type="submit" class="btn btn-success btn-block recargarCuentaInter" idCuenta="'.$value['cuenta_inter_id'].'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-up"></i> Recargar Saldo</b></button>
-                          <button type="submit" class="btn btn-secondary btn-block descargarCuentaInter" idCuenta="'.$value['cuenta_inter_id'].'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-down"></i> Descargar Saldo</b></button>
+                          <button type="submit" class="btn btn-success btn-block recargarCuentaInter" idCuenta="'.$value['cuenta_inter_id'].'" info="'. $info.'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-up"></i> Recargar Saldo</b></button>
+                          <button type="submit" class="btn btn-secondary btn-block descargarCuentaInter" idCuenta="'.$value['cuenta_inter_id'].'" info="'. $info.'" data-toggle="modal" data-target="#modal-recarga"><b><i class="fas fa-arrow-alt-circle-down"></i> Descargar Saldo</b></button>
                          ';
                         if($value['estado'] == 0){
 
-                          echo' <button type="submit" class="btn btn-danger btn-block eliminarCuentaInter" idCuenta="'.$value['cuenta_inter_id'].'" idCuentaSaldo="'.$value['id_saldo'].'" estado="'.$value['estado'].'"><b> 	<i class="fas fa-trash-alt"></i> Eliminar cuenta</b></button>';
+                          echo' <button type="submit" class="btn btn-danger btn-block eliminarCuentaInter" idCuenta="'.$value['cuenta_inter_id'].'" idCuentaSaldo="'.$value['id_saldo'].'" estado="'.$value['estado'].'" info="'. $info.'" ><b> 	<i class="fas fa-trash-alt"></i> Eliminar cuenta</b></button>';
                         }
                     
                          echo' </div>
@@ -92,7 +92,7 @@
                   </div>
                   <div class="form-group">
                     <label for="nuevoApellidoTitular">Apellido del titular</label>
-                    <input type="text" class="form-control" id="nuevoApellidoTitularInter" name="nuevoApellidoTitularInter" placeholder="Enter email" required>
+                    <input type="text" class="form-control" id="nuevoApellidoTitularInter" name="nuevoApellidoTitularInter" placeholder="Escribir Apellido del titular" required>
                   </div>
                   <div class="form-group">
                   <label for="exampleInputEmail1">Bancos de Internacionales</label>
@@ -102,7 +102,7 @@
                     
                     $valor=null;
                     $item=null;
-                    $bancosvene = BancoInterController::ctrMostrarBancoInter($item,$valor);
+                    $bancosvene = BancoInterController::ctrMostrarBancoInter($item,$valor,$info);
                     foreach ($bancosvene as $key => $value) {
                      echo '<option value="'.$value['id'].'" >'.$value['nombre'].'</option>';
                     }
@@ -118,7 +118,7 @@
                     
                     $valor=null;
                     $item=null;
-                    $bancosvene = MonedaController::ctrMostrarMonedas($item,$valor);
+                    $bancosvene = MonedaController::ctrMostrarMonedas($item,$valor,$info);
                     foreach ($bancosvene as $key => $value) {
                      echo '<option value="'.$value['id'].'" >'.$value['moneda'].'</option>';
                     }
@@ -140,7 +140,7 @@
             </div>
             <?php
             $crearBanco = new CuentaBancoInterController();
-            $crearBanco->ctrCrearCuenta();
+            $crearBanco->ctrCrearCuenta($info);
             ?>
         </form>
               
@@ -187,7 +187,7 @@
             </div>
             <?php
             $sumarestaCuenta = new SaldoCuentaInterController();
-            $sumarestaCuenta->ctrSumaRestaSaldo();
+            $sumarestaCuenta->ctrSumaRestaSaldo($info);
             ?>
         </form>
         </div>

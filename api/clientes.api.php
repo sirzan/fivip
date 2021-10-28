@@ -1,6 +1,9 @@
 <?php
+
 require_once "../controllers/clientes.controller.php";
 require_once "../models/clientes.model.php";
+
+
 class ApiClientes
 {
     
@@ -10,7 +13,9 @@ class ApiClientes
     public function apiEditarClientes(){
         $item = "id";
         $valor = $this->idCliente;
-        $respuesta = ClientesController::ctrMostrarClientes($item,$valor);
+        $data=$valor['data'];
+        $idCliente=$valor['idCliente'];
+        $respuesta = ClientesController::ctrMostrarClientes($item,$idCliente,$data);
         echo json_encode($respuesta);
     }
 
@@ -20,7 +25,7 @@ class ApiClientes
 //editar cliente
 if (isset($_POST['idCliente'])) {
     $editar = new ApiClientes;
-    $editar -> idCliente = $_POST["idCliente"];
+    $editar -> idCliente = $_POST;
     $editar ->apiEditarClientes();
 }
 

@@ -6,10 +6,10 @@ class BoletosController {
     ///////////////////////////////////
     //mostrar boleto en el inicio  //
     //////////////////////////////////
-    static public function ctrMostrarBoleto($item,$valor){
+    static public function ctrMostrarBoleto($item,$valor,$info){
         $tabla ='boletos';
 
-       $respuesta = BoletoModal::mdlMostrar($tabla,$item,$valor);
+       $respuesta = BoletoModal::mdlMostrar($tabla,$item,$valor,$info);
 
        return $respuesta;
     }
@@ -31,7 +31,7 @@ class BoletosController {
  static   public function Ingresopago($data,$id){
     $tabla_movi = 'movimientos_bancarios';
     $datos = json_decode($data[0]['metodo'], true);
-
+    
 
 if ($data[0]['tipoBancoEntradaBoleto'] == "inter") {
     $tabla_saldo_inter_entrada = 'saldo_cuenta_inter';
@@ -42,7 +42,7 @@ if ($data[0]['tipoBancoEntradaBoleto'] == "inter") {
     //interar array para consulta saldo
     $d=count($datos);
     for ($i=0; $i < $d; $i++) { 
-       array_push($saldoEntrada,CuentaBancoInterController::ctrMostrarCuenta($item_inter_entrada, $datos[$i]['banco']));
+       array_push($saldoEntrada,CuentaBancoInterController::ctrMostrarCuenta($item_inter_entrada, $datos[$i]['banco'],$data[0]['info']));
         for ($v=0; $v< count($saldoEntrada); $v++) { 
             if (isset($saldoEntrada[$v]['id_saldo'])) {
             if ($saldoEntrada[$v]['cuenta_inter_id'] == $datos[$i]['banco']) {
@@ -68,13 +68,13 @@ if ($data[0]['tipoBancoEntradaBoleto'] == "inter") {
          }
     }
     foreach ($saldoIngreso as $value) {
-        $sumarsaldo = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_saldo_inter_entrada,$value ); 
+        $sumarsaldo = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_saldo_inter_entrada,$value ,$data[0]['info']); 
     }
 
 
     //movimientos//
     foreach ($movimientoDataEntrada as $value) {
-        $movimientos = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $value);
+        $movimientos = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $value,$data[0]['info']);
     }
 
 
@@ -87,7 +87,7 @@ if ($data[0]['tipoBancoEntradaBoleto'] == "inter") {
     //interar array para consulta saldo
     $d=count($datos);
     for ($i=0; $i < $d; $i++) { 
-       array_push($saldoEntrada,CuentaBancoVeneController::ctrMostrarCuenta($item_inter_entrada, $datos[$i]['banco']));
+       array_push($saldoEntrada,CuentaBancoVeneController::ctrMostrarCuenta($item_inter_entrada, $datos[$i]['banco'],$data[0]['info']));
         for ($v=0; $v< count($saldoEntrada); $v++) { 
             if (isset($saldoEntrada[$v]['id_saldo'])) {
             if ($saldoEntrada[$v]['cuenta_id'] == $datos[$i]['banco']) {
@@ -113,13 +113,13 @@ if ($data[0]['tipoBancoEntradaBoleto'] == "inter") {
          }
     }
     foreach ($saldoIngreso as $value) {
-        $sumarsaldo = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_saldo_vene_entrada,$value ); 
+        $sumarsaldo = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_saldo_vene_entrada,$value ,$data[0]['info']); 
     }
 
 
     //movimientos//
     foreach ($movimientoDataEntrada as $value) {
-        $movimientos = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $value);
+        $movimientos = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla_movi, $value,$data[0]['info']);
     }
 
 }
@@ -145,7 +145,7 @@ if ($data[0]['tipoBancoEntradaBoleto'] == "inter") {
         $fechaHoraR =date('Y-m-d H:i:s' ,strtotime($datos[0]['fechaR']));
         $fechaHoraS =date('Y-m-d H:i:s' ,strtotime($datos[0]['fechaS']));
         $item='iso';
-        $idMoneda=MonedaController::ctrMostrarMonedas($item,$datos[0]['idMoneda']);
+        $idMoneda=MonedaController::ctrMostrarMonedas($item,$datos[0]['idMoneda'],$datos[0]['info']);
         $valor=[
             'cliente_id'=>$datos[0]['cliente'],
             'correlativo'=>$datos[0]['correlativo'],
@@ -162,8 +162,8 @@ if ($data[0]['tipoBancoEntradaBoleto'] == "inter") {
             'estado'=>($datos[0]['tipopago'] == "Credito")?0:1
         ];
         
-        $respuesta = BoletoModal::mdlIngresar($tabla,$valor);
-        $idBoleto = BoletoModal::mdlMostrarUltimoId($tabla);
+        $respuesta = BoletoModal::mdlIngresar($tabla,$valor,$datos[0]['info']);
+        $idBoleto = BoletoModal::mdlMostrarUltimoId($tabla,$datos[0]['info']);
 
         $dataPagoBoletos= json_decode($datos[0]['metodo'],true);
         $pagoBoleto=[];
@@ -180,7 +180,7 @@ if ($data[0]['tipoBancoEntradaBoleto'] == "inter") {
             ));
         }
         foreach ($pagoBoleto as $val) {
-            PagoBoletoModel::mdlIngresar($tabla2,$val);
+            PagoBoletoModel::mdlIngresar($tabla2,$val,$datos[0]['info']);
         }
         
      

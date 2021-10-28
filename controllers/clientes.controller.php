@@ -3,7 +3,7 @@
 class ClientesController{
 
         //crear monedas
-    static public function ctrCrearCliente(){
+    static public function ctrCrearCliente($database){
    
         if(isset($_POST['nuevoNombrecliente'])){
        
@@ -25,7 +25,7 @@ class ClientesController{
                     "pais" => $_POST['paisCliente'],
                 );
     
-                $respuesta = ModeloCliente::mdlIngresarCliente($tabla, $datos);
+                $respuesta = ModeloCliente::mdlIngresarCliente($tabla, $datos,$database);
                 if($respuesta=="ok"){
                     echo '<script>
     
@@ -81,10 +81,9 @@ class ClientesController{
 
     
 //mostrar monedas en la tabla
-static public function ctrMostrarClientes($item,$valor){
+static public function ctrMostrarClientes($item,$valor,$database){
     $tabla = 'clientes';
-            
-    $respuesta = ModeloCliente::mdlMostrarClientes($tabla, $item, $valor);
+    $respuesta = ModeloCliente::mdlMostrarClientes($tabla, $item, $valor,$database);
 
     return $respuesta;
 }
@@ -92,7 +91,7 @@ static public function ctrMostrarClientes($item,$valor){
 
 //Editar Moneda
 
-static public function ctrEditarClientes(){
+static public function ctrEditarClientes($database){
     if(isset($_POST['editarNombrecliente'])){
         if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombrecliente"])
         && preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarApellidocliente"])
@@ -114,7 +113,7 @@ static public function ctrEditarClientes(){
                 );
     
                
-                $respuesta = ModeloCliente::mdlEditarCliente($tabla, $datos);
+                $respuesta = ModeloCliente::mdlEditarCliente($tabla, $datos,$database);
                 if($respuesta=="ok"){
                     echo '<script>
 
@@ -171,8 +170,9 @@ static public function ctrEditarClientes(){
         if(isset($_GET["idCliente"])){
             $tabla="clientes";
             $datos = $_GET["idCliente"];
+            $database=$_GET["info"];
 
-            $respuesta = ModeloCliente::mdlBorrarCliente($tabla, $datos);
+            $respuesta = ModeloCliente::mdlBorrarCliente($tabla, $datos,$database);
             if($respuesta=="ok"){
                 echo '<script>
 

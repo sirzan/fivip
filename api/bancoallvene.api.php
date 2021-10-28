@@ -1,11 +1,14 @@
 <?php
 require_once '../models/conexion.php';
-
-// Obtener registros
-$stmt = Conexion::conectar()->prepare("SELECT * FROM banco_vene");
+try {
+  // Obtener registros
+$stmt = Conexion::conectar($_POST['info'])->prepare("SELECT * FROM banco_vene");
 $stmt->execute();
-$bancoselect = $stmt-> fetchAll();
+$bancoselect = $stmt-> fetchAll(PDO::FETCH_ASSOC);
 
 
-echo json_encode($bancoselect);
-exit();
+    echo json_encode($bancoselect);
+    exit();
+} catch (\Throwable $th) {
+   echo "Mensaje de error: ".$th->getMessage();
+}

@@ -47,7 +47,8 @@
                     
                     $valor=null;
                     $item=null;
-                    $tasas = TasaController::ctrMostrarTasa($item,$valor);
+                    $info=$_SESSION['info'];
+                    $tasas = TasaController::ctrMostrarTasa($item,$valor,$info);
               
                     foreach ($tasas as $key => $value) {
                      echo '<tr>
@@ -61,8 +62,8 @@
                      <td>'.$value['iso_tasa'].'</td>
 
                      <td> 
-                       <button type="submit" data-toggle="modal" data-target="#modal-editar" class="btn btn-success btn-sm btnEditarTasa" idTasa="'.$value['id'].'"><i class="fas fa-edit"></i></button>
-                       <button type="submit" class="btn btn-danger btn-sm btnEliminarTasa" idTasa="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button>
+                       <button type="submit" data-toggle="modal" data-target="#modal-editar" class="btn btn-success btn-sm btnEditarTasa" idTasa="'.$value['id'].'" info="'.$info.'"><i class="fas fa-edit"></i></button>
+                       <button type="submit" class="btn btn-danger btn-sm btnEliminarTasa" idTasa="'.$value['id'].'" info="'.$info.'"><i class="fas fa-trash-alt"></i></button>
                      </td>
                    </tr>';
                     }
@@ -99,7 +100,7 @@
                               <option selected>-- Seleccione un Pais --</option>
                               <?php 
                     
-                    $pais = PaisController::ctrMostrarApiPais();
+                    $pais = PaisController::ctrMostrarApiPais($info);
                     // var_dump($pais);
                 
                     if($pais){
@@ -122,7 +123,7 @@
                     
                               $valor=null;
                               $item=null;
-                              $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
+                              $monedas = MonedaController::ctrMostrarMonedas($item,$valor,$info);
                               // var_dump($bancosvene);
                               if($monedas){
                                 foreach ($monedas as $key => $value) {
@@ -150,7 +151,7 @@
                     
                               $valor=null;
                               $item=null;
-                              $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
+                              $monedas = MonedaController::ctrMostrarMonedas($item,$valor,$info);
                               // var_dump($bancosvene);
                               if($monedas){
                                 foreach ($monedas as $key => $value) {
@@ -170,7 +171,7 @@
                 <?php
   
                     $crearTasa = new TasaController();
-                    $crearTasa -> ctrCrearTasa();
+                    $crearTasa -> ctrCrearTasa($info);
 
                   ?>
   
@@ -206,7 +207,7 @@
                        <option selected>-- Seleccione un Pais --</option>
                        <?php 
              
-             $pais = PaisController::ctrMostrarApiPais();
+             $pais = PaisController::ctrMostrarApiPais($info);
              // var_dump($pais);
          
              if($pais){
@@ -229,7 +230,8 @@
              
                        $valor=null;
                        $item=null;
-                       $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
+                      
+                       $monedas = MonedaController::ctrMostrarMonedas($item,$valor,$info);
                        // var_dump($bancosvene);
                        if($monedas){
                          foreach ($monedas as $key => $value) {
@@ -258,7 +260,7 @@
                     
                               $valor=null;
                               $item=null;
-                              $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
+                              $monedas = MonedaController::ctrMostrarMonedas($item,$valor,$info);
                               // var_dump($bancosvene);
                               if($monedas){
                                 foreach ($monedas as $key => $value) {
@@ -278,7 +280,7 @@
          <?php
 
              $crearTasa = new TasaController();
-             $crearTasa -> ctrEditarTasa();
+             $crearTasa -> ctrEditarTasa($info);
 
            ?>
   

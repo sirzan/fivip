@@ -7,11 +7,11 @@ use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 class RemesasController{
 
        //crear monedas
-       static public function ctrCrearRemesa(){
+       static public function ctrCrearRemesa($info){
    
          
            if(isset($_POST['idVendedor'])){
-           
+           $base=$info;
             $tabla = 'remesas';
 
             if($_POST['banco'] == 'bancovene'){
@@ -61,7 +61,7 @@ class RemesasController{
                 "estado" => 0
             );
 
-            $respuesta = ModeloRemesas::mdlIngresarRemesas($tabla, $datos);
+            $respuesta = ModeloRemesas::mdlIngresarRemesas($tabla, $datos,$info);
           
             // $item="id";
             // $valor=$datos['cliente_id'];
@@ -135,8 +135,8 @@ class RemesasController{
                     $tabla2 = 'remesas';
                     $item3='correlativo';
                     $valor3=  $_POST['nuevaserie'];
-                    $remesa = ModeloRemesas::mdlMostrarRemesas($tabla2, $item3, $valor3);
-
+                    $remesa = ModeloRemesas::mdlMostrarRemesas($tabla2, $item3, $valor3,$info);
+                  
                    
 
                     echo '<script>
@@ -151,7 +151,8 @@ class RemesasController{
                         }).then((result)=>{
             
                         if(result.value){
-                           window.open("extensions/tcpdf/pdf/factura.php?id="+'.$remesa['id'].', "_blank");
+                           
+                          
                             window.location = "admin-remesa";
             
                         }
@@ -191,10 +192,10 @@ class RemesasController{
     }
     
 //mostrar monedas en la tabla
-static public function ctrMostrarRemesas($item,$valor){
+static public function ctrMostrarRemesas($item,$valor,$info){
     $tabla = 'remesas';
             
-    $respuesta = ModeloRemesas::mdlMostrarRemesas($tabla, $item, $valor);
+    $respuesta = ModeloRemesas::mdlMostrarRemesas($tabla, $item, $valor,$info);
 
     return $respuesta;
 }
@@ -204,11 +205,12 @@ static public function ctrBorrarRemesas(){
         $tabla="remesas";
         $tabla2="pagos";
         $id = $_GET["idRemesa"];  
+        $info = $_GET["info"];  
         $item = "remesas_id";
 
 
 
-        $mostrar_pagos = ModeloPagos::mdlMostrarPagosProcesados( $tabla2,$item, $id);
+        $mostrar_pagos = ModeloPagos::mdlMostrarPagosProcesados( $tabla2,$item, $id,$info);
    
 // var_dump($mostrar_pagos);
      
@@ -227,26 +229,26 @@ static public function ctrBorrarRemesas(){
                         $item = 'id';
                 
         
-                    $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item, $value['cuenta_vene_id']);
+                    $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item, $value['cuenta_vene_id'],$info);
                     $datos = array(
                         //cargar saldo
                         "id" => $cuenta_recargar['id_saldo'],
                         "saldo" => $cuenta_recargar['saldo'] - $value['monto'], 
                             );
-                    $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene, $datos);
+                    $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene, $datos,$info);
         
                 } else if (isset($value['cuenta_inter_id'])) {
                     $tabla_inter = "saldo_cuenta_inter";
                         $item = 'id';
                        
-                    $cuenta_recargar= CuentaBancoInterController::ctrMostrarCuenta($item,$value['cuenta_inter_id']);
+                    $cuenta_recargar= CuentaBancoInterController::ctrMostrarCuenta($item,$value['cuenta_inter_id'],$info);
                     $datos = array(
                         //cargar saldo
                         "id" => $cuenta_recargar['id_saldo'],
                         "saldo_inter" =>$cuenta_recargar['saldo_inter'] - $value['monto'], 
                             );
         
-                    $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_inter, $datos);
+                    $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_inter, $datos,$info);
                         
                 }
            }
@@ -275,7 +277,7 @@ static public function ctrBorrarRemesas(){
                         $item = 'id';
                 
         
-                    $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item, $value['cuenta_vene_id']);
+                    $cuenta_recargar= CuentaBancoVeneController::ctrMostrarCuenta($item, $value['cuenta_vene_id'],$info);
                      if  ($value['metodo_p'] =='transferencia digital' || $value['metodo_p'] =='pago movil'){
                         $comi=bcdiv($value['monto']*0.003,'1',2);
                     }else {
@@ -286,20 +288,20 @@ static public function ctrBorrarRemesas(){
                         "id" => $cuenta_recargar['id_saldo'],
                         "saldo" => $cuenta_recargar['saldo'] + $value['monto'] + $comi, 
                             );
-                    $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene, $datos);
+                    $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla_vene, $datos,$info);
         
                 } else if (isset($value['cuenta_inter_id'])) {
                     $tabla_inter = "saldo_cuenta_inter";
                         $item = 'id';
                        
-                    $cuenta_recargar= CuentaBancoInterController::ctrMostrarCuenta($item,$value['cuenta_inter_id']);
+                    $cuenta_recargar= CuentaBancoInterController::ctrMostrarCuenta($item,$value['cuenta_inter_id'],$info);
                     $datos = array(
                         //cargar saldo
                         "id" => $cuenta_recargar['id_saldo'],
                         "saldo_inter" =>$cuenta_recargar['saldo_inter'] + $value['monto'], 
                             );
         
-                    $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_inter, $datos);
+                    $respuesta = ModeloSaldoCuentaInter::mdlRecargarSaldo($tabla_inter, $datos,$info);
                         
                 }
            }
@@ -308,7 +310,7 @@ static public function ctrBorrarRemesas(){
       
 
 
-        $respuesta = ModeloRemesas::mdlBorrarRemesas($tabla, $id);
+        $respuesta = ModeloRemesas::mdlBorrarRemesas($tabla, $id,$info);
         if($respuesta=="ok"){
             echo '<script>
 

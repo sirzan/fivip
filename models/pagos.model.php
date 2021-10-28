@@ -5,9 +5,9 @@ require_once "conexion.php";
 class ModeloPagos{
    
 
-    static public function mdlMostrarPagos($tabla, $item, $valor){
+    static public function mdlMostrarPagos($tabla, $item, $valor,$info){
         if ($item != null) {
-            $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla LEFT JOIN clientes ON $tabla.cliente_id = clientes.id LEFT JOIN usuarios ON $tabla.vendedor_id = usuarios.id WHERE $tabla.estado = 0 and $tabla.id= :$item");
+            $stmt = Conexion::conectar($info)->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla LEFT JOIN clientes ON $tabla.cliente_id = clientes.id LEFT JOIN usuarios ON $tabla.vendedor_id = usuarios.id WHERE $tabla.estado = 0 and $tabla.id= :$item");
             
             $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
@@ -15,7 +15,7 @@ class ModeloPagos{
 
 			return $stmt -> fetch(PDO::FETCH_ASSOC);
            } else {
-        $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla LEFT JOIN clientes ON $tabla.cliente_id = clientes.id LEFT JOIN usuarios ON $tabla.vendedor_id = usuarios.id WHERE $tabla.estado = 0");
+        $stmt = Conexion::conectar($info)->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla LEFT JOIN clientes ON $tabla.cliente_id = clientes.id LEFT JOIN usuarios ON $tabla.vendedor_id = usuarios.id WHERE $tabla.estado = 0");
             
         $stmt -> execute();
 
@@ -32,9 +32,9 @@ class ModeloPagos{
 
     //pagar creditos
 
-    static public function mdlMostrarCreditos($tabla, $item, $valor){
+    static public function mdlMostrarCreditos($tabla, $item, $valor,$info){
         if ($item != null) {
-            $stmt = Conexion::conectar()->prepare("	SELECT $tabla.id,simbolo_moneda,sum(monto) AS abonado,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos,telefono FROM $tabla 
+            $stmt = Conexion::conectar($info)->prepare("	SELECT $tabla.id,simbolo_moneda,sum(monto) AS abonado,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos,telefono FROM $tabla 
             LEFT JOIN remesas ON $tabla.remesas_id= remesas.id
             LEFT JOIN clientes ON remesas.cliente_id = clientes.id
              WHERE estado=-1 and signo = '+' and remesas_id= :$item GROUP BY remesas_id ");
@@ -45,7 +45,7 @@ class ModeloPagos{
 
 			return $stmt -> fetch(PDO::FETCH_ASSOC);
            } else {
-        $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,simbolo_moneda,sum(monto) AS abonado,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos,telefono FROM $tabla 
+        $stmt = Conexion::conectar($info)->prepare("SELECT $tabla.id,simbolo_moneda,sum(monto) AS abonado,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos,telefono FROM $tabla 
         LEFT JOIN remesas ON $tabla.remesas_id= remesas.id
         LEFT JOIN clientes ON remesas.cliente_id = clientes.id
          WHERE estado=-1 and signo = '+' GROUP BY remesas_id");
@@ -123,9 +123,9 @@ static public function mdlEditarRemesaEstado($tabla2, $datos2){
 
 
 
-static public function mdlMostrarPagosProcesados($tabla, $item, $valor){
+static public function mdlMostrarPagosProcesados($tabla, $item, $valor,$info){
     if ($item != null) {
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos WHERE $item= :$item");
+        $stmt = Conexion::conectar($info)->prepare("SELECT * FROM pagos WHERE $item= :$item");
         
         $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
@@ -133,14 +133,14 @@ static public function mdlMostrarPagosProcesados($tabla, $item, $valor){
 
         return $stmt -> fetchAll(PDO::FETCH_ASSOC);
        } else {
-    $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla 
+    $stmt = Conexion::conectar($info)->prepare("SELECT $tabla.id,correlativo,total_envio,$tabla.pais,iso_moneda,simbolo_moneda,tasa,total_remesa,rol,iso_tasa,simbolo_tasa,concat(nombres,' ',apellidos) AS cliente, telefono,$tabla.estado,receptor,$tabla.tipo_doc,n_doc,banco,n_cuenta,ban_pa_m FROM $tabla 
     LEFT JOIN clientes ON $tabla.cliente_id = clientes.id 
     LEFT JOIN usuarios ON $tabla.vendedor_id = usuarios.id
     WHERE $tabla.estado = 0");
         
     $stmt -> execute();
 
-    return $stmt -> fetchAll();
+    return $stmt -> fetchAll(PDO::FETCH_ASSOC);
        }
 
     $stmt->close();   
@@ -150,9 +150,9 @@ static public function mdlMostrarPagosProcesados($tabla, $item, $valor){
 
 
 
-static public function mdlMostrarPagosRealizados($item, $valor){
-
-        $stmt = Conexion::conectar()->prepare("SELECT T1.id,T1.remesas_id,
+static public function mdlMostrarPagosRealizados($item, $valor,$info){
+    try {
+        $stmt = Conexion::conectar($info)->prepare("SELECT T1.id,T1.remesas_id,
         if(T1.signo = '+',T4.simbolo_moneda,T4.simbolo_tasa) AS simbolo,
         T1.monto,
         if(T1.signo = '+',T4.iso_moneda,T4.iso_tasa) AS iso,
@@ -173,9 +173,13 @@ static public function mdlMostrarPagosRealizados($item, $valor){
 
         return $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
-             $stmt->close();   
+             $stmt->closeCursor();   
 
          $stmt = null;
+    } catch (\Throwable $th) {
+        echo "Mensaje de error: ".$th->getMessage();
+    }
+   
 }
 
 

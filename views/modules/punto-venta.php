@@ -10,17 +10,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <!-- <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Venta de Boletas de Viajes</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-              <li class="breadcrumb-item active">Tablero</li>
-            </ol>
-          </div>
-        </div> -->
+  
       </div><!-- /.container-fluid -->
     </section>
 
@@ -51,6 +41,7 @@
                               </div>
                               <input type="text" class="form-control" value="<?php echo $_SESSION["rol"]; ?>" readonly>
                               <input type="hidden" name="idVendedor" id="idVendedor" value="<?php echo $_SESSION["id"]; ?>">
+                              <input type="hidden"  id="info" value="<?php echo $_SESSION["info"]; ?>">
                               </div>
           
                                   <!--=====================================
@@ -213,10 +204,10 @@
                                                 <select class="form-control" name="tipoMoneda" id="tipoMoneda">
                                                     <option value="" selected>-- Tipo de moneda --</option>
                                                     <?php 
-               
+                                                    $info=$_SESSION['info'];
                                                     $valor=null;
                                                     $item=null;
-                                                    $monedas = MonedaController::ctrMostrarMonedas($item,$valor);
+                                                    $monedas = MonedaController::ctrMostrarMonedas($item,$valor,$info);
                                                     // var_dump($bancosvene);
                                                     if($monedas){
                                                       foreach ($monedas as $key => $value) {
@@ -385,7 +376,7 @@ MODAL AGREGAR CLIENTE
                                <option selected>-- Seleccione un pais --</option>
                                <?php 
                                 
-                                $pais = PaisController::ctrMostrarApiPais();
+                                $pais = PaisController::ctrMostrarApiPais($info);
                                 // var_dump($pais);
                             
                                 if($pais){
@@ -408,7 +399,7 @@ MODAL AGREGAR CLIENTE
                         <?php
         
         $crearMoneda = new ClientesController();
-        $crearMoneda -> ctrCrearCliente();
+        $crearMoneda -> ctrCrearCliente($info);
 
         ?>
   

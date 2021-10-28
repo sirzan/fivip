@@ -3,7 +3,7 @@
 class CuentaBancoInterController{
 
 //crear cuenta bancaria internacional
-    static public function ctrCrearCuenta(){
+    static public function ctrCrearCuenta($info){
    
         if(isset($_POST['nuevoNombreTitularInter'])){
        
@@ -22,18 +22,18 @@ class CuentaBancoInterController{
                 );
 
                 //crear cuenta saldo 
-                $respuesta = ModeloBancoCuentaInter::mdlIngresarCuenta($tabla, $datos);
-                var_dump( $respuesta);
+                $respuesta = ModeloBancoCuentaInter::mdlIngresarCuenta($tabla, $datos,$info);
+            
 
-                 $respuesta2 = ModeloBancoCuentaInter::mdlMostrarUltimaCuenta($tabla, $datos);
-                 
+                 $respuesta2 = ModeloBancoCuentaInter::mdlMostrarUltimaCuenta($info);
+                  
                  $datos2 = array(
                      "saldo_inter" => 0,
                      "cuenta_inter_id" => $respuesta2['id'],
                      "moneda_inter_id" => $_POST["seleccionarMonedaInter"]
                     );
-                    var_dump(  $datos2);
-                $respuesta3 =  ModeloSaldoCuentaInter::mdlCrearSaldo($tabla2, $datos2);
+              
+                $respuesta3 =  ModeloSaldoCuentaInter::mdlCrearSaldo($tabla2, $datos2,$info);
                     
                 if($respuesta=="ok"){
                     echo '<script>
@@ -82,16 +82,15 @@ class CuentaBancoInterController{
             </script>';
            
             }
-     
            
         }
     }
 
 //Mostrar cuenta bancaria internacional
-    static public function ctrMostrarCuenta($item,$valor){
+    static public function ctrMostrarCuenta($item,$valor,$info){
         $tabla = 'cuenta_banco_inter';
                 
-        $respuesta = ModeloBancoCuentaInter::mdlMostrarCuenta($tabla, $item, $valor);
+        $respuesta = ModeloBancoCuentaInter::mdlMostrarCuenta($tabla, $item, $valor,$info);
         
         return $respuesta;
     }

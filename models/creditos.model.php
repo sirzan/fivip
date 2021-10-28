@@ -5,10 +5,10 @@ require_once "conexion.php";
 class ModeloCredito{
 
 
-    static public function mdlMostrarCreditos($tabla, $item, $valor){
+    static public function mdlMostrarCreditos($tabla, $item, $valor,$info){
 
             if ($item != null) {
-                $stmt = Conexion::conectar()->prepare("SELECT $tabla.id,simbolo_moneda,telefono,sum(monto) AS abonado,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos FROM $tabla 
+                $stmt = Conexion::conectar($info)->prepare("SELECT $tabla.id,simbolo_moneda,telefono,sum(monto) AS abonado,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos FROM $tabla 
                 LEFT JOIN remesas ON $tabla.remesas_id= remesas.id
                 LEFT JOIN clientes ON remesas.cliente_id = clientes.id
                  WHERE estado=-1 and signo = '+' GROUP BY remesas_id and $item = :$item");
@@ -23,7 +23,7 @@ class ModeloCredito{
                else 
                
                {
-            $stmt = Conexion::conectar()->prepare("	SELECT $tabla.id,simbolo_moneda,sum(monto) AS abonado,telefono,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos FROM $tabla 
+            $stmt = Conexion::conectar($info)->prepare("SELECT $tabla.id,simbolo_moneda,sum(monto) AS abonado,telefono,total_envio,iso_moneda,remesas_id,signo,correlativo,nombres,apellidos FROM $tabla 
             LEFT JOIN remesas ON $tabla.remesas_id= remesas.id
             LEFT JOIN clientes ON remesas.cliente_id = clientes.id
              WHERE estado=-1 and signo = '+' GROUP BY remesas_id");

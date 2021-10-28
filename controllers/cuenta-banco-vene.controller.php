@@ -3,7 +3,7 @@
 class CuentaBancoVeneController{
 
 //crear monedas
-    static public function ctrCrearCuenta(){
+    static public function ctrCrearCuenta($info){
    
         if(isset($_POST['nuevoNombreTitular'])){
        
@@ -20,7 +20,7 @@ class CuentaBancoVeneController{
                     "banco_id" => $_POST["seleccionarBanco"]
                 );
     
-                $respuesta = ModeloBancoCuentaVene::mdlIngresarCuenta($tabla, $datos);
+                $respuesta = ModeloBancoCuentaVene::mdlIngresarCuenta($tabla, $datos,$info);
                 if($respuesta=="ok"){
                     echo '<script>
     
@@ -74,10 +74,10 @@ class CuentaBancoVeneController{
     }
 
 //mostrar monedas en la tabla
-    static public function ctrMostrarCuenta($item,$valor){
+    static public function ctrMostrarCuenta($item,$valor,$info){
         $tabla = 'cuenta_banco_vene';
                 
-        $respuesta = ModeloBancoCuentaVene::mdlMostrarCuenta($tabla, $item, $valor);
+        $respuesta = ModeloBancoCuentaVene::mdlMostrarCuenta($tabla, $item, $valor,$info);
 
         return $respuesta;
     }

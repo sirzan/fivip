@@ -6,7 +6,7 @@ class SaldoCuentaVeneController{
 
 //Carga descarga banco
 
-static public function ctrSumaRestaSaldo(){
+static public function ctrSumaRestaSaldo($info){
     if(isset($_POST['saldoRecarga'])){
    
                 $tabla = 'saldo_cuenta_vene';
@@ -38,8 +38,8 @@ static public function ctrSumaRestaSaldo(){
                     "signo" =>  $signo
                 );
                 if($_POST['operacion'] == 'recarga'){
-                        $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $datos);
-                        $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos);
+                        $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $datos,$info);
+                        $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos,$info);
                         if($respuesta=="ok"){
 
                             echo '<script>
@@ -67,8 +67,8 @@ static public function ctrSumaRestaSaldo(){
                   } else if ($_POST['operacion'] == 'descargar' &&  $_POST["saldoRecarga"] <= $_POST['saldoActual'] ) {
               
                    
-                       $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $datos);
-                       $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos);
+                       $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $datos,$info);
+                       $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $datos,$info);
                     if($respuesta=="ok"){
     
                         echo '<script>
@@ -123,7 +123,7 @@ static public function ctrSumaRestaSaldo(){
         }
 
 // transferencia bancarias 
-static public function ctrTransferenciaSaldo(){
+static public function ctrTransferenciaSaldo($info){
     if(isset($_POST['saldoTransferencia'])){
    
                 $tabla = 'saldo_cuenta_vene';
@@ -168,8 +168,8 @@ static public function ctrTransferenciaSaldo(){
                 if(isset($_POST["cuentasBancariasId"])){
                 if ($_POST["saldoTransferencia"] + $saldo_comision <= $_POST['saldoActual']) {
                     foreach ($datos as $value) {
-                        $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $value);
-                        $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $value);
+                        $respuesta = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $value,$info);
+                        $respuesta2 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $value,$info);
                     }
 
              
@@ -179,7 +179,7 @@ static public function ctrTransferenciaSaldo(){
                 $tabla_inter_salida = 'saldo_cuenta_vene';
                 $item4 ='id';
                 $valor4 =$_POST["idCuentaactual"];
-                $saldo_alctual_salida = CuentaBancoVeneController::ctrMostrarCuenta($item4, $valor4);
+                $saldo_alctual_salida = CuentaBancoVeneController::ctrMostrarCuenta($item4, $valor4,$info);
     
                     //array comision bancaria
                     $data_comisiones = array(
@@ -195,8 +195,8 @@ static public function ctrTransferenciaSaldo(){
                         "signo" =>  '-'
                     );
                     
-                    $respuesta4 = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $data_comisiones);
-                    $respuesta3 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $data_comisiones);
+                    $respuesta4 = SaldoCuentaVeneModel::mdlRecargarSaldo($tabla, $data_comisiones,$info);
+                    $respuesta3 = ModeloMovimientosBancarios::mdlIngresarMovimiento($tabla2, $data_comisiones,$info);
                 }
 
 
@@ -283,12 +283,13 @@ static public function ctrTransferenciaSaldo(){
                 $datos = $_GET["idCuentaSaldo"];
                 $valor = $_GET["idCuenta"];
                 $estado = $_GET["estado"];
+                $info = $_GET["info"];
 
-                $cuenta_vene = ModeloBancoCuentaVene::mdlMostrarCuenta($tabla2, $item, $valor);
+                $cuenta_vene = ModeloBancoCuentaVene::mdlMostrarCuenta($tabla2, $item, $valor,$info);
 
                 if ($estado == $cuenta_vene['estado']) {
                     
-                    $respuesta = SaldoCuentaVeneModel::mdlBorrarCuenta($tabla, $datos);
+                    $respuesta = SaldoCuentaVeneModel::mdlBorrarCuenta($tabla, $datos,$info);
                     if($respuesta=="ok"){
                         echo '<script>
         

@@ -10,7 +10,9 @@ class ApiTasa
     public function apiEditarTasa(){
         $item = "id";
         $valor = $this->idTasa;
-        $respuesta = TasaController::ctrMostrarTasa($item,$valor);
+        $info = $valor['info'];
+        $idData = $valor['idTasa'];
+        $respuesta = TasaController::ctrMostrarTasa($item,$idData,$info);
         echo json_encode($respuesta);
     }
    
@@ -19,6 +21,6 @@ class ApiTasa
 //editar moneda
 if (isset($_POST['idTasa'])) {
     $editar = new ApiTasa;
-    $editar -> idTasa = $_POST["idTasa"];
+    $editar -> idTasa = $_POST;
     $editar ->apiEditarTasa();
 }

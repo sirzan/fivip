@@ -1,107 +1,115 @@
   ////////////////////////////////////
   //        tabla de boletos       //
   ///////////////////////////////////
-$('#boletos').DataTable( {
+
+  $(document).ready(function(){
+
+    const info = $('#info').val()
+
+
+    $('#boletos').DataTable( {
  
-    "order": [[ 0, "desc" ]],
-    "responsive": true,
-    "lengthChange": false,
-    "autoWidth": false,
-    "dom": 'Bfrtip',
-    "buttons": [
-      { extend: 'pdf',
-       orientation: 'landscape',    exportOptions: {
-        columns: [1,2,3,4,5,6,7,8]
-    },
-       extend: 'pdfHtml5', 
-       className: 'btn-danger' },
-      { extend: 'excel',  exportOptions: {
-        columns: [1,2,3,4,5,6,7,8]
-    }, className: 'btn-success' },
-      { extend: 'print',  exportOptions: {
-        columns: [1,2,3,4,5,6,7,8]
-    },className: 'btn-primary'}
-    ],
-    "ajax": {
-      "url": "api/boletos-consulta.api.php",
-      "type": "POST",
-      "data" : { 'all' : '10' },
-      "dataSrc": "data"
-  },
-  "columns":[
-    {data:"id" },
-    {data:"correlativo" },
-    {data:"cliente" },
-    {data:"tipo_doc" },
-    {data:"documento" },
-    {data:"telefono" },
-    {data:"fecha_s" },
-    {data:"pais_s" },
-    {data: "estado", render: function(data, type) {
-   
-      if (data == 0) {
-          return "<span class='badge badge-warning'>Crédito</span>";
-        }
-        return "<span class='badge badge-success'>Procesado</span>";
-
-  }},
-    {data:"id", render: function(data, type) {
-   
-        return `<div class='btn-group'><button class='btn btn-primary btnVerBoleto' idBoleto="${data}"><i class='fas fa-eye'></i></button><div class='btn-group'><button class='btn btn-success btnImprimirBoleto' idBoleto="${data}"><i class='fas fa-file-pdf'></i></button></button><button class='btn btn-danger btnEliminarBoleto' idBoleto="${data}"><i class='fas fa-trash-alt'></i></button></div>`;
-
-  }}
-  ],
-  "deferRender": true,
-  "retrieve": true,
-  "processing": true,
-   "language": {
-  
-      "sProcessing":     "Procesando...",
-      "sLengthMenu":     "Mostrar _MENU_ registros",
-      "sZeroRecords":    "No se encontraron resultados",
-      "sEmptyTable":     "Ningún dato disponible en esta tabla",
-      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
-      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-      "sInfoPostFix":    "",
-      "sSearch":         "Buscar:",
-      "sUrl":            "",
-      "sInfoThousands":  ",",
-      "sLoadingRecords": "Cargando...",
-      "oPaginate": {
-      "sFirst":    "Primero",
-      "sLast":     "Último",
-      "sNext":     "Siguiente",
-      "sPrevious": "Anterior"
+        "order": [[ 0, "desc" ]],
+        "responsive": true,
+        "lengthChange": true,
+        "autoWidth": false,
+        "dom": 'Bfrtip',
+        "buttons": [
+          { extend: 'pdf',
+           orientation: 'landscape',    exportOptions: {
+            columns: [1,2,3,4,5,6,7,8]
+        },
+           extend: 'pdfHtml5', 
+           className: 'btn-danger' },
+          { extend: 'excel',  exportOptions: {
+            columns: [1,2,3,4,5,6,7,8]
+        }, className: 'btn-success' },
+          { extend: 'print',  exportOptions: {
+            columns: [1,2,3,4,5,6,7,8]
+        },className: 'btn-primary'}
+        ],
+        "ajax": {
+          "url": "api/boletos-consulta.api.php",
+          "type": "POST",
+          "data" : { 'all':'10', 'info':info },
+          "dataSrc": "data"
       },
-      "buttons": {
-        "copy": "Copiar",
-        "colvis": "Visibilidad",
-        "collection": "Colección",
-        "colvisRestore": "Restaurar visibilidad",
-        "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
-        "copySuccess": {
-            "1": "Copiada 1 fila al portapapeles",
-            "_": "Copiadas %d fila al portapapeles"
+      "columns":[
+        {data:"id" },
+        {data:"correlativo" },
+        {data:"cliente" },
+        {data:"tipo_doc" },
+        {data:"documento" },
+        {data:"telefono" },
+        {data:"fecha_s" },
+        {data:"pais_s" },
+        {data: "estado", render: function(data, type) {
+       
+          if (data == 0) {
+              return "<span class='badge badge-warning'>Crédito</span>";
+            }
+            return "<span class='badge badge-success'>Procesado</span>";
+    
+      }},
+        {data:"id", render: function(data, type) {
+       
+            return `<div class='btn-group'><button class='btn btn-primary btnVerBoleto' idBoleto="${data}"><i class='fas fa-eye'></i></button><div class='btn-group'><button class='btn btn-success btnImprimirBoleto' idBoleto="${data}"><i class='fas fa-file-pdf'></i></button></button><button class='btn btn-danger btnEliminarBoleto' idBoleto="${data}"><i class='fas fa-trash-alt'></i></button></div>`;
+    
+      }}
+      ],
+      "deferRender": true,
+      "retrieve": true,
+      "processing": true,
+       "language": {
+      
+          "sProcessing":     "Procesando...",
+          "sLengthMenu":     "Mostrar _MENU_ registros",
+          "sZeroRecords":    "No se encontraron resultados",
+          "sEmptyTable":     "Ningún dato disponible en esta tabla",
+          "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+          "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+          "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+          "sInfoPostFix":    "",
+          "sSearch":         "Buscar:",
+          "sUrl":            "",
+          "sInfoThousands":  ",",
+          "sLoadingRecords": "Cargando...",
+          "oPaginate": {
+          "sFirst":    "Primero",
+          "sLast":     "Último",
+          "sNext":     "Siguiente",
+          "sPrevious": "Anterior"
+          },
+          "buttons": {
+            "copy": "Copiar",
+            "colvis": "Visibilidad",
+            "collection": "Colección",
+            "colvisRestore": "Restaurar visibilidad",
+            "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
+            "copySuccess": {
+                "1": "Copiada 1 fila al portapapeles",
+                "_": "Copiadas %d fila al portapapeles"
+            },
+            "copyTitle": "Copiar al portapapeles",
+            "csv": "CSV",
+            "excel": "Excel",
+            "pageLength": {
+                "-1": "Mostrar todas las filas",
+                "_": "Mostrar %d filas"
+            },
+            "pdf": "PDF",
+            "print": "Imprimir"
         },
-        "copyTitle": "Copiar al portapapeles",
-        "csv": "CSV",
-        "excel": "Excel",
-        "pageLength": {
-            "-1": "Mostrar todas las filas",
-            "_": "Mostrar %d filas"
-        },
-        "pdf": "PDF",
-        "print": "Imprimir"
-    },
-      "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+          "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+          }
+      
       }
-  
-  }
-  
-  });
+      
+      });
+  })
+
 
 
   ////////////////////////////////////
@@ -324,6 +332,9 @@ $(document).ready(function(){
   ///////////////////////////////
      //   cuenta que transfiere   //
      //////////////////////////////
+     const info = $('#info').val()
+     const data= new FormData();
+     data.append('info',info);
      $('#tipoMoneda').on('change', function(){
         $('.off-meto').remove()
         $('.alertaColocada').remove()
@@ -335,6 +346,7 @@ $(document).ready(function(){
        url:'api/cuentasall.api.php',
        method:'POST',
        dataType:'json',
+       data:data,
        async:true,
        cache:false,
        contentType:false,
@@ -612,8 +624,10 @@ $(document).ready(function(){
 
 
 function serviciosAdicionales(){
+    const info = $('#info').val();
 const data = new FormData()
 data.append('mostrar','')
+data.append('info',info)
    $.ajax({
        url:'api/ingresar-servicios.api.php',
        data:data,
@@ -629,7 +643,7 @@ data.append('mostrar','')
                $('#listaServicios').append(`
                <tr>
                <td>${res[i].description}</td>
-               <td><a href="" class="btn btn-danger btn-sm btnEliminarServicios" idServicios="${res[i].id}"><i class="fas fa-trash-alt"></i></a></td>
+               <td><a href="" class="btn btn-danger btn-sm btnEliminarServicios" info="${info}" idServicios="${res[i].id}"><i class="fas fa-trash-alt"></i></a></td>
                </tr>
                `)
            })
@@ -642,11 +656,13 @@ serviciosAdicionales()
 
 $('#form-servicios').on('submit',function(e){
     e.preventDefault();
+    const info = $('#info').val();
     const servicios = $('#serviciosAdicional').val();
 
     // console.log($('#serviciosAdicional').val());
     var datos = new FormData()
     datos.append('servicios', servicios)
+    datos.append('info',info)
     $.ajax({
         url:'api/ingresar-servicios.api.php',
         data:datos,
@@ -703,10 +719,12 @@ $('#form-servicios').on('submit',function(e){
 $(document).on('click','.btnEliminarServicios',function(e){
    e.preventDefault()
    const idServiocio = $(this).attr('idServicios')
+   const info = $(this).attr('info')
 
 
     var datos = new FormData()
     datos.append('eliminar', idServiocio)
+    datos.append('info', info)
 
     $.ajax({
         url:'api/ingresar-servicios.api.php',
@@ -772,6 +790,7 @@ $('#formulario-boletos').on('submit', function(e){
 
   var datos = [{
     "correlativo" : $('#nuevaserieViaje').val(),
+    "info" : $('#info').val(),
     "costo" : costo,
     "idMoneda" : $('#tipoMoneda').val(),
     "tipopago" : $('#tipoPagoBtn').val(),

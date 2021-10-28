@@ -29,7 +29,7 @@
      
         <div class="card card-primary card-outline">
           
-          <div class="card-header"></div>
+          <div class="card-header"> <input type="hidden" id="info" value="<?php echo $_SESSION['info']?>"></div>
 
           <form role="form" method="POST"  class="formularioVenta">
 
@@ -58,7 +58,7 @@
                   </div>
 
                   <input type="text" class="form-control" id="nuevaserie" name="nuevaserie" readonly>
- 
+                 
                 </div>
 
                 </div> 
@@ -295,8 +295,8 @@
           </div>
 
           <div class="card-footer">
-
-            <button type="submit" id="idboton" class="btn btn-primary pull-right">Enviar Remesa</button>
+              
+            <button type="submit" id="idboton" class="btn btn-primary pull-right">Enviar Remesa </button>
 
             <!-- <button type="submit" class="btn btn-primary pull-right" name="imprimirTicket">Enviar Remesa - Imprimir ticket</button> -->
 
@@ -306,9 +306,9 @@
         </form>
 
         <?php
-            
+            $info=$_SESSION['info'];
             $crearRemesa = new RemesasController();
-            $crearRemesa -> ctrCrearRemesa();
+            $crearRemesa -> ctrCrearRemesa($info);
 
             ?> 
 
@@ -347,7 +347,8 @@
                     
                     $valor=null;
                     $item=null;
-                    $tasas = TasaController::ctrMostrarTasa($item,$valor);
+                    $info=$_SESSION['info'];
+                    $tasas = TasaController::ctrMostrarTasa($item,$valor,$info);
          
                     foreach ($tasas as $key => $value) {
                      echo '<tr>
@@ -468,7 +469,7 @@ MODAL AGREGAR CLIENTE
                                <option selected>-- Seleccione un pais --</option>
                                <?php 
                                 
-                                $pais = PaisController::ctrMostrarApiPais();
+                                $pais = PaisController::ctrMostrarApiPais($info);
                                 // var_dump($pais);
                             
                                 if($pais){
@@ -491,7 +492,7 @@ MODAL AGREGAR CLIENTE
                         <?php
         
         $crearMoneda = new ClientesController();
-        $crearMoneda -> ctrCrearCliente();
+        $crearMoneda -> ctrCrearCliente($info);
 
         ?>
   

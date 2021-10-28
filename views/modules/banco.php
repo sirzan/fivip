@@ -40,7 +40,8 @@
                     
                     $valor=null;
                     $item=null;
-                    $bancosvene = BancoInterController::ctrMostrarBancoInter($item,$valor);
+                    $info=$_SESSION['info'];
+                    $bancosvene = BancoInterController::ctrMostrarBancoInter($item,$valor,$info);
                     foreach ($bancosvene as $key => $value) {
                      echo '<tr>
                      <td>'.$value['id'].'</td>
@@ -48,8 +49,8 @@
                
 
                      <td> 
-                     <button type="submit" data-toggle="modal" data-target="#modal-editar" class="btn btn-success btn-sm btnEditarBancoInter" idBancoInter="'.$value['id'].'"><i class="fas fa-edit"></i></button>
-                     <button type="submit" class="btn btn-danger btn-sm btnEliminarBancoInter" idBancoInter="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button>
+                     <button type="submit" data-toggle="modal" data-target="#modal-editar" class="btn btn-success btn-sm btnEditarBancoInter" idBancoInter="'.$value['id'].'" info="'.$_SESSION['info'].'"><i class="fas fa-edit"></i></button>
+                     <button type="submit" class="btn btn-danger btn-sm btnEliminarBancoInter" idBancoInter="'.$value['id'].'" info="'.$_SESSION['info'].'"><i class="fas fa-trash-alt"></i></button>
                    </td>
                    </tr>';
                     }
@@ -83,6 +84,7 @@
                       <div class="form-group">
                         <label for="nuevoBancoVene">Nombre del banco</label>
                         <input type="text" class="form-control" id="nuevoBancoInter" name="nuevoBancoInter" placeholder="Escriba el nombre del banco">
+           
                       </div>
                     
                     
@@ -93,9 +95,9 @@
       
   
               <?php
-    
+    $info=$_SESSION['info'];
     $crearBanco = new BancoInterController();
-    $crearBanco -> ctrCrearBancoInter();
+    $crearBanco -> ctrCrearBancoInter($info);
 
   ?> 
             </form>
@@ -130,12 +132,13 @@
                     
                 </div>
                 <div class="modal-footer justify-content-between">
+                <input type="hidden" id="editarIdBancoInter" name="editarIdBancoInter">
                   <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 </div>
                 <?php
-    
+    $info=$_SESSION['info'];
     $editarBanco = new BancoInterController();
-    $editarBanco -> ctrEditarBancoInter();
+    $editarBanco -> ctrEditarBancoInter($info);
 
 ?> 
 

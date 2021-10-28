@@ -3,30 +3,33 @@
 ////////////////////////////////////////////////////////////////////
 
 
-
-
 //Recargar cuenta
 
 $(document).on("click",".recargarCuenta",function() {
+
     $('.infocuenta').empty();
     $('#camposocultos').empty();
     
     $('.modal-title').html('<i class="fas fa-arrow-alt-circle-up text-success"></i>  Recargar Saldo')
     $('.btnModal').html('Cargar Saldo')
     var idCuenta = $(this).attr('idCuenta');
-    
+    var info = $(this).attr('info');
+   
     var datos = new FormData();
     datos.append("idCuenta", idCuenta);
+    datos.append("info", info);
     
     $.ajax({
         url: "api/recargar-cuenta.api.php",
         method: "POST",
         data: datos,
+        async:true,
         cache: false,
         contentType: false,
         processData: false,
         dataType: "json",
         success: function(respuesta) {
+       
             var locality = 'es-ES';
           $('.infocuenta').append(`<span class="info-box-icon bg-primary"><i class="fas fa-university"></i></span>     
           <div class="info-box-content">
@@ -46,8 +49,8 @@ $(document).on("click",".recargarCuenta",function() {
           $('#idcuentaActualRecarga').val(respuesta['id_cuenta'])
           $('#simboloRecarga').val(respuesta['simbolo'])
         },
-        error: function() {
-          alert('Error al llamar el api');
+        error: function(error) {
+          alert('Error al llamar el api'+error);
         }
     })
  
@@ -61,10 +64,11 @@ $(document).on("click",".descargarCuenta",function() {
     $('.modal-title').html('<i class="fas fa-arrow-alt-circle-down text-danger"></i>  Descargar Saldo')
     $('.btnModal').html('Descargar Saldo')
     var idCuenta = $(this).attr('idCuenta');
-    
+    var info = $(this).attr('info');
     var datos = new FormData();
+    datos.append("info", info);
     datos.append("idCuenta", idCuenta);
-    
+
     $.ajax({
         url: "api/recargar-cuenta.api.php",
         method: "POST",
@@ -112,10 +116,11 @@ $(document).on("click",".TransferirSaldo",function() {
     $('.btnModal').html('Transferir')
   
     var idCuenta = $(this).attr('idCuenta');
+    var info = $(this).attr('info');
     
     var datos = new FormData();
     datos.append("idCuenta", idCuenta);
-    
+    datos.append("info", info);
     $.ajax({
         url: "api/recargar-cuenta.api.php",
         method: "POST",
@@ -190,18 +195,20 @@ $(document).on("click",".TransferirSaldo",function() {
  
 })
 
-//combo box
+// //combo box
 
 
 $(document).ready(function(){
   $("#cuentasBancarias").on('change', function () {
 
       var idCuenta = $("#cuentasBancarias").val();
+      var info = $(".TransferirSaldo").attr('info');
  
       
 
       var datos = new FormData();
       datos.append("idCuenta", idCuenta);
+      datos.append("info", info);
   
       $.ajax({
           url: "api/recargar-cuenta.api.php",
@@ -229,13 +236,13 @@ $(document).ready(function(){
 })
 
 
-////////////////////////////////////////////////////////////////////
-////////////////  cuenta de bancos internacionales  ////////////////
-////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////
+// ////////////////  cuenta de bancos internacionales  ////////////////
+// ////////////////////////////////////////////////////////////////////
 
 
 
-//Recargar cuenta
+// //Recargar cuenta
 
 $(document).on("click",".recargarCuentaInter",function() {
   $('.infocuenta').empty();
@@ -244,9 +251,11 @@ $(document).on("click",".recargarCuentaInter",function() {
   $('.modal-title').html('<i class="fas fa-arrow-alt-circle-up text-success"></i>  Recargar Saldo')
   $('.btnModal').html('Cargar Saldo')
   var idCuenta = $(this).attr('idCuenta');
+  var info = $(this).attr('info');
   
   var datos = new FormData();
   datos.append("idCuenta", idCuenta);
+  datos.append("info", info);
   
   $.ajax({
       url: "api/recargar-cuenta-inter.api.php",
@@ -288,7 +297,7 @@ $(document).on("click",".recargarCuentaInter",function() {
 
 
 
-//Descargar cuenta
+// //Descargar cuenta
 
 $(document).on("click",".descargarCuentaInter",function() {
   $('.infocuenta').empty();
@@ -296,9 +305,11 @@ $(document).on("click",".descargarCuentaInter",function() {
   $('.modal-title').html('<i class="fas fa-arrow-alt-circle-down text-danger"></i>  Descargar Saldo')
   $('.btnModal').html('Descargar Saldo')
   var idCuenta = $(this).attr('idCuenta');
-  
+  var info = $(this).attr('info');
+
   var datos = new FormData();
   datos.append("idCuenta", idCuenta);
+  datos.append("info", info);
   
   $.ajax({
       url: "api/recargar-cuenta-inter.api.php",
@@ -339,9 +350,9 @@ $(document).on("click",".descargarCuentaInter",function() {
 
 
 
-////////////////////////////////////////////////////////
-/////////          Eliminar Cuenta      ///////////////
-///////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////
+// /////////          Eliminar Cuenta      ///////////////
+// ///////////////////////////////////////////////////////
 
 
 $(document).on("click",".eliminarCuenta",function(){
@@ -349,6 +360,7 @@ $(document).on("click",".eliminarCuenta",function(){
   var idCuentaSaldo = $(this).attr("idCuentaSaldo");
   var idCuenta = $(this).attr("idCuenta");
   var estado = $(this).attr("estado");
+  var info = $(this).attr("info");
   swal({
       title:'¿Estas seguro de borrar la cuenta?',
       text:'¡Si no estas seguro puedes cancelar la acción!',
@@ -360,7 +372,7 @@ $(document).on("click",".eliminarCuenta",function(){
       confirmButtonText:'¡Si, borrar la cuenta!',
   }).then((result)=>{
       if(result.value){
-          window.location = "index.php?ruta=banco-cuentas-venezuela&idCuentaSaldo="+idCuentaSaldo+"&idCuenta="+idCuenta+"&estado="+estado;
+          window.location = "index.php?ruta=banco-cuentas-venezuela&idCuentaSaldo="+idCuentaSaldo+"&idCuenta="+idCuenta+"&estado="+estado+"&info="+info;
       }
   })
 })
@@ -369,6 +381,7 @@ $(document).on("click",".eliminarCuentaInter",function(){
   var idCuentaSaldo = $(this).attr("idCuentaSaldo");
   var idCuenta = $(this).attr("idCuenta");
   var estado = $(this).attr("estado");
+  var info = $(this).attr("info");
   swal({
       title:'¿Estas seguro de borrar la cuenta?',
       text:'¡Si no estas seguro puedes cancelar la acción!',
@@ -380,7 +393,7 @@ $(document).on("click",".eliminarCuentaInter",function(){
       confirmButtonText:'¡Si, borrar la cuenta!',
   }).then((result)=>{
       if(result.value){
-          window.location = "index.php?ruta=banco-cuentas-inter&idCuentaSaldo="+idCuentaSaldo+"&idCuenta="+idCuenta+"&estado="+estado;
+          window.location = "index.php?ruta=banco-cuentas-inter&idCuentaSaldo="+idCuentaSaldo+"&idCuenta="+idCuenta+"&estado="+estado+"&info="+info;
       }
   })
 })

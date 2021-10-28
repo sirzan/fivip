@@ -82,7 +82,7 @@ $(function() {
     $("#user").DataTable({
         "order": [[ 1, "desc" ]],
         "responsive": true,
-        "lengthChange": false,
+        "lengthChange": true,
         "autoWidth": false,
         "language": {
             "processing": "Procesando...",
@@ -306,9 +306,11 @@ $(function() {
 //editar usuario
 $(document).on("click",".btnEditarUsuario",function() {
     var idUsuario = $(this).attr('idUsuario');
+    var info = $(this).attr('info');
 
     var datos = new FormData();
     datos.append("idUsuario", idUsuario);
+    datos.append("info", info);
 
     $.ajax({
         url: "api/usuarios.api.php",
@@ -381,9 +383,11 @@ $("#nuevoUsuario").change(function(){
     $(".alert").remove();
 
     var usuario = $(this).val();
+    var info = $("#info").val();
 
     var datos = new FormData();
     datos.append("validarUsuario", usuario);
+    datos.append("info", info);
 
     $.ajax({
         url:"api/usuarios.api.php",
@@ -430,9 +434,10 @@ $(document).on("click",".btnEliminarUsuario",function(){
 
 $(document).on("click",".btnEditarMoneda",function() {
     var idMoneda = $(this).attr('idMoneda');
-
+    var info = $(this).attr('info');
     var datos = new FormData();
     datos.append("idMoneda", idMoneda);
+    datos.append("info", info);
 
     $.ajax({
         url: "api/monedas.api.php",
@@ -462,6 +467,7 @@ $(document).on("click",".btnEditarMoneda",function() {
 $(document).on("click",".btnEliminarMoneda",function(){
 
     var idMoneda = $(this).attr("idMoneda");
+    var info = $(this).attr("info");
     swal({
         title:'¿Estas seguro de borrar la moneda?',
         text:'¡Si no estas seguro puedes cancelar la acción!',
@@ -473,7 +479,7 @@ $(document).on("click",".btnEliminarMoneda",function(){
         confirmButtonText:'¡Si, borrar la moneda!',
     }).then((result)=>{
         if(result.value){
-            window.location = "index.php?ruta=moneda&idMoneda="+idMoneda;
+            window.location = "index.php?ruta=moneda&idMoneda="+idMoneda+"&info="+info;
         }
     })
 })
@@ -483,11 +489,12 @@ $(document).on("click",".btnEliminarMoneda",function(){
 $("#nuevoMoneda").change(function(){
 
     $(".alert").remove();
-
     var moneda = $(this).val();
+    var info = $("#info").val();
 
     var datos = new FormData();
     datos.append("validarMoneda", moneda);
+    datos.append("info", info);
 
     $.ajax({
         url:"api/monedas.api.php",
@@ -569,9 +576,11 @@ $(document).on("click",".btnEliminarBancoVene",function(){
 
 $(document).on("click",".btnEditarBancoInter",function() {
     var idBancoInter = $(this).attr('idBancoInter');
+    var info = $(this).attr('info');
 
     var datos = new FormData();
     datos.append("idBancoInter", idBancoInter);
+    datos.append("info", info);
 
     $.ajax({
         url: "api/banco-inter.api.php",
@@ -584,7 +593,7 @@ $(document).on("click",".btnEditarBancoInter",function() {
         success: function(respuesta) {
      
             $("#editarBancoInter").val(respuesta['nombre'])
-             $("#editarId").val(respuesta['id'])
+             $("#editarIdBancoInter").val(respuesta['id'])
            
         }
     })
@@ -600,6 +609,7 @@ $(document).on("click",".btnEditarBancoInter",function() {
 $(document).on("click",".btnEliminarBancoInter",function(){
 
     var idBancoInter = $(this).attr("idBancoInter");
+    var info = $(this).attr("info");
     swal({
         title:'¿Estas seguro de borrar el banco?',
         text:'¡Si no estas seguro puedes cancelar la acción!',
@@ -611,7 +621,7 @@ $(document).on("click",".btnEliminarBancoInter",function(){
         confirmButtonText:'¡Si, borrar la moneda!',
     }).then((result)=>{
         if(result.value){
-            window.location = "index.php?ruta=banco&idBancoInter="+idBancoInter;
+            window.location = "index.php?ruta=banco&idBancoInter="+idBancoInter+"&info="+info;
         }
     })
 })
@@ -628,14 +638,18 @@ $(document).on("click",".btnEliminarBancoInter",function(){
 
 $(document).on("click",".btnEditarTasa",function() {
     var idTasa = $(this).attr('idTasa');
+    const info = $(this).attr('info');
+    console.log(info)
     var datos = new FormData();
     datos.append("idTasa", idTasa);
+    datos.append("info", info);
   
     
     $.ajax({
         url: "api/tasa.api.php",
         method: "POST",
         data: datos,
+        async:true,
         cache: false,
         contentType: false,
         processData: false,
@@ -660,6 +674,7 @@ $(document).on("click",".btnEditarTasa",function() {
 $(document).on("click",".btnEliminarTasa",function(){
 
     var idTasa = $(this).attr("idTasa");
+    var info = $(this).attr("info");
     swal({
         title:'¿Estas seguro de borrar la tasa?',
         text:'¡Si no estas seguro puedes cancelar la acción!',
@@ -671,7 +686,7 @@ $(document).on("click",".btnEliminarTasa",function(){
         confirmButtonText:'¡Si, borrar la tasa!',
     }).then((result)=>{
         if(result.value){
-            window.location = "index.php?ruta=tasa&idTasa="+idTasa;
+            window.location = "index.php?ruta=tasa&idTasa="+idTasa+"&info="+info;
         }
     })
 })
@@ -683,9 +698,11 @@ $(document).on("click",".btnEliminarTasa",function(){
 
 $(document).on("click",".btnEditarCliente",function() {
     var idCliente = $(this).attr('idCliente');
+    var data = $(this).attr('info');
 
     var datos = new FormData();
     datos.append("idCliente", idCliente);
+    datos.append("data", data);
     
     $.ajax({
         url: "api/clientes.api.php",
@@ -716,6 +733,7 @@ $(document).on("click",".btnEditarCliente",function() {
 $(document).on("click",".btnEliminarCliente",function(){
 
     var idCliente = $(this).attr("idCliente");
+    var data = $(this).attr('info');
     swal({
         title:'¿Estas seguro de borrar el cliente?',
         text:'¡Si no estas seguro puedes cancelar la acción!',
@@ -727,10 +745,235 @@ $(document).on("click",".btnEliminarCliente",function(){
         confirmButtonText:'¡Si, borrar el cliente!',
     }).then((result)=>{
         if(result.value){
-            window.location = "index.php?ruta=clientes&idCliente="+idCliente;
+            window.location = "index.php?ruta=clientes&idCliente="+idCliente+'&info='+data;
         }
     })
 })
 
 
   
+//datatable
+$(function() {
+    $("#cliente").DataTable({
+        "order": [[ 1, "desc" ]],
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "language": {
+            "processing": "Procesando...",
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "zeroRecords": "No se encontraron resultados",
+            "emptyTable": "Ningún dato disponible en esta tabla",
+            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "search": "Buscar:",
+            "infoThousands": ",",
+            "loadingRecords": "Cargando...",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+            "aria": {
+                "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sortDescending": ": Activar para ordenar la columna de manera descendente"
+            },
+            "buttons": {
+                "copy": "Copiar",
+                "colvis": "Visibilidad",
+                "collection": "Colección",
+                "colvisRestore": "Restaurar visibilidad",
+                "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
+                "copySuccess": {
+                    "1": "Copiada 1 fila al portapapeles",
+                    "_": "Copiadas %d fila al portapapeles"
+                },
+                "copyTitle": "Copiar al portapapeles",
+                "csv": "CSV",
+                "excel": "Excel",
+                "pageLength": {
+                    "-1": "Mostrar todas las filas",
+                    "_": "Mostrar %d filas"
+                },
+                "pdf": "PDF",
+                "print": "Imprimir"
+            },
+            "autoFill": {
+                "cancel": "Cancelar",
+                "fill": "Rellene todas las celdas con <i>%d<\/i>",
+                "fillHorizontal": "Rellenar celdas horizontalmente",
+                "fillVertical": "Rellenar celdas verticalmentemente"
+            },
+            "decimal": ",",
+            "searchBuilder": {
+                "add": "Añadir condición",
+                "button": {
+                    "0": "Constructor de búsqueda",
+                    "_": "Constructor de búsqueda (%d)"
+                },
+                "clearAll": "Borrar todo",
+                "condition": "Condición",
+                "conditions": {
+                    "date": {
+                        "after": "Despues",
+                        "before": "Antes",
+                        "between": "Entre",
+                        "empty": "Vacío",
+                        "equals": "Igual a",
+                        "notBetween": "No entre",
+                        "notEmpty": "No Vacio",
+                        "not": "Diferente de"
+                    },
+                    "number": {
+                        "between": "Entre",
+                        "empty": "Vacio",
+                        "equals": "Igual a",
+                        "gt": "Mayor a",
+                        "gte": "Mayor o igual a",
+                        "lt": "Menor que",
+                        "lte": "Menor o igual que",
+                        "notBetween": "No entre",
+                        "notEmpty": "No vacío",
+                        "not": "Diferente de"
+                    },
+                    "string": {
+                        "contains": "Contiene",
+                        "empty": "Vacío",
+                        "endsWith": "Termina en",
+                        "equals": "Igual a",
+                        "notEmpty": "No Vacio",
+                        "startsWith": "Empieza con",
+                        "not": "Diferente de"
+                    },
+                    "array": {
+                        "not": "Diferente de",
+                        "equals": "Igual",
+                        "empty": "Vacío",
+                        "contains": "Contiene",
+                        "notEmpty": "No Vacío",
+                        "without": "Sin"
+                    }
+                },
+                "data": "Data",
+                "deleteTitle": "Eliminar regla de filtrado",
+                "leftTitle": "Criterios anulados",
+                "logicAnd": "Y",
+                "logicOr": "O",
+                "rightTitle": "Criterios de sangría",
+                "title": {
+                    "0": "Constructor de búsqueda",
+                    "_": "Constructor de búsqueda (%d)"
+                },
+                "value": "Valor"
+            },
+            "searchPanes": {
+                "clearMessage": "Borrar todo",
+                "collapse": {
+                    "0": "Paneles de búsqueda",
+                    "_": "Paneles de búsqueda (%d)"
+                },
+                "count": "{total}",
+                "countFiltered": "{shown} ({total})",
+                "emptyPanes": "Sin paneles de búsqueda",
+                "loadMessage": "Cargando paneles de búsqueda",
+                "title": "Filtros Activos - %d"
+            },
+            "select": {
+                "cells": {
+                    "1": "1 celda seleccionada",
+                    "_": "$d celdas seleccionadas"
+                },
+                "columns": {
+                    "1": "1 columna seleccionada",
+                    "_": "%d columnas seleccionadas"
+                },
+                "rows": {
+                    "1": "1 fila seleccionada",
+                    "_": "%d filas seleccionadas"
+                }
+            },
+            "thousands": ".",
+            "datetime": {
+                "previous": "Anterior",
+                "next": "Proximo",
+                "hours": "Horas",
+                "minutes": "Minutos",
+                "seconds": "Segundos",
+                "unknown": "-",
+                "amPm": [
+                    "AM",
+                    "PM"
+                ],
+                "months": {
+                    "0": "Enero",
+                    "1": "Febrero",
+                    "10": "Noviembre",
+                    "11": "Diciembre",
+                    "2": "Marzo",
+                    "3": "Abril",
+                    "4": "Mayo",
+                    "5": "Junio",
+                    "6": "Julio",
+                    "7": "Agosto",
+                    "8": "Septiembre",
+                    "9": "Octubre"
+                },
+                "weekdays": [
+                    "Dom",
+                    "Lun",
+                    "Mar",
+                    "Mie",
+                    "Jue",
+                    "Vie",
+                    "Sab"
+                ]
+            },
+            "editor": {
+                "close": "Cerrar",
+                "create": {
+                    "button": "Nuevo",
+                    "title": "Crear Nuevo Registro",
+                    "submit": "Crear"
+                },
+                "edit": {
+                    "button": "Editar",
+                    "title": "Editar Registro",
+                    "submit": "Actualizar"
+                },
+                "remove": {
+                    "button": "Eliminar",
+                    "title": "Eliminar Registro",
+                    "submit": "Eliminar",
+                    "confirm": {
+                        "_": "¿Está seguro que desea eliminar %d filas?",
+                        "1": "¿Está seguro que desea eliminar 1 fila?"
+                    }
+                },
+                "error": {
+                    "system": "Ha ocurrido un error en el sistema (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Más información&lt;\\\/a&gt;).<\/a>"
+                },
+                "multi": {
+                    "title": "Múltiples Valores",
+                    "info": "Los elementos seleccionados contienen diferentes valores para este registro. Para editar y establecer todos los elementos de este registro con el mismo valor, hacer click o tap aquí, de lo contrario conservarán sus valores individuales.",
+                    "restore": "Deshacer Cambios",
+                    "noMulti": "Este registro puede ser editado individualmente, pero no como parte de un grupo."
+                }
+            },
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
+        }
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+
+
+
+
+    });
+});

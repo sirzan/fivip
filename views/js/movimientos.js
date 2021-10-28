@@ -2,11 +2,15 @@
   
 
 $(document).ready(function(){
-
+  const info = $('#info').val();
+  // console.log(info)
+  const data = new FormData();
+  data.append('info',info)
 
     $.ajax({
         url: "api/movimientosall.api.php",
         method: "POST",
+        data:data,
         async:true,
         cache: false,
         contentType: false,
@@ -39,6 +43,7 @@ $(document).ready(function(){
     $.ajax({
         url: "api/movimientosefectivo.api.php",
         method: "POST",
+        data:data,
         async:true,
         cache: false,
         contentType: false,
@@ -77,9 +82,11 @@ $('.verMovimientos').on('click',function() {
   $('#movimientos').DataTable().destroy()
   console.log('click')
   const iDmovi = $(this).attr('idCuenta');
-
+  const info = $(this).attr('info');
+  
   const data = new FormData()
   data.append('id',iDmovi)
+  data.append('info',info)
 
   $.ajax({
     url:'api/movimiento-vene.api.php',
@@ -90,7 +97,7 @@ $('.verMovimientos').on('click',function() {
     contentType:false,
     processData:false,
     success: function (res) {
-      // console.log(res.data[0].id)
+   
       $('.modal-title').html(`${res.data[0].nombre} - ${res.data[0].n_titular} ${res.data[0].a_titular}`)
 
 
@@ -99,7 +106,7 @@ $('.verMovimientos').on('click',function() {
   $('#movimientos').DataTable( {
  
     "order": [[ 0, "desc" ]],
-    // "responsive": true,
+    "responsive": true,
     "lengthChange": false,
     "autoWidth": false,
     "dom": 'Bfrtip',
@@ -110,8 +117,9 @@ $('.verMovimientos').on('click',function() {
     ],
     "ajax": {
       "url": "api/movimiento-vene.api.php",
+      "async":true,
       "type": "POST",
-      "data" : { 'id' : iDmovi },
+      "data" : { 'id' : iDmovi,'info': info},
       "dataSrc": "data"
   },
   "columns":[

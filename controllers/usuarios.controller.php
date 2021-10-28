@@ -11,15 +11,15 @@ class ControladorUsuarios{
                 $tabla = 'usuarios';
                 
                 $item = 'usuario';
-                
+                $info= null;
                 $valor = $_POST["user"];
 
-                $respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla,$item,$valor);
+                $respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla,$item,$valor,$info);
 
-                // var_dump($respuesta);
+                // var_dump($respuesta["password"]);
 
                 
-                if($respuesta && $respuesta["usuario"] == $_POST["user"]  &&  password_verify($_POST["password"], $respuesta["password"])){
+                if($respuesta && $respuesta["usuario"] == $_POST["user"] && password_verify($_POST["password"], $respuesta["password"])){
                   
                     if($respuesta["estado"] == 1){
 
@@ -27,6 +27,8 @@ class ControladorUsuarios{
                         $_SESSION["usuario"] = $respuesta["nom_user"];
                         $_SESSION["rol"] = $respuesta["rol"];
                         $_SESSION["id"] = $respuesta["id"];
+                        $_SESSION["info"] = $respuesta["info"];
+                        $_SESSION["iso"] = $respuesta["iso"];
     
                         date_default_timezone_set('America/Lima');
 
@@ -59,7 +61,7 @@ class ControladorUsuarios{
 
     }
 
-    static public function ctrCrearUsuario(){
+    static public function ctrCrearUsuario($info){
    
         if(isset($_POST['nuevoUsuario'])){
        
@@ -74,10 +76,11 @@ class ControladorUsuarios{
                 $contraseña = password_hash($_POST["nuevoPassword"], PASSWORD_BCRYPT);
 
                 $datos = array(
-                    "usuario" => $_POST["nuevoUsuario"],
+                    "usuario" => $_POST['iso'].$_POST["nuevoUsuario"],
                     "rol" => $_POST["rol"],
                     "nom_user" => $_POST["nuevoNombre"],
                     "password" => $contraseña,
+                    "info"=>$info
                 );
 
                 $respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
@@ -133,10 +136,10 @@ class ControladorUsuarios{
         }
     }
 
-    static public function ctrMostrarUsuarios($item, $valor){
+    static public function ctrMostrarUsuarios($item, $valor,$info){
         $tabla = 'usuarios';
                 
-        $respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla, $item, $valor);
+        $respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla, $item, $valor,$info);
 
         return $respuesta;
     }

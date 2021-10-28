@@ -44,7 +44,8 @@
                     
                     $valor=null;
                     $item=null;
-                    $monedas = PagosController::ctrMostrarPagos($item,$valor);
+                    $info=$_SESSION['info'];
+                    $monedas = PagosController::ctrMostrarPagos($item,$valor,$info);
                     foreach ($monedas as $key => $value) {
                      echo '<tr>
                      <td>'.$value['id'].'</td>
@@ -57,7 +58,7 @@
                      <td> 
                    
 
-                       <button type="submit" data-toggle="modal" data-target="#modal-pagarP" class="btn btn-success btn-sm btnPagarP" idPagosP="'.$value['id'].'"><i class="fas fa-money-bill-alt"></i> Pagar</button>
+                       <button type="submit" data-toggle="modal" data-target="#modal-pagarP" class="btn btn-success btn-sm btnPagarP" idPagosP="'.$value['id'].'" info="'.$info.'"><i class="fas fa-money-bill-alt"></i> Pagar</button>
         
                        <button type="submit" class="btn btn-primary btn-sm btnverPago" idPagos="'.$value['id'].'"><i class="fas fa-eye"></i></button>
                      </td>

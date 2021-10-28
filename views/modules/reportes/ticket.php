@@ -1,19 +1,19 @@
 <?php
+// namespace extensions\tcpdf\tcpdf;
+// require_once "../../../controllers/remesas.controller.php";
+// require_once "../../../models/remesas.model.php";
 
-require_once "../../../controllers/remesas.controller.php";
-require_once "../../../models/remesas.model.php";
+// require_once "../../../controllers/clientes.controller.php";
+// require_once "../../../models/clientes.model.php";
 
-require_once "../../../controllers/clientes.controller.php";
-require_once "../../../models/clientes.model.php";
+// require_once "../../../controllers/usuarios.controller.php";
+// require_once "../../../models/usuario.model.php";
 
-require_once "../../../controllers/usuarios.controller.php";
-require_once "../../../models/usuario.model.php";
+// require_once "../../../controllers/banco-vene.controller.php";
+// require_once "../../../models/banco-vene.model.php";
 
-require_once "../../../controllers/banco-vene.controller.php";
-require_once "../../../models/banco-vene.model.php";
-
-// require_once "../../../controllers/productos.controller.php";
-// require_once "../../../models/productos.model.php";
+// // require_once "../../../controllers/productos.controller.php";
+// // require_once "../../../models/productos.model.php";
 
 class imprimirFactura{
 
@@ -26,8 +26,9 @@ public function traerImpresionFactura(){
 $itemRemesa = "id";
 $valorRemesa = $this->id;
 $info=$valorRemesa['info'];
-$idData=$valorRemesa['id'];
-$respuestaRemesa = RemesasController::ctrMostrarRemesas($itemRemesa, $idData,$info);
+$idDato=$valorRemesa['id'];
+
+$respuestaRemesa = RemesasController::ctrMostrarRemesas($itemRemesa, $idDato,$info);
 
 $fecha = $respuestaRemesa["fecha"];
 $serie = $respuestaRemesa["correlativo"];
@@ -65,7 +66,7 @@ if($nombre_banco == 'PAGO MOVIL'){
 
 //REQUERIMOS LA CLASE TCPDF
 
-require_once('tcpdf_include.php');
+require_once 'extensions/tcpdf/pdf/tcpdf_include.php';
 $medidas = array(80, 107);
 // $pdf = new TCPDF('P', 'mm', $medidas, true, 'UTF-8', false);
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);

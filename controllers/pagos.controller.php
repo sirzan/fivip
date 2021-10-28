@@ -4,18 +4,18 @@ class PagosController{
 
 
 //mostrar monedas en la tabla
-static public function ctrMostrarPagos($item,$valor){
+static public function ctrMostrarPagos($item,$valor,$info){
     $tabla = 'remesas';
             
-    $respuesta = ModeloPagos::mdlMostrarPagos($tabla, $item, $valor);
+    $respuesta = ModeloPagos::mdlMostrarPagos($tabla, $item, $valor,$info);
 
     return $respuesta;
 }
 //mostrar monedas en la tabla
-static public function ctrMostrarCreditos($item,$valor){
+static public function ctrMostrarCreditos($item,$valor,$info){
     $tabla = 'pagos';
             
-    $respuesta = ModeloPagos::mdlMostrarCreditos($tabla, $item, $valor);
+    $respuesta = ModeloPagos::mdlMostrarCreditos($tabla, $item, $valor,$info);
 
     return $respuesta;
 }

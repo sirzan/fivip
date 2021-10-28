@@ -1,8 +1,8 @@
 <?php
 require_once '../models/conexion.php';
-
-// Obtener registros
-$stmt = Conexion::conectar()->prepare("SELECT T1.created_at,T2.nombre AS banco,T2.n_titular,T2.a_titular,T4.nombre AS banco_transfer,T4.n_titular AS n_transfer,T4.a_titular AS a_transfer,T3.nombre AS banco_inter,T3.n_titular_inter,T3.a_titular_inter,
+try {
+  // Obtener registros
+$stmt = Conexion::conectar($_POST['info'])->prepare("SELECT T1.created_at,T2.nombre AS banco,T2.n_titular,T2.a_titular,T4.nombre AS banco_transfer,T4.n_titular AS n_transfer,T4.a_titular AS a_transfer,T3.nombre AS banco_inter,T3.n_titular_inter,T3.a_titular_inter,
 CONCAT(T2.simbolo,'',TRUNCATE(T1.monto,2))AS monto,CONCAT(T2.simbolo,'',TRUNCATE(T1.monto_actual,2))AS monto_actual,CONCAT(T3.simbolo,'',TRUNCATE(T1.monto,2)) AS monto_inter,CONCAT(T3.simbolo,'',TRUNCATE(T1.monto_actual,2))AS monto_actual_inter,CONCAT(T4.simbolo,'',TRUNCATE(T1.monto,2)) AS monto_transfer,CONCAT(T4.simbolo,'',TRUNCATE(T1.monto_actual,2))AS monto_actual_transfer,T1.operacion,T1.signo
 
 FROM (SELECT * FROM movimientos_bancarios)T1 
@@ -21,9 +21,12 @@ left JOIN (SELECT cuenta_banco_inter.id,n_titular_inter,a_titular_inter,nombre,m
             LEFT JOIN monedas ON saldo_cuenta_inter.moneda_inter_id = monedas.id)T3 ON T1.cuenta_banco_inter_id = T3.id 
             ORDER BY T1.created_at DESC LIMIT 300");
 $stmt->execute();
-$monedas = $stmt->fetchAll();
+$monedas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
 echo json_encode($monedas);
 exit();
+} catch (\Throwable $th) {
+echo "Mensaje de error: ".$th->getMessage();
+}

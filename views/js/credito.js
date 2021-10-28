@@ -1,9 +1,11 @@
 $(document).off("click", ".idPagos").on("click", ".btnCreditos",function () {
    
     const idCredito = $(this).attr('idCreditos')
+    const info = $(this).attr('info')
   
     const data = new FormData();
         data.append('idPagos', idCredito)
+        data.append('info', info)
 
 
     $.ajax({
@@ -35,11 +37,13 @@ $(document).off("click", ".idPagos").on("click", ".btnCreditos",function () {
               ///////////////////////////////
           //   cuenta que transfiere   //
           //////////////////////////////
-
+          const data2 = new FormData();
+          data2.append('info', info)
           $.ajax({
             url:'api/cuentasall.api.php',
             method:'POST',
             dataType:'json',
+            data:data2,
             async:true,
             cache:false,
             contentType:false,
@@ -267,6 +271,7 @@ $(document).off("click", ".idPagos").on("click", ".btnCreditos",function () {
                 datos.append('tipoBancoEntrada',$('#tipoBancoEntrada').val())
                 datos.append('abonocompleto',abondoCompleto)
                 datos.append('id_remesa', $('#id_remesa').val())
+                datos.append('info', info)
                 
                 if (clasesMetodo.length <= 0) {
                     toastr.warning('Debe agregar un metodo de pago')

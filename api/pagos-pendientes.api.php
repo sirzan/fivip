@@ -10,7 +10,9 @@ class ApiTasa
     public function apiPagar(){
         $item = "id";
         $valor = $this->idPagos;
-        $respuesta = PagosController::ctrMostrarCreditos($item,$valor);
+        $info = $valor['info'];
+        $idData = $valor['idPagos'];
+        $respuesta = PagosController::ctrMostrarCreditos($item,$idData,$info);
         echo json_encode($respuesta);
     }
    
@@ -19,6 +21,6 @@ class ApiTasa
 //editar moneda
 if (isset($_POST['idPagos'])) {
     $editar = new ApiTasa;
-    $editar -> idPagos = $_POST["idPagos"];
+    $editar -> idPagos = $_POST;
     $editar ->apiPagar();
 }

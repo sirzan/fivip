@@ -26,7 +26,7 @@
           <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-agregar">Agregar Clientes</button>
         </div>
         <div class="card-body">
-        <table id="user" class="table table-bordered table-striped">
+        <table id="cliente" class="table table-bordered table-striped">
                   <thead>
                   <tr>
                     <th style="width:10px">#</th>
@@ -40,12 +40,15 @@
                   </tr>
                   </thead>
                   <tbody>
-       
+      
                   <?php 
                     
                     $valor=null;
                     $item=null;
-                    $clientes = ClientesController::ctrMostrarClientes($item,$valor);
+                    $data=$_SESSION['info'];
+                    
+                    $clientes = ClientesController::ctrMostrarClientes($item,$valor,$data);
+               
                     foreach ($clientes as $key => $value) {
                      echo '<tr>
                      <td>'.$value['id'].'</td>
@@ -56,8 +59,8 @@
                      <td>'.$value['cantidad_env'].'</td>
 
                      <td> 
-                       <button type="submit" data-toggle="modal" data-target="#modal-editar" class="btn btn-success btn-sm btnEditarCliente" idCliente="'.$value['id'].'"><i class="fas fa-edit"></i></button>
-                       <button type="submit" class="btn btn-danger btn-sm btnEliminarCliente" idCliente="'.$value['id'].'"><i class="fas fa-trash-alt"></i></button>
+                       <button type="submit" data-toggle="modal" data-target="#modal-editar" class="btn btn-success btn-sm btnEditarCliente" idCliente="'.$value['id'].'" info="'.$data.'"><i class="fas fa-edit"></i></button>
+                       <button type="submit" class="btn btn-danger btn-sm btnEliminarCliente" idCliente="'.$value['id'].'" info="'.$data.'"><i class="fas fa-trash-alt"></i></button>
                      </td>
                    </tr>';
                     }
@@ -152,8 +155,8 @@
                            <select class="form-control" name="paisCliente" id="paisCliente">
                                <option selected>-- Seleccione un pais --</option>
                                <?php 
-                                
-                                $pais = PaisController::ctrMostrarApiPais();
+                                    $data=$_SESSION['info'];
+                                $pais = PaisController::ctrMostrarApiPais($data);
                                 // var_dump($pais);
                             
                                 if($pais){
@@ -174,9 +177,9 @@
                   <button type="submit" class="btn btn-primary">Registrar Cliente</button>
                 </div>
                         <?php
-        
+         $data=$_SESSION['info'];
         $crearMoneda = new ClientesController();
-        $crearMoneda -> ctrCrearCliente();
+        $crearMoneda -> ctrCrearCliente($data);
 
         ?>
   
@@ -271,8 +274,8 @@
                            <select class="form-control" name="editarpaisCliente" id="editarpaisCliente">
                                <option selected>-- Seleccione un pais --</option>
                                <?php 
-                                
-                                $pais = PaisController::ctrMostrarApiPais();
+                                    $data=$_SESSION['info'];
+                                $pais = PaisController::ctrMostrarApiPais($data);
                                 // var_dump($pais);
                             
                                 if($pais){
@@ -297,9 +300,9 @@
                 </div>
           
                 <?php
-  
+               $data=$_SESSION['info'];
                 $editarCliente = new ClientesController();
-                $editarCliente -> ctrEditarClientes();
+                $editarCliente -> ctrEditarClientes($data);
 
                 ?>  
             </form>
@@ -314,7 +317,7 @@
  <!--MODAL editar USUARIOS END-->
 
  <?php
- $borrarCliente = new ClientesController();
- $borrarCliente->ctrBorrarCliente();
+$borrarCliente = new ClientesController();
+$borrarCliente->ctrBorrarCliente();
  ?>
 

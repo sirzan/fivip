@@ -10,7 +10,10 @@ class ApiRecargarCuenta
     public function apiRecargar(){
         $item = "id";
         $valor = $this->idCuenta;
-        $respuesta = CuentaBancoVeneController::ctrMostrarCuenta($item,$valor);
+        $idcuenta = $valor['idCuenta'];
+        $info = $valor['info'];
+   
+        $respuesta = CuentaBancoVeneController::ctrMostrarCuenta($item,$idcuenta,$info);
         echo json_encode($respuesta);
     }
    
@@ -19,7 +22,7 @@ class ApiRecargarCuenta
 //editar moneda
 if (isset($_POST['idCuenta'])) {
     $editar = new ApiRecargarCuenta;
-    $editar -> idCuenta = $_POST["idCuenta"];
+    $editar -> idCuenta = $_POST;
     $editar ->apiRecargar();
 }
 

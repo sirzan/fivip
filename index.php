@@ -43,5 +43,6 @@ require_once "models/pagos-boletos.model.php";
 
 require_once "extensions/vendor/autoload.php";
 
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

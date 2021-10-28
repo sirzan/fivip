@@ -3,10 +3,10 @@ require_once 'conexion.php';
 
 class BoletoModal{
 
-    static public function mdlMostrar($tabla,$item,$valor){
+    static public function mdlMostrar($tabla,$item,$valor,$info){
             try {
                 if ($item!=null) {
-                    $stmt= Conexion::conectar()->prepare("SELECT T1.id,T1.correlativo,T1.fecha_r,T1.fecha_s,T1.obs,T1.promotor,
+                    $stmt= Conexion::conectar($info)->prepare("SELECT T1.id,T1.correlativo,T1.fecha_r,T1.fecha_s,T1.obs,T1.promotor,
                     T1.sa,T1.estado,T1.user_id,T1.created_at,
                     T2.name AS estado_d,
                     T3.name AS pais_d,
@@ -28,7 +28,7 @@ class BoletoModal{
                 
                     $stmt = null;
                 }else {
-                    $stmt= Conexion::conectar()->prepare("SELECT T1.id,T1.correlativo,T1.fecha_r,T1.fecha_s,T1.obs,T1.promotor,
+                    $stmt= Conexion::conectar($info)->prepare("SELECT T1.id,T1.correlativo,T1.fecha_r,T1.fecha_s,T1.obs,T1.promotor,
                     T1.sa,T1.estado,T1.user_id,T1.created_at,
                     T2.name AS estado_d,
                     T3.name AS pais_d,
@@ -55,10 +55,10 @@ class BoletoModal{
             }
     }
 
-    static public function mdlIngresar($tabla,$datos){
+    static public function mdlIngresar($tabla,$datos,$info){
        try{
 
-           $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(cliente_id,correlativo,fecha_r,fecha_s,obs,promotor,ruta_d,ruta_s,sa,user_id,estado,costo,moneda_id) 
+           $stmt = Conexion::conectar($info)->prepare("INSERT INTO $tabla(cliente_id,correlativo,fecha_r,fecha_s,obs,promotor,ruta_d,ruta_s,sa,user_id,estado,costo,moneda_id) 
             VALUES(:cliente_id,:correlativo,:fecha_r,:fecha_s,:obs,:promotor,:ruta_d,:ruta_s,:sa,:user_id,:estado,:costo,:moneda_id)");
     
             $stmt->bindParam(":cliente_id",$datos['cliente_id'],PDO::PARAM_INT);
@@ -88,9 +88,9 @@ class BoletoModal{
     }
 
 
-    static public function mdlMostrarUltimoId($tabla){
+    static public function mdlMostrarUltimoId($tabla,$info){
         try {
-            $stmt = Conexion::conectar()->prepare("SELECT id from $tabla order by id desc");
+            $stmt = Conexion::conectar($info)->prepare("SELECT id from $tabla order by id desc");
             $stmt->execute();
             return  $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor(); 

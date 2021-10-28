@@ -3,7 +3,7 @@
 class MonedaController{
 
 //crear monedas
-    static public function ctrCrearMoneda(){
+    static public function ctrCrearMoneda($info){
    
         if(isset($_POST['nuevoMoneda'])){
        
@@ -21,7 +21,7 @@ class MonedaController{
                     "pais" => $_POST['nuevoPais'],
                 );
     
-                $respuesta = ModeloMoneda::mdlIngresarMoneda($tabla, $datos);
+                $respuesta = ModeloMoneda::mdlIngresarMoneda($tabla, $datos,$info);
                 if($respuesta=="ok"){
                     echo '<script>
     
@@ -75,10 +75,10 @@ class MonedaController{
     }
 
 //mostrar monedas en la tabla
-    static public function ctrMostrarMonedas($item,$valor){
+    static public function ctrMostrarMonedas($item,$valor,$info){
         $tabla = 'monedas';
                 
-        $respuesta = ModeloMoneda::mdlMostrarMonedas($tabla, $item, $valor);
+        $respuesta = ModeloMoneda::mdlMostrarMonedas($tabla, $item, $valor,$info);
 
         return $respuesta;
     }
@@ -88,7 +88,7 @@ class MonedaController{
 
 //Editar Moneda
 
-static public function ctrEditarMoneda(){
+static public function ctrEditarMoneda($info){
     if(isset($_POST['editarMoneda'])){
         if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarMoneda"])) 
             {
@@ -106,7 +106,7 @@ static public function ctrEditarMoneda(){
                 );
     
                
-                $respuesta = ModeloMoneda::mdlEditarMoneda($tabla, $datos);
+                $respuesta = ModeloMoneda::mdlEditarMoneda($tabla, $datos,$info);
                 if($respuesta=="ok"){
                     echo '<script>
 
@@ -162,8 +162,9 @@ static public function ctrEditarMoneda(){
         if(isset($_GET["idMoneda"])){
             $tabla="monedas";
             $datos = $_GET["idMoneda"];
+            $info = $_GET["info"];
 
-            $respuesta = ModeloMoneda::mdlBorrarMoneda($tabla, $datos);
+            $respuesta = ModeloMoneda::mdlBorrarMoneda($tabla, $datos,$info);
             if($respuesta=="ok"){
                 echo '<script>
 

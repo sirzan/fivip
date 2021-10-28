@@ -76,10 +76,10 @@ class BancoVeneController{
     
 
     //mostrar Bancos de venezuela
-    static public function ctrMostrarBancoVene($item,$valor){
+    static public function ctrMostrarBancoVene($item,$valor,$info){
         $tabla = 'banco_vene';
                 
-        $respuesta = ModeloBancoVene::mdlMostrarBancoVene($tabla, $item, $valor);
+        $respuesta = ModeloBancoVene::mdlMostrarBancoVene($tabla, $item, $valor,$info);
 
         return $respuesta;
     }
