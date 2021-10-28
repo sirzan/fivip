@@ -131,13 +131,13 @@ $pdf->SetFont('helvetica', 'B', 10);
 $pdf->Cell(0, 15, 'TOTALES POR GENERALES', 0, false, 'L', 0, '', 0, false, 'M', 'M');
 $pdf->Ln(8);
 $pdf->SetFont('helvetica', 'N', 8);
-$pdf->Cell(65, 15, 'TOTALES ENVIADOS', 0, false, 'C', 0, '', 0, false, 'M', 'M');
 $pdf->Cell(65, 15, 'TOTALES RECIBIDOS', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+$pdf->Cell(65, 15, 'TOTALES ENVIADOS', 0, false, 'C', 0, '', 0, false, 'M', 'M');
 $pdf->Ln(8);
 $pdf->SetFont('helvetica', 'N', 10);
 foreach ($data3 as $value) {
-	$pdf->Cell(65, 7, $value['simbolo_tasa'].''.number_format($value['total_remesa'],2,',','.').' ('.$value['iso_tasa'].')', 1, false, 'L', 0, '', 0, false, 'M', 'M');
 	$pdf->Cell(65, 7, $value['simbolo_moneda'].''.number_format($value['total_envio'],2,',','.').' ('.$value['iso_moneda'].')', 1, false, 'L', 0, '', 0, false, 'M', 'M');
+	$pdf->Cell(65, 7, $value['simbolo_tasa'].''.number_format($value['total_remesa'],2,',','.').' ('.$value['iso_tasa'].')', 1, false, 'L', 0, '', 0, false, 'M', 'M');
 	$pdf->Ln(8);
 }
 $pdf->Ln(10);
