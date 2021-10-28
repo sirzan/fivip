@@ -68,7 +68,7 @@ class ReporteDia{
         $hora = date('H:i:s');
 
         $fechaActual = $fecha.' '.$hora;
-        $stmt = Conexion::conectar($info)->prepare("SELECT SUM(total_remesa) AS total_remesa,simbolo_tasa,iso_tasa,sum(total_envio) AS total_envio,iso_moneda,simbolo_moneda FROM remesas  WHERE DATE_FORMAT(fecha, '%Y-%m-%d') =DATE_FORMAT(:fecha, '%Y-%m-%d') GROUP BY iso_moneda ORDER BY iso_moneda");
+        $stmt = Conexion::conectar($info)->prepare("SELECT SUM(total_remesa) AS total_remesa,simbolo_tasa,iso_tasa,sum(total_envio) AS total_envio,iso_moneda,simbolo_moneda FROM remesas  WHERE DATE_FORMAT(fecha, '%Y-%m-%d') =DATE_FORMAT(:fecha, '%Y-%m-%d') GROUP BY iso_tasa,iso_moneda");
         $stmt->bindParam(":fecha", $fechaActual, PDO::PARAM_STR);
         $stmt -> execute();
         return $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -78,7 +78,7 @@ class ReporteDia{
         $stmt = null;
     }
     static public function apiReporteremesaTotalesRango($fechaInicio,$fechaFinal,$info){
-        $stmt = Conexion::conectar($info)->prepare("SELECT SUM(total_remesa) AS total_remesa,simbolo_tasa,iso_tasa,sum(total_envio) AS total_envio,iso_moneda,simbolo_moneda FROM remesas  WHERE DATE_FORMAT(remesas.fecha, '%Y-%m-%d') BETWEEN :fechaInicial AND :fechaFinal GROUP BY iso_moneda ORDER BY iso_moneda");
+        $stmt = Conexion::conectar($info)->prepare("SELECT SUM(total_remesa) AS total_remesa,simbolo_tasa,iso_tasa,sum(total_envio) AS total_envio,iso_moneda,simbolo_moneda FROM remesas  WHERE DATE_FORMAT(remesas.fecha, '%Y-%m-%d') BETWEEN :fechaInicial AND :fechaFinal GROUP BY iso_tasa,iso_moneda ");
         $stmt->bindParam(":fechaInicial", $fechaInicio, PDO::PARAM_STR);
         $stmt->bindParam(":fechaFinal", $fechaFinal, PDO::PARAM_STR);
         $stmt -> execute();
