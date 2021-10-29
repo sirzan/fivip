@@ -156,6 +156,7 @@ $pdf->Ln(8);
 foreach ($data5 as  $value) {
     
     $pdf->Cell(65, 7, $value['simbolo_tasa'].''.number_format($value['total'],2,',','.').' ('.$value['iso_tasa'].')', 1, false, 'L', 0, '', 0, false, 'M', 'M');
+    $pdf->Ln(8);
 }
 // ---------------------------------------------------------
 
