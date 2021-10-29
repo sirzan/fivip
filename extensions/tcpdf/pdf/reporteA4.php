@@ -11,7 +11,7 @@ $data1 = $respuesta->apiReporteRango($fechaInicial,$fechaFinal,$info);
 $data2 =$respuesta->apiReportemontoTotalesRando($fechaInicial,$fechaFinal,$info);
 $data3 =$respuesta->apiReporteremesaTotalesRango($fechaInicial,$fechaFinal,$info);
 $data4 =$respuesta->apiReporteremesaComisionRango($fechaInicial,$fechaFinal,$info);
-$data5 =$respuesta->apiReportemontoGeneral($info);
+$data5 =$respuesta->apiReportemontoGeneralRango($fechaInicial,$fechaFinal,$info);
 
 // var_dump($_GET);
 // var_dump($data5);

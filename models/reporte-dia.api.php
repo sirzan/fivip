@@ -45,6 +45,23 @@ class ReporteDia{
 
         $stmt = null;
     }
+    static public function apiReportemontoGeneralRango($fechaInicio,$fechaFinal,$info){
+        date_default_timezone_set('America/Lima');
+
+        $fecha = date('Y-m-d');
+        $hora = date('H:i:s');
+
+        $fechaActual = $fecha.' '.$hora;
+        $stmt = Conexion::conectar($info)->prepare(" SELECT simbolo_tasa,SUM(total_remesa) AS total,iso_tasa  FROM remesas WHERE DATE_FORMAT(fecha, '%Y-%m-%d') BETWEEN :fechaInicial AND :fechaFinal  GROUP BY iso_tasa ");
+        $stmt->bindParam(":fechaInicial", $fechaInicio, PDO::PARAM_STR);
+        $stmt->bindParam(":fechaFinal", $fechaFinal, PDO::PARAM_STR);
+        $stmt -> execute();
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt->close();   
+
+        $stmt = null;
+    }
     static public function apiReportemontoGeneral($info){
         date_default_timezone_set('America/Lima');
 
