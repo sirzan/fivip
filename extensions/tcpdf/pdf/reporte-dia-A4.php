@@ -10,6 +10,7 @@ $data1 = $respuesta->apiReporte($_GET['info']);
 $data2 =$respuesta->apiReportemontoTotales($_GET['info']);
 $data3 =$respuesta->apiReporteremesaTotales($_GET['info']);
 $data4 =$respuesta->apiReporteremesaComision($_GET['info']);
+$data5 =$respuesta->apiReportemontoGeneral($info);
 // var_dump($_GET);
 // var_dump($data4);
 // $comision =$respuesta->apiReporteremesaComision($_GET['info']);
@@ -141,10 +142,19 @@ foreach ($data3 as $value) {
 	$pdf->Ln(8);
 }
 $pdf->Ln(10);
-if(isset($data)){
+if (!empty($data4)) {
+	# code...
 	$pdf->Cell(0, 15, 'TOTAL DE COMISIONES BANCARIAS', 0, false, 'L', 0, '', 0, false, 'M', 'M');
 	$pdf->Ln(8);
 	$pdf->Cell(65, 7, $data4['simbolo'].''.number_format($data4['monto_comision'],2,',','.').' ('.$data4['iso'].')', 1, false, 'L', 0, '', 0, false, 'M', 'M');
+}
+
+$pdf->Ln(8);
+$pdf->Cell(0, 15, 'TOTALES', 0, false, 'L', 0, '', 0, false, 'M', 'M');
+$pdf->Ln(8);
+foreach ($data5 as  $value) {
+    
+    $pdf->Cell(65, 7, $value['simbolo_tasa'].''.number_format($value['total'],2,',','.').' ('.$value['iso_tasa'].')', 1, false, 'L', 0, '', 0, false, 'M', 'M');
 }
 // ---------------------------------------------------------
 

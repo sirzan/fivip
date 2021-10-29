@@ -45,6 +45,22 @@ class ReporteDia{
 
         $stmt = null;
     }
+    static public function apiReportemontoGeneral($info){
+        date_default_timezone_set('America/Lima');
+
+        $fecha = date('Y-m-d');
+        $hora = date('H:i:s');
+
+        $fechaActual = $fecha.' '.$hora;
+        $stmt = Conexion::conectar($info)->prepare(" SELECT simbolo_tasa,SUM(total_remesa) AS total,iso_tasa  FROM remesas WHERE DATE_FORMAT(fecha, '%Y-%m-%d') = DATE_FORMAT(:fecha, '%Y-%m-%d') GROUP BY iso_tasa ");
+        $stmt->bindParam(":fecha", $fechaActual, PDO::PARAM_STR);
+        $stmt -> execute();
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt->close();   
+
+        $stmt = null;
+    }
     static public function apiReportemontoTotales($info){
         date_default_timezone_set('America/Lima');
 

@@ -11,9 +11,10 @@ $data1 = $respuesta->apiReporteRango($fechaInicial,$fechaFinal,$info);
 $data2 =$respuesta->apiReportemontoTotalesRando($fechaInicial,$fechaFinal,$info);
 $data3 =$respuesta->apiReporteremesaTotalesRango($fechaInicial,$fechaFinal,$info);
 $data4 =$respuesta->apiReporteremesaComisionRango($fechaInicial,$fechaFinal,$info);
+$data5 =$respuesta->apiReportemontoGeneral($info);
 
 // var_dump($_GET);
-// var_dump($data4);
+// var_dump($data5);
 // $comision =$respuesta->apiReporteremesaComision($_GET['info']);
 require_once('tcpdf_include.php');
 // Extend the TCPDF class to create custom Header and Footer
@@ -142,11 +143,19 @@ foreach ($data3 as $value) {
 	$pdf->Ln(8);
 }
 $pdf->Ln(10);
-if (isset($data4)) {
+if (!empty($data4)) {
 	# code...
 	$pdf->Cell(0, 15, 'TOTAL DE COMISIONES BANCARIAS', 0, false, 'L', 0, '', 0, false, 'M', 'M');
 	$pdf->Ln(8);
 	$pdf->Cell(65, 7, $data4['simbolo'].''.number_format($data4['monto_comision'],2,',','.').' ('.$data4['iso'].')', 1, false, 'L', 0, '', 0, false, 'M', 'M');
+}
+
+$pdf->Ln(8);
+$pdf->Cell(0, 15, 'TOTALES', 0, false, 'L', 0, '', 0, false, 'M', 'M');
+$pdf->Ln(8);
+foreach ($data5 as  $value) {
+    
+    $pdf->Cell(65, 7, $value['simbolo_tasa'].''.number_format($value['total'],2,',','.').' ('.$value['iso_tasa'].')', 1, false, 'L', 0, '', 0, false, 'M', 'M');
 }
 // ---------------------------------------------------------
 
