@@ -10,7 +10,7 @@ $data1 = $respuesta->apiReporte($_GET['info']);
 $data2 =$respuesta->apiReportemontoTotales($_GET['info']);
 $data3 =$respuesta->apiReporteremesaTotales($_GET['info']);
 $data4 =$respuesta->apiReporteremesaComision($_GET['info']);
-$data5 =$respuesta->apiReportemontoGeneral($info);
+$data5 =$respuesta->apiReportemontoGeneral($_GET['info']);
 // var_dump($_GET);
 // var_dump($data4);
 // $comision =$respuesta->apiReporteremesaComision($_GET['info']);
